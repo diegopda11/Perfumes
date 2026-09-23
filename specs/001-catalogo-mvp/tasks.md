@@ -72,3 +72,34 @@
 - [ ] T27 Pruebas e2e con Playwright (plan §8).
 - [ ] T28 Lighthouse en celular ≥ 90 y correcciones. **Verifica:** RNF-2.
 - [ ] T29 Despliegue (hosting por decidir, plan §9).
+
+## Fase 7 — Ejecución autónoma (2026-09-23)
+
+El dueño pidió terminar todo sin preguntas: "toma las decisiones que creas
+correctas". Orden de ejecución y decisiones tomadas:
+
+1. **Lógica + pruebas (T05, T11, T12):** Vitest; `lib/whatsapp.ts`, filtros,
+   orden, relacionados y validación del catálogo.
+2. **Imágenes (T07):** base recta para Coco Mademoiselle; imagen Open Graph
+   por perfume (`og.jpg`) generada por el pipeline, **sin precio** para que
+   no quede desactualizada si cambia.
+3. **Mock (T10):** perfumes ficticios con frascos ilustrados en SVG, visibles
+   solo con `NEXT_PUBLIC_INCLUDE_MOCKS=true`. Producción muestra solo los 3
+   reales.
+4. **Catálogo (T19-T20), detalle (T21-T25), secciones y footer (T26),
+   404, favicon, sitemap y robots.**
+5. **Contenido del detalle:** además de lo del spec, un campo opcional
+   "Ideal para" (ocasión y temporada), porque ayuda a elegir sin oler.
+   Es copy evocador, no una afirmación técnica.
+6. **Revisión (T18 y general):** skills `web-design-guidelines`,
+   `accessibility` y `review-animations`.
+7. **e2e (T27):** Playwright con el Edge ya instalado en Windows
+   (`channel: "msedge"`), sin descargar navegadores.
+8. **Lighthouse (T28)** sobre el build estático.
+9. **Despliegue (T29):** crear cuentas o publicar requiere al dueño. Se deja
+   todo listo para Cloudflare Pages (recomendado en el plan §9) con
+   instrucciones paso a paso en `README.md`.
+
+Datos que siguen como placeholder y quedan señalados en `README.md`:
+número de WhatsApp, precios, dominio (`NEXT_PUBLIC_SITE_URL`), nombre
+definitivo e imágenes en alta resolución.

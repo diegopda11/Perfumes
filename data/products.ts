@@ -19,6 +19,7 @@ export const products: Product[] = [
     tagline: "Pimienta fresca, ámbar magnético y una estela que no pasa desapercibida.",
     description:
       "Abre con una bergamota jugosa y se vuelve cálido y especiado. En el fondo, el ambroxan y la vainilla dejan una estela limpia y magnética que dura todo el día.",
+    idealFor: "Día o noche, todo el año. Funciona igual en la oficina que en una cena.",
     highlightNotes: ["Bergamota", "Pimienta de Sichuan", "Ambroxan"],
     notes: {
       top: ["Bergamota"],
@@ -43,6 +44,7 @@ export const products: Product[] = [
     tagline: "Naranja luminosa, rosa y jazmín sobre un pachulí que se queda.",
     description:
       "Empieza fresco y chispeante, con cítricos brillantes. Luego florece en rosa y jazmín, y se asienta en un pachulí elegante con un toque de vainilla.",
+    idealFor: "Días especiales y noches elegantes. Brilla sobre todo en primavera y otoño.",
     highlightNotes: ["Naranja", "Rosa", "Pachulí"],
     notes: {
       top: ["Naranja", "Bergamota", "Toronja"],
@@ -67,6 +69,7 @@ export const products: Product[] = [
     tagline: "Lavanda con carácter, azahar radiante y una vainilla que abraza.",
     description:
       "La lavanda deja de ser tímida: aquí es audaz y sensual. El azahar le da luz y la vainilla de Madagascar la envuelve en un fondo cálido y adictivo.",
+    idealFor: "Salidas de noche y días frescos. Su calidez luce más en otoño e invierno.",
     highlightNotes: ["Lavanda", "Azahar", "Vainilla"],
     notes: {
       top: ["Lavanda", "Mandarina", "Grosella negra"],

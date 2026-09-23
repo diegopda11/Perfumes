@@ -27,6 +27,8 @@ export interface Product {
   /** Frase evocadora corta, para el hero y las tarjetas. */
   tagline: string;
   description: string;
+  /** Ocasión y temporada sugeridas, en tono evocador. Opcional. */
+  idealFor?: string;
   highlightNotes: [string, string] | [string, string, string];
   notes: { top: string[]; heart: string[]; base: string[] };
   /** Al menos una; la interfaz de hoy usa la primera. */
