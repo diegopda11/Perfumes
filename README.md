@@ -17,7 +17,7 @@ cambiarlos antes de compartirlo:
 
 | Qué | Dónde | Hoy |
 |---|---|---|
-| **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | `52XXXXXXXXXX` (no funciona) |
+| **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | ✅ +52 667 856 2243 |
 | **Precios** | `data/products.ts` → `presentations` | $450 / $480 / $450, de ejemplo |
 | **Concentración** de Coco Mademoiselle y Libre | `data/products.ts` → `concentration` | EDP, a confirmar con la caja |
 | **Notas olfativas** | `data/products.ts` → `notes` | Borrador, a verificar |

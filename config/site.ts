@@ -12,8 +12,8 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   /** Texto gigante detrás del frasco en el hero. */
   wordmark: "Fracción",
-  /** Formato internacional sin "+" ni espacios. Pendiente del dueño. */
-  whatsappNumber: "52XXXXXXXXXX",
+  /** Formato internacional sin "+" ni espacios. */
+  whatsappNumber: "526678562243",
   locality: "Higuera de Zaragoza, Sinaloa",
   /** Opcionales: si están vacíos no se muestran (CA-5.4). */
   schedule: undefined as string | undefined,
