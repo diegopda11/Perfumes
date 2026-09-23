@@ -22,7 +22,7 @@
 - [ ] T07 Limpieza de bordes: base del frasco de Coco Mademoiselle
       (tapada por flores en la escena) y tono del fondo visible a través
       del vidrio de Libre. **Verifica:** CA-IMG.1 en la hoja de revisión.
-- [x] T08 Exportar a WebP en dos tamaños y copiar a
+- [~] T08 Exportar a WebP (un tamaño por ahora; el segundo con los originales) en dos tamaños y copiar a
       `public/products/<slug>/` (`bottle`, `decant`, `scene`).
 - [ ] T09 Repetir T07-T08 con las imágenes en resolución original cuando
       lleguen.
