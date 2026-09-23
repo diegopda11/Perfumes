@@ -3,12 +3,12 @@
 import { useEffect } from "react";
 
 /** Duración total de la entrada (CA-P3.1). Debe coincidir con globals.css. */
-const INTRO_MS = 1800;
+const INTRO_MS = 3200;
 
 /**
  * "La fracción se llena" (spec 002, P3): el vial se dibuja en latón, se
  * llena hasta 10 ml y cede el lugar al frasco. Solo se ve si el script de
- * <head> marcó html.intro (primera visita de la sesión, sin movimiento
+ * <head> marcó html.intro (al abrir la portada, sin movimiento
  * reducido). Al terminar se quita la marca para que la animación no se
  * repita al volver a la portada.
  */
@@ -16,9 +16,16 @@ export function IntroVial() {
   useEffect(() => {
     const html = document.documentElement;
     if (!html.classList.contains("intro")) return;
-    // Sin limpieza a propósito: quitar la clase es idempotente y así la
-    // entrada termina aunque el componente se desmonte y vuelva a montar.
-    window.setTimeout(() => html.classList.remove("intro"), INTRO_MS + 100);
+    const skipEvents = ["pointerdown", "keydown", "wheel", "touchmove"] as const;
+    const end = () => {
+      html.classList.remove("intro");
+      skipEvents.forEach((type) => removeEventListener(type, end));
+    };
+    // Cualquier interacción la salta: nadie debería esperar para usar el sitio.
+    skipEvents.forEach((type) => addEventListener(type, end, { passive: true }));
+    // Sin limpieza del temporizador a propósito: quitar la clase es
+    // idempotente y así la entrada termina aunque el componente se remonte.
+    window.setTimeout(end, INTRO_MS + 100);
   }, []);
 
   return (

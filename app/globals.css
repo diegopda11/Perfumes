@@ -115,10 +115,10 @@ h3 {
 
 /*
  * Entrada "la fracción se llena" (spec 002, P3). Solo corre con html.intro,
- * que marca el script de <head> en la primera visita de la sesión. El
- * wordmark (elemento LCP) nunca se oculta.
- * 0–700 ms: se dibuja el vial · 500–1100: se llena · 1100–1400: se retira
- * 1100–1600: se enciende la luz · 1200–1800: sube el frasco · 1400–1800: interfaz
+ * que marca el script de <head> cada vez que se abre la portada. Cualquier
+ * toque, tecla o scroll la salta. El wordmark (elemento LCP) nunca se oculta.
+ * 0–1200 ms: se dibuja el vial · 900–2000: se llena · 2100–2500: se retira
+ * 2000–2800: se enciende la luz · 2200–3100: sube el frasco · 2700–3200: interfaz
  */
 .intro-vial {
   display: none;
@@ -133,34 +133,34 @@ h3 {
 
 html.intro .intro-vial {
   display: block;
-  animation: intro-vial-out 300ms var(--ease-glide) 1100ms both;
+  animation: intro-vial-out 400ms var(--ease-glide) 2100ms both;
 }
 
 html.intro .intro-vial__stroke {
   stroke-dasharray: 1;
-  animation: intro-draw 700ms var(--ease-move) both;
+  animation: intro-draw 1200ms var(--ease-move) both;
 }
 
 html.intro .intro-vial__liquid {
   transform-box: fill-box;
   transform-origin: 50% 100%;
-  animation: intro-fill 600ms var(--ease-move) 500ms both;
+  animation: intro-fill 1100ms var(--ease-move) 900ms both;
 }
 
 html.intro .intro-vial__label {
-  animation: intro-fade 300ms ease-out 800ms both;
+  animation: intro-fade 400ms ease-out 1500ms both;
 }
 
 html.intro [data-intro="light"] {
-  animation: intro-fade 500ms ease-out 1100ms both;
+  animation: intro-fade 800ms ease-out 2000ms both;
 }
 
 html.intro [data-intro="bottle"] {
-  animation: intro-rise 600ms var(--ease-glide) 1200ms both;
+  animation: intro-rise 900ms var(--ease-glide) 2200ms both;
 }
 
 html.intro [data-intro="ui"] {
-  animation: intro-fade 400ms ease-out 1400ms both;
+  animation: intro-fade 500ms ease-out 2700ms both;
 }
 
 @keyframes intro-draw {

@@ -17,7 +17,9 @@ const instrument = Instrument_Sans({
   display: "swap",
 });
 
-const introScript = `try{if(location.pathname==="/"&&!sessionStorage.getItem("fx-intro")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("intro");sessionStorage.setItem("fx-intro","1")}}catch(e){}`;
+// Cada vez que se abre la portada (carga completa, no al volver desde otra
+// página del sitio), salvo que el visitante prefiera menos movimiento.
+const introScript = `try{if(["/","/index","/index.html"].includes(location.pathname)&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("intro")}}catch(e){}`;
 
 const description = `Decants de 10 ml de perfumes originales en ${site.locality}. Prueba el lujo sin comprar el frasco completo.`;
 

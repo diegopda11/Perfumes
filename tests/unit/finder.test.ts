@@ -26,7 +26,14 @@ describe("recommend (CA-P7.1)", () => {
 
   it("nunca recomienda un perfume de otro género si se pidió uno", () => {
     const result = recommend(products, { para: "el", momento: "noche", caracter: "floral" });
-    expect(slugs(result)).toEqual(["dior-sauvage-edp"]);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result.every((p) => p.gender === "masculino")).toBe(true);
+  });
+
+  it("para él, de noche, cálido: The Most Wanted Intense primero", () => {
+    expect(recommend(products, { para: "el", momento: "noche", caracter: "calido" })[0].slug).toBe(
+      "azzaro-the-most-wanted-edp-intense",
+    );
   });
 
   it("'me da igual' considera todo el catálogo y devuelve como máximo 2", () => {

@@ -90,4 +90,29 @@ export const products: Product[] = [
     profile: { moment: "noche", character: ["floral", "calido"] },
     featured: true,
   },
+  {
+    slug: "azzaro-the-most-wanted-edp-intense",
+    name: "The Most Wanted Intense",
+    brand: "Azzaro",
+    concentration: "EDP",
+    family: "oriental",
+    gender: "masculino",
+    tagline: "Cardamomo encendido, caramelo tostado y una madera ambarada que no se olvida.",
+    description:
+      "Arranca con la chispa picante del cardamomo y se derrite en un caramelo tostado, casi de fogata. Al final queda una madera ambarada, profunda y magnética, que se siente de cerca y deja huella.",
+    idealFor: "Noches y días fríos. Para salir y hacerse notar sin decir nada.",
+    highlightNotes: ["Cardamomo", "Caramelo", "Madera ambarada"],
+    notes: {
+      top: ["Cardamomo"],
+      heart: ["Caramelo tostado"],
+      base: ["Madera ambarada"],
+    },
+    presentations: [{ ml: 10, price: 450 }],
+    images: {
+      bottle: "/products/azzaro-the-most-wanted-edp-intense/bottle.webp",
+    },
+    atmosphere: { base: "#1c0f0b", glow: "#e0874a" },
+    profile: { moment: "noche", character: ["calido", "especiado"] },
+    featured: true,
+  },
 ];

@@ -30,8 +30,11 @@
 - CA-P2.1 CUANDO el visitante abre un perfume desde el catálogo o desde el
   frasco del hero, el frasco se transforma en el de la vitrina del detalle.
   Sin soporte del navegador, la navegación funciona igual, sin animación.
-- CA-P3.1 La entrada se reproduce solo la primera vez por sesión, dura
-  ≤ 1.8 s, no bloquea la interacción y no aparece con movimiento reducido.
+- CA-P3.1 La entrada se reproduce cada vez que se abre la portada (carga
+  completa), dura ≈ 3.2 s, cualquier toque, tecla o scroll la salta, no
+  bloquea la interacción y no aparece con movimiento reducido.
+  *(Cambio 2026-09-23, pedido del dueño: antes era una vez por sesión y
+  1.8 s; con el sitio ya en Netlify no se llegaba a ver.)*
 - CA-P3.2 El wordmark es visible desde el primer instante (es el elemento
   LCP); la entrada no debe retrasar el LCP.
 - CA-P4.1 La luz se mueve como máximo unos grados; se desactiva con
@@ -73,7 +76,7 @@
 
 - [x] P1 Atmósfera y notas por etapas (línea de latón que se llena al bajar)
 - [x] P2 Transición del frasco entre páginas (catálogo, hero y relacionados)
-- [x] P3 Entrada "la fracción se llena" (1.8 s, una vez por sesión)
+- [x] P3 Entrada "la fracción se llena" (≈ 3.2 s, en cada apertura de la portada, se salta con cualquier interacción)
 - [x] P4 Luz viva (puntero; inclinación en Android)
 - [x] P5 Hero con scroll
 - [x] P6 Sección clara

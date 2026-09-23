@@ -7,17 +7,17 @@ test.describe("Home", () => {
   test("dice qué se vende y muestra el primer destacado (CA-1.1)", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Perfumes originales en decants de 10 ml");
-    await expect(liveText(page)).toContainText("1 de 3");
+    await expect(liveText(page)).toContainText("1 de 4");
   });
 
   test("las flechas cambian de perfume y el carrusel no avanza solo (CA-1.3, CA-1.7)", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Perfume siguiente" }).locator("visible=true").click();
-    await expect(liveText(page)).toContainText("2 de 3");
+    await expect(liveText(page)).toContainText("2 de 4");
     await page.waitForTimeout(6000);
-    await expect(liveText(page)).toContainText("2 de 3");
+    await expect(liveText(page)).toContainText("2 de 4");
     await page.getByRole("button", { name: "Perfume anterior" }).locator("visible=true").click();
-    await expect(liveText(page)).toContainText("1 de 3");
+    await expect(liveText(page)).toContainText("1 de 4");
   });
 
   test("carga y navega sin errores en la consola ni recursos faltantes", async ({ page }) => {
@@ -40,7 +40,7 @@ test.describe("Home", () => {
   test("un filtro cambia la URL y la grilla (CA-2.8)", async ({ page }) => {
     await page.goto("/");
     const catalog = page.locator("#catalogo");
-    await expect(catalog.getByRole("listitem")).toHaveCount(3);
+    await expect(catalog.getByRole("listitem")).toHaveCount(4);
     await catalog.getByRole("button", { name: "Femenino" }).click();
     await expect(page).toHaveURL(/genero=femenino/);
     await expect(catalog.getByRole("listitem")).toHaveCount(2);
@@ -51,7 +51,7 @@ test.describe("Home", () => {
     const catalog = page.locator("#catalogo");
     await expect(catalog.getByText("Ningún perfume coincide con esos filtros")).toBeVisible();
     await catalog.getByRole("button", { name: "Quitar filtros" }).click();
-    await expect(catalog.getByRole("listitem")).toHaveCount(3);
+    await expect(catalog.getByRole("listitem")).toHaveCount(4);
   });
 
   test("tocar un perfume del catálogo abre su detalle (CA-2.3)", async ({ page }) => {
@@ -76,7 +76,7 @@ test.describe("Home en escritorio", () => {
     await page.goto("/");
     await page.getByRole("button", { name: "Perfume siguiente" }).locator("visible=true").focus();
     await page.keyboard.press("ArrowRight");
-    await expect(liveText(page)).toContainText("2 de 3");
+    await expect(liveText(page)).toContainText("2 de 4");
   });
 
   test("la tarjeta de vidrio lleva al detalle (CA-1.5)", async ({ page }) => {
@@ -96,7 +96,7 @@ test.describe("Home en celular", () => {
     await page.mouse.down();
     await page.mouse.move(width * 0.2, height * 0.45, { steps: 8 });
     await page.mouse.up();
-    await expect(liveText(page)).toContainText("2 de 3");
+    await expect(liveText(page)).toContainText("2 de 4");
     await expect(page).toHaveURL(/\/$/);
   });
 

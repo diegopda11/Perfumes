@@ -18,12 +18,13 @@ cambiarlos antes de compartirlo:
 | Qué | Dónde | Hoy |
 |---|---|---|
 | **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | ✅ +52 667 856 2243 |
-| **Precios** | `data/products.ts` → `presentations` | $450 / $480 / $450, de ejemplo |
+| **Precios** | `data/products.ts` → `presentations` | $450 / $480 / $450 / $450, de ejemplo |
 | **Concentración** de Coco Mademoiselle y Libre | `data/products.ts` → `concentration` | EDP, a confirmar con la caja |
 | **Notas olfativas** | `data/products.ts` → `notes` | Borrador, a verificar |
 | **Dominio del sitio** | variable `NEXT_PUBLIC_SITE_URL` al desplegar | — |
 | **Nombre del negocio** | `config/site.ts` → `brandName` y `wordmark`; `BRAND` en `scripts/photos/cutout.py` | "Fracción", provisional |
 | **Imágenes en alta resolución** | `photos-raw/` → `npm run images` | ~430×1024 px |
+| **Foto con decant de The Most Wanted Intense** | `photos-raw/azzaro-the-most-wanted-edp-intense.png` | Solo hay foto del frasco |
 
 Opcionales: `schedule` (horario) e `instagram` en `config/site.ts`. Si están
 vacíos, no se muestran.
@@ -46,7 +47,9 @@ reinicia `npm run dev`. En producción nunca aparecen.
 1. Copia una entrada en `data/products.ts` y cambia sus datos. El `slug`
    es la dirección de su página (`/producto/<slug>`).
 2. Guarda la imagen de la escena (frasco + decant, como las actuales) en
-   `photos-raw/<slug>.png`.
+   `photos-raw/<slug>.png`. Si solo tienes foto del frasco, nómbrala
+   `photos-raw/<slug>.frasco.png` (la página funciona igual, sin foto del
+   decant, hasta que tengas la escena).
 3. Corre `npm run images`: recorta el frasco y el decant, y genera las
    imágenes del sitio y la vista previa para WhatsApp en
    `public/products/<slug>/`.
@@ -75,7 +78,14 @@ npm run test:e2e     # construye el sitio y lo prueba en Edge, escritorio y celu
 npm run lint
 ```
 
-## Publicar (Cloudflare Pages, recomendado)
+## Publicar
+
+El sitio está publicado en **Netlify**. Configuración: build command
+`npm run build`, publish directory `out`, variable de entorno
+`NEXT_PUBLIC_SITE_URL` con la dirección del sitio (para las vistas previas al
+compartir). Netlify también lee `public/_headers`.
+
+### Alternativa: Cloudflare Pages
 
 Es gratis, permite uso comercial y es rápido en México. El plan gratuito de
 Vercel **no** permite uso comercial.

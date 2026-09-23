@@ -3,13 +3,21 @@ import { expect, test } from "@playwright/test";
 /** Spec 002 — experiencia premium. */
 
 test.describe("Entrada 'la fracción se llena' (P3)", () => {
-  test("corre una sola vez por sesión y termina sola (CA-P3.1)", async ({ page }) => {
+  test("corre cada vez que se abre la portada y termina sola (CA-P3.1)", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("html")).toHaveClass(/\bintro\b/);
     // el wordmark (LCP) está visible desde el inicio (CA-P3.2)
     await expect(page.locator(".hero-wordmark")).toBeVisible();
-    await expect(page.locator("html")).not.toHaveClass(/\bintro\b/, { timeout: 4000 });
+    await expect(page.locator("html")).not.toHaveClass(/\bintro\b/, { timeout: 5000 });
     await page.reload();
+    await expect(page.locator("html")).toHaveClass(/\bintro\b/);
+  });
+
+  test("cualquier interacción la salta", async ({ page }) => {
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await expect(page.locator("html")).toHaveClass(/\bintro\b/);
+    await page.keyboard.press("Tab");
     await expect(page.locator("html")).not.toHaveClass(/\bintro\b/);
   });
 

@@ -36,7 +36,7 @@ test.describe("Detalle de producto", () => {
   test("sugiere otros perfumes (CA-3.6)", async ({ page }) => {
     await page.goto("/producto/dior-sauvage-edp");
     const related = page.locator('section[aria-labelledby="relacionados-title"]');
-    await expect(related.getByRole("listitem")).toHaveCount(2);
+    await expect(related.getByRole("listitem")).toHaveCount(3);
   });
 
   test("un perfume que no existe da la 404 de la marca (CA-3.5)", async ({ page }) => {

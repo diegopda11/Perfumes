@@ -51,7 +51,7 @@ describe("filtros (CA-2.7 a CA-2.10)", () => {
   });
 
   it("solo ofrece familias y géneros que existen", () => {
-    expect(availableFamilies(products)).toEqual(["floral", "chipre", "aromatico"]);
+    expect(availableFamilies(products)).toEqual(["floral", "chipre", "oriental", "aromatico"]);
     expect(availableGenders(products)).toEqual(["femenino", "masculino"]);
   });
 });

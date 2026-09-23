@@ -3,7 +3,10 @@
 Uso:
     scripts/photos/.venv/Scripts/python scripts/photos/cutout.py [salida]
 
-Por cada photos-raw/<slug>.png genera en <salida>/<slug>/:
+Por cada photos-raw/<slug>.png (escena con frasco y decant) genera en
+<salida>/<slug>/ lo de abajo. Si el archivo se llama <slug>.frasco.png, es una
+foto solo del frasco: se recorta el frasco y no se generan decant ni escena.
+
     mask.png     máscara completa del modelo (para depurar)
     bottle.png   frasco recortado, sin fondo
     decant.png   decant recortado, sin fondo
@@ -29,7 +32,8 @@ PUBLIC = ROOT / "public" / "products"
 INK = (12, 20, 38)
 GRAY = (128, 128, 128)
 PAD = 12  # px de aire alrededor de cada recorte
-BRAND = "Fracción"  # igual que site.brandName en config/site.ts
+BRAND = "Fracción"
+SOLO_SUFFIX = ".frasco"  # igual que site.brandName en config/site.ts
 
 
 def split_touching(solid: np.ndarray) -> np.ndarray:
@@ -53,13 +57,13 @@ def split_touching(solid: np.ndarray) -> np.ndarray:
     return out
 
 
-def objects_from_mask(alpha: np.ndarray, count: int = 2):
+def objects_from_mask(alpha: np.ndarray, count: int = 2, split: bool = True):
     """Las `count` regiones más grandes de la máscara, ordenadas de izquierda a derecha."""
     solid = alpha > 40
     labels, n = ndimage.label(solid)
     sizes = ndimage.sum(solid, labels, range(1, n + 1)) if n else []
     # un segundo objeto mucho menor que el primero = frasco y decant pegados
-    if n < count or sorted(sizes)[-2] < 0.15 * max(sizes):
+    if split and n and (n < count or sorted(sizes)[-2] < 0.15 * max(sizes)):
         solid = split_touching(solid)
         labels, n = ndimage.label(solid)
     if n == 0:
@@ -144,7 +148,9 @@ def main():
     session = new_session("birefnet-general")
     bottles: list[Image.Image] = []
     for src in sorted(RAW.glob("*.png")):
-        slug = src.stem
+        # <slug>.frasco.png = foto solo del frasco (sin decant ni escena)
+        solo = src.stem.endswith(SOLO_SUFFIX)
+        slug = src.stem.removesuffix(SOLO_SUFFIX)
         dest = OUT / slug
         dest.mkdir(parents=True, exist_ok=True)
 
@@ -154,6 +160,19 @@ def main():
 
         rgb = np.asarray(scene)
         alpha = np.asarray(mask)
+        if solo:
+            found = objects_from_mask(alpha, count=1, split=False)
+            if not found:
+                print(f"{slug}: no se encontró el frasco, revisar mask.png")
+                continue
+            boxes, labels = found
+            bottle = flatten_base(crop_object(rgb, alpha, labels, boxes[0][0], boxes[0]))
+            bottle.save(dest / "bottle.png")
+            review_sheet([bottle]).save(dest / "review.png")
+            publish(slug, bottle)
+            bottles.append(bottle)
+            print(f"{slug}: frasco {bottle.size} (solo frasco)")
+            continue
         found = objects_from_mask(alpha)
         if not found or len(found[0]) < 2:
             print(f"{slug}: no se separaron 2 objetos, revisar mask.png")
@@ -172,13 +191,15 @@ def main():
         og_home(bottles).save(ROOT / "public" / "og.jpg", quality=88)
 
 
-def publish(slug: str, bottle: Image.Image, decant: Image.Image, scene: Image.Image):
+def publish(slug: str, bottle: Image.Image, decant: Image.Image | None = None, scene: Image.Image | None = None):
     """Exporta a WebP en public/products/<slug>/ (lo que usa el sitio)."""
     dest = PUBLIC / slug
     dest.mkdir(parents=True, exist_ok=True)
     bottle.save(dest / "bottle.webp", quality=88, method=6)
-    decant.save(dest / "decant.webp", quality=88, method=6)
-    scene.save(dest / "scene.webp", quality=82, method=6)
+    if decant:
+        decant.save(dest / "decant.webp", quality=88, method=6)
+    if scene:
+        scene.save(dest / "scene.webp", quality=82, method=6)
     info = PRODUCT_INFO.get(slug)
     if info:
         og_product(bottle, *info).save(dest / "og.jpg", quality=88)
@@ -241,11 +262,16 @@ def og_product(bottle: Image.Image, name: str, brand: str) -> Image.Image:
     place_bottle(img, bottle, center_x=880, height=520, floor=585)
     d = ImageDraw.Draw(img)
     d.text((80, 150), brand, font=font("InstrumentSans", 32), fill=MIST)
-    title = font("BodoniModa", 84)
+    # nombres largos: se achica la letra hasta que quepa en dos líneas
+    for size in (84, 72, 62, 54):
+        title = font("BodoniModa", size)
+        lines = wrap(d, name, title, 560)
+        if len(lines) <= 2:
+            break
     y = 200
-    for line in wrap(d, name, title, 560):
+    for line in lines:
         d.text((76, y), line, font=title, fill=PEARL)
-        y += 92
+        y += round(size * 1.1)
     d.text((80, y + 24), "Decant de 10 ml de perfume original", font=font("InstrumentSans", 30), fill=BRASS_LIT)
     d.text((80, 520), BRAND, font=font("BodoniModa", 40), fill=PEARL)
     return img
