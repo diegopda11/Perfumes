@@ -93,6 +93,12 @@ export default async function ProductPage(props: PageProps<"/producto/[slug]">) 
               {concentrationLabels[product.concentration]}, {familyLabels[product.family].toLowerCase()},{" "}
               {genderLabels[product.gender].toLowerCase()}
             </p>
+            {product.perfumer && (
+              <p className="mt-1 text-sm text-text-muted">
+                Creado por <span translate="no">{product.perfumer}</span>
+                {product.year ? ` en ${product.year}` : ""}.
+              </p>
+            )}
             <p className="mt-6 max-w-[40ch] font-display text-2xl leading-snug text-text/90">{product.tagline}</p>
 
             <div className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -129,6 +135,30 @@ export default async function ProductPage(props: PageProps<"/producto/[slug]">) 
                   <span className="text-text">Ideal para: </span>
                   {product.idealFor}
                 </p>
+              )}
+              {product.sources && product.sources.length > 0 && (
+                <details className="group mt-6 max-w-[60ch] text-sm text-text-muted">
+                  <summary className="cursor-pointer list-none underline decoration-glass-edge underline-offset-4 hover:text-text">
+                    Fuentes de esta información
+                  </summary>
+                  <p className="mt-3">
+                    Notas, descripción, perfumista y año según la marca y bases especializadas:
+                  </p>
+                  <ul className="mt-2 grid gap-1.5">
+                    {product.sources.map((source) => (
+                      <li key={source.url}>
+                        <a
+                          href={source.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline decoration-glass-edge underline-offset-4 hover:text-text"
+                        >
+                          {source.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
               )}
             </section>
 

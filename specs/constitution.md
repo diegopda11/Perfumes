@@ -31,6 +31,12 @@ Siempre debe quedar claro que se vende un decant de 10 ml, no el frasco
 completo. La autenticidad se comunica de forma sutil, nunca como
 protagonista. No se sugiere afiliación con las marcas originales.
 
+## IV-bis. Información respaldada
+Todo dato sobre un perfume (notas, descripción, familia, perfumista, año)
+se basa en la marca o en fuentes especializadas confiables, y las fuentes se
+muestran en su página. Se redacta con palabras propias. Lo que no se puede
+respaldar no se publica. *(Agregado el 2026-09-23 a pedido del dueño.)*
+
 ## V. Mobile-first
 Se diseña y valida primero a 375 px de ancho. El escritorio es la
 ampliación, no al revés.

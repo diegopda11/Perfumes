@@ -9,7 +9,7 @@ const reasons = [
   },
   {
     title: "Tamaño para llevar",
-    text: "10 ml caben en cualquier bolsillo y rinden alrededor de cien atomizaciones.",
+    text: "10 ml en un atomizador de vidrio que cabe en cualquier bolsillo.",
   },
   {
     title: "Siempre original",

@@ -19,8 +19,6 @@ cambiarlos antes de compartirlo:
 |---|---|---|
 | **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | ✅ +52 667 856 2243 |
 | **Precios** | `data/products.ts` → `presentations` | $450 / $480 / $450 / $450, de ejemplo |
-| **Concentración** de Coco Mademoiselle y Libre | `data/products.ts` → `concentration` | EDP, a confirmar con la caja |
-| **Notas olfativas** | `data/products.ts` → `notes` | Borrador, a verificar |
 | **Dominio del sitio** | variable `NEXT_PUBLIC_SITE_URL` al desplegar | — |
 | **Nombre del negocio** | `config/site.ts` → `brandName` y `wordmark`; `BRAND` en `scripts/photos/cutout.py` | "Fracción", provisional |
 | **Imágenes en alta resolución** | `photos-raw/` → `npm run images` | ~430×1024 px |
@@ -43,6 +41,12 @@ archivo `.env.development.local` con `NEXT_PUBLIC_INCLUDE_MOCKS=true` y
 reinicia `npm run dev`. En producción nunca aparecen.
 
 ## Agregar o editar un perfume
+
+**Regla de contenido:** todo lo que se dice de un perfume (notas, descripción,
+perfumista, año, familia) debe salir de la marca o de fuentes especializadas,
+y esas fuentes se listan en `sources` (se muestran en la página). Las
+descripciones se redactan con palabras propias, sin copiar el texto de la
+marca. Si algo no se puede respaldar, no se publica.
 
 1. Copia una entrada en `data/products.ts` y cambia sus datos. El `slug`
    es la dirección de su página (`/producto/<slug>`).

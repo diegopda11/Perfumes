@@ -44,8 +44,14 @@ export interface Product {
   /** Frase evocadora corta, para el hero y las tarjetas. */
   tagline: string;
   description: string;
-  /** Ocasión y temporada sugeridas, en tono evocador. Opcional. */
+  /** Ocasión y temporada sugeridas. Solo si una fuente confiable lo respalda. */
   idealFor?: string;
+  /** Perfumista(s) que lo crearon, según la marca o bases especializadas. */
+  perfumer?: string;
+  /** Año de lanzamiento de esta versión (concentración). */
+  year?: number;
+  /** De dónde sale la información de la página (se muestra en el detalle). */
+  sources?: { label: string; url: string }[];
   highlightNotes: [string, string] | [string, string, string];
   notes: { top: string[]; heart: string[]; base: string[] };
   /** Al menos una; la interfaz de hoy usa la primera. */

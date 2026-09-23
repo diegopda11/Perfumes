@@ -4,7 +4,7 @@ import type { Concentration, Gender, OlfactoryFamily } from "@/types/product";
 export const familyLabels: Record<OlfactoryFamily, string> = {
   floral: "Floral",
   chipre: "Chipre",
-  oriental: "Oriental",
+  oriental: "Ámbar",
   amaderado: "Amaderado",
   aromatico: "Aromático",
   citrico: "Cítrico",

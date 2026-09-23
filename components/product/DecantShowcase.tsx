@@ -40,7 +40,7 @@ export function DecantShowcase({ product }: { product: Product }) {
         </p>
         <ul className="mt-6 grid gap-3 text-[15px]">
           {[
-            "10 ml, alrededor de cien atomizaciones",
+            "10 ml del perfume original",
             "Atomizador de vidrio con tapa, cabe en cualquier bolsillo",
             "Pago y entrega en persona",
           ].map((item) => (
