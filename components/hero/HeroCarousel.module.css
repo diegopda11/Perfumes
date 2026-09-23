@@ -19,6 +19,8 @@
     filter 600ms var(--ease-move);
   z-index: 2;
   touch-action: pan-y;
+  /* luz viva: el frasco al centro se desplaza apenas contra el puntero */
+  translate: calc(var(--lx, 0) * -8px) calc(var(--ly, 0) * -5px);
 }
 
 .bottle[data-slot="-1"],
@@ -27,6 +29,8 @@
   opacity: 0.4;
   filter: blur(5px);
   z-index: 1;
+  /* los laterales, más lejos, se mueven al revés: profundidad */
+  translate: calc(var(--lx, 0) * 16px) 0;
 }
 
 .bottle[data-slot="-2"],
@@ -68,5 +72,36 @@
   from {
     opacity: 0;
     transform: translateY(8px);
+  }
+}
+
+/* Brillo del vidrio en la tarjeta: sigue a --lx/--ly */
+.glint {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at calc(30% + var(--lx, 0) * 40%) calc(15% + var(--ly, 0) * 40%),
+    rgb(255 255 255 / 0.09),
+    transparent 55%
+  );
+}
+
+/* El hero reacciona al scroll (spec 002, P5): el frasco sube un poco */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stage {
+      animation: stage-lift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+  }
+}
+
+@keyframes stage-lift {
+  to {
+    translate: 0 -9svh;
+    scale: 1.03;
   }
 }

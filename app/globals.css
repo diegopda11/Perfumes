@@ -25,6 +25,11 @@
   --color-glass-edge: color-mix(in oklab, var(--color-glass) 18%, transparent);
   --color-glass-fill: color-mix(in oklab, var(--color-glass) 7%, transparent);
 
+  /* Sección clara (spec 002, P6): contraste AA sobre perla */
+  --color-paper: #e7ecf1;
+  --color-ink-soft: #3d4a60;
+  --color-brass-deep: #7a5a1f;
+
   /* Movimiento */
   --ease-glide: cubic-bezier(0.22, 1, 0.36, 1); /* entradas */
   --ease-move: cubic-bezier(0.65, 0, 0.35, 1); /* movimiento en pantalla */
@@ -71,12 +76,159 @@ h3 {
   border-radius: 4px;
 }
 
+/* El frasco que viaja entre páginas (spec 002, P2) */
+::view-transition-group(.bottle-morph) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-move);
+}
+
+::view-transition-image-pair(.bottle-morph) {
+  animation-name: bottle-via-blur;
+}
+
+@keyframes bottle-via-blur {
+  40% {
+    filter: blur(2px);
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * Entrada "la fracción se llena" (spec 002, P3). Solo corre con html.intro,
+ * que marca el script de <head> en la primera visita de la sesión. El
+ * wordmark (elemento LCP) nunca se oculta.
+ * 0–700 ms: se dibuja el vial · 500–1100: se llena · 1100–1400: se retira
+ * 1100–1600: se enciende la luz · 1200–1800: sube el frasco · 1400–1800: interfaz
+ */
+.intro-vial {
+  display: none;
+  bottom: calc(19svh + 60px);
+}
+
+@media (min-width: 768px) {
+  .intro-vial {
+    bottom: calc(12svh + 110px);
+  }
+}
+
+html.intro .intro-vial {
+  display: block;
+  animation: intro-vial-out 300ms var(--ease-glide) 1100ms both;
+}
+
+html.intro .intro-vial__stroke {
+  stroke-dasharray: 1;
+  animation: intro-draw 700ms var(--ease-move) both;
+}
+
+html.intro .intro-vial__liquid {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: intro-fill 600ms var(--ease-move) 500ms both;
+}
+
+html.intro .intro-vial__label {
+  animation: intro-fade 300ms ease-out 800ms both;
+}
+
+html.intro [data-intro="light"] {
+  animation: intro-fade 500ms ease-out 1100ms both;
+}
+
+html.intro [data-intro="bottle"] {
+  animation: intro-rise 600ms var(--ease-glide) 1200ms both;
+}
+
+html.intro [data-intro="ui"] {
+  animation: intro-fade 400ms ease-out 1400ms both;
+}
+
+@keyframes intro-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes intro-fill {
+  from {
+    scale: 1 0;
+  }
+}
+
+@keyframes intro-vial-out {
+  to {
+    opacity: 0;
+    scale: 0.92;
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    translate: 0 48px;
+  }
+}
+
+/* El hero reacciona al scroll (spec 002, P5): el wordmark se queda atrás y
+   la luz se atenúa, mientras el frasco sube (HeroCarousel.module.css). */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-wordmark,
+    .hero-beam {
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+
+    .hero-wordmark {
+      animation-name: wordmark-drift;
+    }
+
+    .hero-beam {
+      animation-name: beam-dim;
+    }
+  }
+}
+
+@keyframes wordmark-drift {
+  to {
+    translate: 0 9svh;
+    opacity: 0.4;
+  }
+}
+
+@keyframes beam-dim {
+  to {
+    opacity: 0.35;
   }
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SharedBottle } from "@/components/transitions/SharedBottle";
 import { getPrice, isAvailable } from "@/lib/catalog";
 import { formatList, formatPrice } from "@/lib/format";
 import type { Product } from "@/types/product";
@@ -36,13 +37,17 @@ export function ProductCard({ product, sizes }: { product: Product; sizes?: stri
             available ? "" : "opacity-45 grayscale"
           }`}
         >
-          <Image
-            src={product.images.bottle}
-            alt={`Frasco de ${product.name} de ${product.brand}`}
-            fill
-            sizes={sizes ?? "(min-width: 1280px) 300px, (min-width: 768px) 30vw, 45vw"}
-            className="object-contain object-bottom"
-          />
+          <SharedBottle slug={product.slug} role="card">
+            <div className="absolute inset-0">
+              <Image
+                src={product.images.bottle}
+                alt={`Frasco de ${product.name} de ${product.brand}`}
+                fill
+                sizes={sizes ?? "(min-width: 1280px) 300px, (min-width: 768px) 30vw, 45vw"}
+                className="object-contain object-bottom"
+              />
+            </div>
+          </SharedBottle>
         </div>
 
         {/* la fracción: el decant que se entrega, junto al frasco */}

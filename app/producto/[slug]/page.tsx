@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductGrid } from "@/components/catalog/ProductGrid";
@@ -49,8 +50,24 @@ export default async function ProductPage(props: PageProps<"/producto/[slug]">) 
   const available = isAvailable(product);
   const related = getRelated(product);
 
+  const atmosphere = {
+    "--atm-base": product.atmosphere?.base ?? "var(--color-surface)",
+    "--atm-glow": product.atmosphere?.glow ?? "var(--color-glass)",
+  } as CSSProperties;
+
   return (
-    <main className="pb-28 md:pb-0">
+    <main className="relative isolate pb-28 md:pb-0" style={atmosphere}>
+      {/* Atmósfera del perfume: la página se tiñe con su color (spec 002, P1) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[170svh]"
+        style={{
+          background: [
+            "radial-gradient(ellipse 70% 45% at 28% 0%, color-mix(in oklab, var(--atm-glow) 20%, transparent), transparent 72%)",
+            "linear-gradient(180deg, var(--atm-base) 0%, var(--atm-base) 35%, var(--color-bg) 100%)",
+          ].join(","),
+        }}
+      />
       <article className="mx-auto max-w-[1440px] px-4 pt-20 md:px-10 md:pt-28">
         <nav aria-label="Ruta" className="text-sm text-text-muted">
           <Link href="/#catalogo" className="hover:text-text">

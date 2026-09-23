@@ -1,0 +1,79 @@
+/*
+ * Las notas como un recorrido en el tiempo (spec 002, P1): una línea de
+ * latón se llena mientras se baja por salida, corazón y fondo, y cada etapa
+ * aparece al entrar en pantalla. Sin soporte o con movimiento reducido,
+ * todo se ve completo desde el inicio.
+ */
+.track {
+  position: relative;
+  padding-left: 28px;
+}
+
+.rail,
+.fill {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 4.5px;
+  width: 2px;
+}
+
+.rail {
+  background: var(--color-glass-edge);
+}
+
+.fill {
+  background: linear-gradient(180deg, var(--color-accent-lit), var(--color-accent));
+  transform-origin: top;
+}
+
+.dot {
+  position: absolute;
+  left: -28px;
+  top: 10px;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  border: 1px solid var(--color-accent-lit);
+  background: var(--color-bg);
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .fill {
+      animation: fill linear both;
+      animation-timeline: --notes;
+      animation-range: cover 15% cover 70%;
+    }
+
+    .track {
+      view-timeline-name: --notes;
+    }
+
+    .tier {
+      animation: tier-in linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 38%;
+    }
+  }
+}
+
+@keyframes fill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes tier-in {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}

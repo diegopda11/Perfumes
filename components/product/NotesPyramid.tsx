@@ -1,5 +1,6 @@
 import { formatList } from "@/lib/format";
 import type { Product } from "@/types/product";
+import styles from "./NotesPyramid.module.css";
 
 const tiers = [
   { key: "top", label: "Salida", hint: "Los primeros minutos" },
@@ -7,17 +8,23 @@ const tiers = [
   { key: "base", label: "Fondo", hint: "Lo que queda en la piel" },
 ] as const;
 
-/** Notas de salida, corazón y fondo (CA-3.1). */
+/**
+ * Notas de salida, corazón y fondo (CA-3.1) contadas como el perfume
+ * evoluciona en la piel (spec 002, P1).
+ */
 export function NotesPyramid({ notes }: { notes: Product["notes"] }) {
   return (
-    <dl className="divide-y divide-glass-edge border-y border-glass-edge">
+    <dl className={`${styles.track} grid gap-10`}>
+      <span aria-hidden className={styles.rail} />
+      <span aria-hidden className={styles.fill} />
       {tiers.map((tier) => (
-        <div key={tier.key} className="grid gap-1 py-5 sm:grid-cols-[160px_1fr] sm:gap-6">
-          <dt>
-            <span className="block text-lg">{tier.label}</span>
-            <span className="block text-sm text-text-muted">{tier.hint}</span>
+        <div key={tier.key} className={`${styles.tier} relative`}>
+          <span aria-hidden className={styles.dot} />
+          <dt className="flex items-baseline gap-3">
+            <span className="text-lg">{tier.label}</span>
+            <span className="text-sm text-text-muted">{tier.hint}</span>
           </dt>
-          <dd className="font-display text-xl leading-snug text-text/90 sm:text-[22px]">
+          <dd className="mt-2 font-display text-[26px] leading-snug text-text/95 md:text-[30px]">
             {formatList(notes[tier.key])}
           </dd>
         </div>

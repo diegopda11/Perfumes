@@ -11,7 +11,7 @@ export const navLinks = [
 /** Barra superior (CA-6.1, CA-6.2). Flota sobre el hero. */
 export function SiteNav() {
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
+    <header data-intro="ui" className="absolute inset-x-0 top-0 z-30">
       <nav
         aria-label="Principal"
         className="mx-auto flex max-w-[1440px] items-center justify-between px-4 py-4 md:px-10 md:py-7"

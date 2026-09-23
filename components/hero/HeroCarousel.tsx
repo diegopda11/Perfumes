@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, type CSSProperties } from "react";
+import { setBottleSource, SharedBottle } from "@/components/transitions/SharedBottle";
 import styles from "./HeroCarousel.module.css";
 
 export interface HeroSlide {
@@ -57,7 +58,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
     >
       {/* Escenario: swipe cambia de perfume; un toque abre el detalle */}
       <div
-        className="absolute inset-0"
+        className={`${styles.stage} absolute inset-0`}
         onPointerDown={(e) => {
           pointerStart.current = e.clientX;
           swiped.current = false;
@@ -87,22 +88,28 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
               key={slide.slug}
               href={`/producto/${slide.slug}`}
               data-slot={slot}
+              data-intro="bottle"
               className={styles.bottle}
               style={{ "--slot": slot } as CSSProperties}
               tabIndex={isActive ? 0 : -1}
               aria-hidden={!isActive}
               aria-label={`Ver ${slide.name} de ${slide.brand}`}
               draggable={false}
+              onClick={() => setBottleSource("hero")}
             >
-              <Image
-                src={slide.bottle}
-                alt=""
-                fill
-                sizes="(min-width: 768px) 320px, 240px"
-                preload={i === 0}
-                draggable={false}
-                className="object-contain object-bottom select-none"
-              />
+              <SharedBottle slug={slide.slug} role="hero" active={isActive}>
+                <div className="absolute inset-0">
+                  <Image
+                    src={slide.bottle}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 320px, 240px"
+                    preload={i === 0}
+                    draggable={false}
+                    className="object-contain object-bottom select-none"
+                  />
+                </div>
+              </SharedBottle>
               {/* Reflejo en la vitrina: el mismo frasco invertido y desvanecido */}
               <div aria-hidden className={styles.reflection}>
                 <Image
@@ -126,9 +133,13 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
       {/* Escritorio: tarjeta de vidrio con el decant (CA-1.4, CA-1.5) */}
       <Link
         key={`card-${current.slug}`}
+        data-intro="ui"
         href={`/producto/${current.slug}`}
+        onClick={() => setBottleSource("hero")}
         className="absolute bottom-10 left-10 z-20 hidden w-[400px] items-center gap-6 rounded-2xl border border-glass-edge bg-glass-fill p-6 backdrop-blur-xl transition-colors hover:border-accent-lit/40 md:flex lg:left-14"
       >
+        {/* brillo del vidrio que sigue a la luz (spec 002, P4) */}
+        <span aria-hidden className={styles.glint} />
         {current.decant && (
           <div className="relative flex shrink-0 flex-col items-center gap-2 border-r border-glass-edge pr-6">
             <Image
@@ -154,7 +165,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
 
       {/* Escritorio: flechas y posición */}
       {hasMany && (
-        <div className="absolute right-10 bottom-12 z-20 hidden items-center gap-4 md:flex lg:right-14">
+        <div data-intro="ui" className="absolute right-10 bottom-12 z-20 hidden items-center gap-4 md:flex lg:right-14">
           <ArrowButton direction="prev" onClick={prev} />
           <span className="min-w-12 text-center text-sm tabular-nums text-text-muted">
             {active + 1} / {count}
@@ -164,11 +175,12 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
       )}
 
       {/* Celular: solo el nombre bajo el frasco (CA-1.9) */}
-      <div className="absolute inset-x-4 bottom-[6svh] z-20 flex items-center justify-between gap-3 md:hidden">
+      <div data-intro="ui" className="absolute inset-x-4 bottom-[6svh] z-20 flex items-center justify-between gap-3 md:hidden">
         {hasMany ? <ArrowButton direction="prev" onClick={prev} /> : <span />}
         <Link
           key={`caption-${current.slug}`}
           href={`/producto/${current.slug}`}
+          onClick={() => setBottleSource("hero")}
           className={`${styles.reveal} min-w-0 text-center`}
         >
           <span translate="no" className="block font-display text-[clamp(20px,6.4vw,26px)] leading-tight text-balance">

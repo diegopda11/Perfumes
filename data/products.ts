@@ -32,6 +32,8 @@ export const products: Product[] = [
       decant: "/products/dior-sauvage-edp/decant.webp",
       scene: "/products/dior-sauvage-edp/scene.webp",
     },
+    atmosphere: { base: "#0b1a33", glow: "#5a8fd6" },
+    profile: { moment: "siempre", character: ["fresco", "especiado"] },
     featured: true,
   },
   {
@@ -57,6 +59,8 @@ export const products: Product[] = [
       decant: "/products/chanel-coco-mademoiselle-edp/decant.webp",
       scene: "/products/chanel-coco-mademoiselle-edp/scene.webp",
     },
+    atmosphere: { base: "#2a1611", glow: "#eba986" },
+    profile: { moment: "siempre", character: ["floral", "fresco"] },
     featured: true,
   },
   {
@@ -82,6 +86,8 @@ export const products: Product[] = [
       decant: "/products/ysl-libre-edp/decant.webp",
       scene: "/products/ysl-libre-edp/scene.webp",
     },
+    atmosphere: { base: "#241a08", glow: "#e6bf66" },
+    profile: { moment: "noche", character: ["floral", "calido"] },
     featured: true,
   },
 ];

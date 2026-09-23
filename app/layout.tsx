@@ -17,6 +17,8 @@ const instrument = Instrument_Sans({
   display: "swap",
 });
 
+const introScript = `try{if(location.pathname==="/"&&!sessionStorage.getItem("fx-intro")&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("intro");sessionStorage.setItem("fx-intro","1")}}catch(e){}`;
+
 const description = `Decants de 10 ml de perfumes originales en ${site.locality}. Prueba el lujo sin comprar el frasco completo.`;
 
 export const metadata: Metadata = {
@@ -43,7 +45,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es-MX" className={`${bodoni.variable} ${instrument.variable}`}>
+    <html lang="es-MX" className={`${bodoni.variable} ${instrument.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Decide antes del primer pintado si corre la entrada (spec 002, P3) */}
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+      </head>
       <body className="flex min-h-svh flex-col">
         <a
           href="#contenido"

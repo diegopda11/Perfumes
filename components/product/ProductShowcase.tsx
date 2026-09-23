@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SharedBottle } from "@/components/transitions/SharedBottle";
 import type { Product } from "@/types/product";
 
 /**
@@ -7,14 +8,14 @@ import type { Product } from "@/types/product";
  */
 export function ProductShowcase({ product }: { product: Product }) {
   return (
-    <div className="relative aspect-square overflow-hidden rounded-3xl border border-glass-edge bg-surface/50 md:aspect-[4/5] md:max-h-[calc(100svh-8rem)]">
+    <div className="relative aspect-square overflow-hidden rounded-3xl border border-glass-edge bg-black/20 md:aspect-[4/5] md:max-h-[calc(100svh-8rem)]">
       <div
         aria-hidden
         className="absolute inset-0"
         style={{
           background: [
-            "radial-gradient(ellipse 45% 60% at 50% 0%, color-mix(in oklab, var(--color-glass) 20%, transparent), transparent 80%)",
-            "radial-gradient(ellipse 60% 12% at 50% 88%, color-mix(in oklab, var(--color-glass) 12%, transparent), transparent 75%)",
+            "radial-gradient(ellipse 45% 60% at 50% 0%, color-mix(in oklab, var(--atm-glow, var(--color-glass)) 26%, transparent), transparent 80%)",
+            "radial-gradient(ellipse 60% 12% at 50% 88%, color-mix(in oklab, var(--atm-glow, var(--color-glass)) 16%, transparent), transparent 75%)",
           ].join(","),
         }}
       />
@@ -23,19 +24,23 @@ export function ProductShowcase({ product }: { product: Product }) {
         className="absolute top-0 left-1/2 h-[85%] w-[80%] -translate-x-1/2 blur-[16px]"
         style={{
           clipPath: "polygon(40% 0, 60% 0, 100% 100%, 0 100%)",
-          background: "linear-gradient(180deg, color-mix(in oklab, var(--color-glass) 14%, transparent), transparent 90%)",
+          background: "linear-gradient(180deg, color-mix(in oklab, var(--atm-glow, var(--color-glass)) 18%, transparent), transparent 90%)",
         }}
       />
 
       <div className="absolute inset-x-[18%] top-[9%] bottom-[12%]">
-        <Image
-          src={product.images.bottle}
-          alt={`Frasco original de ${product.name} de ${product.brand}`}
-          fill
-          preload
-          sizes="(min-width: 768px) 40vw, 80vw"
-          className="object-contain object-bottom"
-        />
+        <SharedBottle slug={product.slug} role="detail">
+          <div className="absolute inset-0">
+            <Image
+              src={product.images.bottle}
+              alt={`Frasco original de ${product.name} de ${product.brand}`}
+              fill
+              preload
+              sizes="(min-width: 768px) 40vw, 80vw"
+              className="object-contain object-bottom"
+            />
+          </div>
+        </SharedBottle>
         {/* reflejo sobre la vitrina */}
         <div
           aria-hidden
