@@ -8,6 +8,8 @@ Por cada photos-raw/<slug>.png genera en <salida>/<slug>/:
     bottle.png   frasco recortado, sin fondo
     decant.png   decant recortado, sin fondo
     review.png   hoja de revisión sobre fondo ink y gris medio (CA-IMG.1)
+
+y publica bottle.webp, decant.webp y scene.webp en public/products/<slug>/.
 """
 import sys
 from pathlib import Path
@@ -20,6 +22,7 @@ from scipy import ndimage
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "photos-raw"
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "photos-out"
+PUBLIC = ROOT / "public" / "products"
 
 INK = (12, 20, 38)
 GRAY = (128, 128, 128)
@@ -128,7 +131,17 @@ def main():
         bottle.save(dest / "bottle.png")
         decant.save(dest / "decant.png")
         review_sheet([bottle, decant]).save(dest / "review.png")
+        publish(slug, bottle, decant, scene)
         print(f"{slug}: frasco {bottle.size}, decant {decant.size}")
+
+
+def publish(slug: str, bottle: Image.Image, decant: Image.Image, scene: Image.Image):
+    """Exporta a WebP en public/products/<slug>/ (lo que usa el sitio)."""
+    dest = PUBLIC / slug
+    dest.mkdir(parents=True, exist_ok=True)
+    bottle.save(dest / "bottle.webp", quality=88, method=6)
+    decant.save(dest / "decant.webp", quality=88, method=6)
+    scene.save(dest / "scene.webp", quality=82, method=6)
 
 
 if __name__ == "__main__":

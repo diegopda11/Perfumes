@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Tokens de diseño (plan §4).
+ * Dos capas: los primitivos son la identidad "Fracción"; los componentes
+ * solo usan los semánticos. Cambiar la paleta = editar los primitivos.
+ */
+@theme {
+  /* Primitivos */
+  --color-ink: #0c1426;
+  --color-night: #16223b;
+  --color-brass: #c4a05a;
+  --color-brass-lit: #ebd49a;
+  --color-glass: #dce6ee;
+  --color-mist: #8a97ad;
+  --color-pearl: #eef1f4;
+
+  /* Semánticos */
+  --color-bg: var(--color-ink);
+  --color-surface: var(--color-night);
+  --color-text: var(--color-pearl);
+  --color-text-muted: var(--color-mist);
+  --color-accent: var(--color-brass);
+  --color-accent-lit: var(--color-brass-lit);
+  --color-glass-edge: color-mix(in oklab, var(--color-glass) 18%, transparent);
+  --color-glass-fill: color-mix(in oklab, var(--color-glass) 7%, transparent);
+
+  /* Movimiento */
+  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bodoni), "Didot", serif;
+  --font-sans: var(--font-instrument), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-bg);
+  color: var(--color-text);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-lit);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

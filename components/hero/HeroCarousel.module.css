@@ -1,0 +1,58 @@
+/*
+ * Posiciones del carrusel (CA-1.2). Cada frasco recibe --slot:
+ * 0 = activo al centro, -1/1 = laterales desenfocados, -2/2 = fuera de escena.
+ * Cambiar de perfume solo cambia --slot; la transición hace el resto (CA-IMG.2).
+ */
+.bottle {
+  --side: min(44vw, 210px);
+  --scale: 1;
+  position: absolute;
+  left: 50%;
+  bottom: 16svh;
+  height: clamp(250px, 50svh, 520px);
+  aspect-ratio: 1 / 2.15;
+  transform: translateX(calc(-50% + var(--slot) * var(--side))) scale(var(--scale));
+  transform-origin: 50% 100%;
+  transition:
+    transform 900ms var(--ease-glide),
+    opacity 900ms var(--ease-glide),
+    filter 900ms var(--ease-glide);
+  z-index: 2;
+  touch-action: pan-y;
+}
+
+.bottle[data-slot="-1"],
+.bottle[data-slot="1"] {
+  --scale: 0.56;
+  opacity: 0.4;
+  filter: blur(5px);
+  z-index: 1;
+}
+
+.bottle[data-slot="-2"],
+.bottle[data-slot="2"] {
+  --scale: 0.4;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .bottle {
+    --side: min(31vw, 470px);
+    bottom: 11svh;
+    height: clamp(320px, 64svh, 660px);
+  }
+}
+
+/* Entrada del contenido de la tarjeta al cambiar de perfume. */
+.reveal {
+  animation: reveal 700ms var(--ease-glide) both;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
