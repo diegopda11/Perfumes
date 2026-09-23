@@ -9,13 +9,15 @@ Por cada photos-raw/<slug>.png genera en <salida>/<slug>/:
     decant.png   decant recortado, sin fondo
     review.png   hoja de revisión sobre fondo ink y gris medio (CA-IMG.1)
 
-y publica bottle.webp, decant.webp y scene.webp en public/products/<slug>/.
+y publica bottle.webp, decant.webp, scene.webp y og.jpg en
+public/products/<slug>/, más public/og.jpg para la portada.
 """
+import re
 import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from rembg import new_session, remove
 from scipy import ndimage
 
@@ -27,6 +29,7 @@ PUBLIC = ROOT / "public" / "products"
 INK = (12, 20, 38)
 GRAY = (128, 128, 128)
 PAD = 12  # px de aire alrededor de cada recorte
+BRAND = "Fracción"  # igual que site.brandName en config/site.ts
 
 
 def split_touching(solid: np.ndarray) -> np.ndarray:
@@ -91,6 +94,35 @@ def crop_object(rgb: np.ndarray, alpha: np.ndarray, labels, lab, box) -> Image.I
     return Image.fromarray(rgba, "RGBA")
 
 
+def flatten_base(img: Image.Image, max_wobble: float = 3.0) -> Image.Image:
+    """Deja recta la base del frasco solo si quedó irregular.
+
+    Si algo tapaba la base en la escena (flores, hojas), el recorte queda
+    con el borde inferior ondulado. Se mide el borde inferior en la franja
+    central (los laterales pueden tener logos que sobresalen) y, si varía
+    más de `max_wobble` px, se corta a la altura del punto más alto.
+    """
+    a = np.asarray(img)[..., 3].astype(float)
+    solid = a > 128
+    w = solid.shape[1]
+    center = solid[:, int(w * 0.2):int(w * 0.8)]
+    has = center.any(axis=0)
+    if not has.any():
+        return img
+    bottoms = np.array([np.where(col)[0].max() for col in center.T[has]])
+    if bottoms.std() <= max_wobble:  # la base ya es recta: no tocar
+        return img
+    base = int(bottoms.min())
+    fade = 3
+    a[base + 1:] = 0
+    for i in range(fade):
+        a[base - i] *= (i + 1) / (fade + 1)
+    out = np.asarray(img).copy()
+    out[..., 3] = a.astype(np.uint8)
+    cropped = Image.fromarray(out, "RGBA")
+    return cropped.crop((0, 0, img.width, min(img.height, base + 1 + PAD)))
+
+
 def review_sheet(pieces: list[Image.Image]) -> Image.Image:
     """Cada recorte sobre ink y sobre gris, lado a lado."""
     h = max(p.height for p in pieces)
@@ -110,6 +142,7 @@ def review_sheet(pieces: list[Image.Image]) -> Image.Image:
 
 def main():
     session = new_session("birefnet-general")
+    bottles: list[Image.Image] = []
     for src in sorted(RAW.glob("*.png")):
         slug = src.stem
         dest = OUT / slug
@@ -126,13 +159,17 @@ def main():
             print(f"{slug}: no se separaron 2 objetos, revisar mask.png")
             continue
         boxes, labels = found
-        bottle = crop_object(rgb, alpha, labels, boxes[0][0], boxes[0])
+        bottle = flatten_base(crop_object(rgb, alpha, labels, boxes[0][0], boxes[0]))
         decant = crop_object(rgb, alpha, labels, boxes[1][0], boxes[1])
         bottle.save(dest / "bottle.png")
         decant.save(dest / "decant.png")
         review_sheet([bottle, decant]).save(dest / "review.png")
         publish(slug, bottle, decant, scene)
+        bottles.append(bottle)
         print(f"{slug}: frasco {bottle.size}, decant {decant.size}")
+
+    if bottles:
+        og_home(bottles).save(ROOT / "public" / "og.jpg", quality=88)
 
 
 def publish(slug: str, bottle: Image.Image, decant: Image.Image, scene: Image.Image):
@@ -142,6 +179,93 @@ def publish(slug: str, bottle: Image.Image, decant: Image.Image, scene: Image.Im
     bottle.save(dest / "bottle.webp", quality=88, method=6)
     decant.save(dest / "decant.webp", quality=88, method=6)
     scene.save(dest / "scene.webp", quality=82, method=6)
+    info = PRODUCT_INFO.get(slug)
+    if info:
+        og_product(bottle, *info).save(dest / "og.jpg", quality=88)
+
+
+# ---------- Imágenes para compartir (Open Graph, CA-7.1 y CA-7.2) ----------
+
+OG_SIZE = (1200, 630)
+FONTS = Path(__file__).parent / "fonts"
+PEARL = (238, 241, 244)
+MIST = (138, 151, 173)
+BRASS_LIT = (235, 212, 154)
+
+
+def read_product_info() -> dict[str, tuple[str, str]]:
+    """slug → (nombre, marca), leído de data/products.ts."""
+    text = (ROOT / "data" / "products.ts").read_text(encoding="utf-8")
+    entries = re.findall(r'slug: "([^"]+)",\s*name: "([^"]+)",\s*brand: "([^"]+)"', text)
+    return {slug: (name, brand) for slug, name, brand in entries}
+
+
+PRODUCT_INFO = read_product_info()
+
+
+def font(name: str, size: int) -> ImageFont.FreeTypeFont:
+    return ImageFont.truetype(str(FONTS / f"{name}.ttf"), size)
+
+
+def og_canvas() -> Image.Image:
+    """Fondo ink con el resplandor del foco, como el hero."""
+    w, h = OG_SIZE
+    y, x = np.mgrid[0:h, 0:w]
+    glow = np.exp(-(((x - w * 0.68) / (w * 0.30)) ** 2 + ((y + h * 0.1) / (h * 0.9)) ** 2))
+    base = np.array(INK, dtype=float)
+    light = np.array((60, 76, 104), dtype=float)
+    img = base + glow[..., None] * (light - base)
+    return Image.fromarray(img.clip(0, 255).astype(np.uint8), "RGB")
+
+
+def place_bottle(canvas: Image.Image, bottle: Image.Image, center_x: int, height: int, floor: int):
+    scale = height / bottle.height
+    b = bottle.resize((round(bottle.width * scale), height), Image.LANCZOS)
+    canvas.paste(b, (center_x - b.width // 2, floor - height), b)
+
+
+def wrap(draw: ImageDraw.ImageDraw, text: str, fnt, max_width: int) -> list[str]:
+    lines, current = [], ""
+    for word in text.split():
+        trial = f"{current} {word}".strip()
+        if draw.textlength(trial, font=fnt) <= max_width or not current:
+            current = trial
+        else:
+            lines.append(current)
+            current = word
+    return lines + [current]
+
+
+def og_product(bottle: Image.Image, name: str, brand: str) -> Image.Image:
+    img = og_canvas()
+    place_bottle(img, bottle, center_x=880, height=520, floor=585)
+    d = ImageDraw.Draw(img)
+    d.text((80, 150), brand, font=font("InstrumentSans", 32), fill=MIST)
+    title = font("BodoniModa", 84)
+    y = 200
+    for line in wrap(d, name, title, 560):
+        d.text((76, y), line, font=title, fill=PEARL)
+        y += 92
+    d.text((80, y + 24), "Decant de 10 ml de perfume original", font=font("InstrumentSans", 30), fill=BRASS_LIT)
+    d.text((80, 520), BRAND, font=font("BodoniModa", 40), fill=PEARL)
+    return img
+
+
+def og_home(bottles: list[Image.Image]) -> Image.Image:
+    img = og_canvas()
+    d = ImageDraw.Draw(img)
+    mark = font("BodoniModa", 230)
+    tw = d.textlength(BRAND, font=mark)
+    d.text(((OG_SIZE[0] - tw) / 2, 60), BRAND, font=mark, fill=(40, 52, 76))
+    xs = [600] if len(bottles) == 1 else np.linspace(330, 870, len(bottles)).astype(int)
+    order = sorted(range(len(bottles)), key=lambda i: abs(xs[i] - 600), reverse=True)
+    for i in order:  # el del centro, al frente
+        h = 440 if xs[i] == 600 else 330
+        place_bottle(img, bottles[i], int(xs[i]), h, 540)
+    tagline = "Perfumes originales en decants de 10 ml"
+    f = font("InstrumentSans", 30)
+    d.text(((OG_SIZE[0] - d.textlength(tagline, font=f)) / 2, 566), tagline, font=f, fill=PEARL)
+    return img
 
 
 if __name__ == "__main__":
