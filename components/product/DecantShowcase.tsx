@@ -3,7 +3,7 @@ import type { Product } from "@/types/product";
 
 /**
  * "Lo que recibes" (CA-3.2, CA-3.4): deja claro que se entrega un decant
- * de 10 ml, no el frasco completo. Muestra la escena con los dos juntos
+ * de 10 ml, no el frasco completo. Muestra la escena con los dos juntos
  * para que se vea la proporción.
  */
 export function DecantShowcase({ product }: { product: Product }) {
@@ -22,8 +22,8 @@ export function DecantShowcase({ product }: { product: Product }) {
             src={image}
             alt={
               isScene
-                ? `Frasco original de ${product.name} junto al decant de 10 ml`
-                : `Decant de 10 ml de ${product.name}`
+                ? `Frasco original de ${product.name} junto al decant de 10 ml`
+                : `Decant de 10 ml de ${product.name}`
             }
             fill
             sizes="220px"
@@ -34,13 +34,13 @@ export function DecantShowcase({ product }: { product: Product }) {
       <div>
         <h2 className="font-display text-[30px] leading-tight md:text-4xl">Lo que recibes</h2>
         <p className="mt-3 max-w-[48ch] leading-relaxed text-text-muted">
-          Un decant de 10 ml de {product.name}, envasado del frasco original de {product.brand} en
+          Un decant de 10 ml de {product.name}, envasado del frasco original de {product.brand} en
           un atomizador de vidrio. No es el frasco completo: es una fracción para usarlo, conocerlo y
           llevarlo contigo.
         </p>
         <ul className="mt-6 grid gap-3 text-[15px]">
           {[
-            "10 ml, alrededor de cien atomizaciones",
+            "10 ml, alrededor de cien atomizaciones",
             "Atomizador de vidrio con tapa, cabe en cualquier bolsillo",
             "Pago y entrega en persona",
           ].map((item) => (

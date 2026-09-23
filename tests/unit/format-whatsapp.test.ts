@@ -4,11 +4,11 @@ import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 describe("formatPrice (RNF-8)", () => {
   it("usa pesos mexicanos sin centavos", () => {
-    expect(formatPrice(390)).toBe("$390 MXN");
+    expect(formatPrice(390)).toBe("$390 MXN");
   });
 
   it("separa miles con coma", () => {
-    expect(formatPrice(1250)).toBe("$1,250 MXN");
+    expect(formatPrice(1250)).toBe("$1,250 MXN");
   });
 });
 

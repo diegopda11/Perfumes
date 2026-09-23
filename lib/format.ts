@@ -9,7 +9,7 @@ const priceFormatter = new Intl.NumberFormat(site.locale, {
 
 /** 390 → "$390 MXN" (RNF-8). */
 export function formatPrice(amount: number): string {
-  return `${priceFormatter.format(amount)} ${site.currency}`;
+  return `${priceFormatter.format(amount)} ${site.currency}`;
 }
 
 const listFormatter = new Intl.ListFormat("es", { style: "long", type: "conjunction" });

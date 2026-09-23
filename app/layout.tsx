@@ -17,7 +17,7 @@ const instrument = Instrument_Sans({
   display: "swap",
 });
 
-const description = `Decants de 10 ml de perfumes originales en ${site.locality}. Prueba el lujo sin comprar el frasco completo.`;
+const description = `Decants de 10 ml de perfumes originales en ${site.locality}. Prueba el lujo sin comprar el frasco completo.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: site.brandName,
     title: `${site.brandName} · Decants de perfumes originales`,
     description,
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${site.brandName}: decants de 10 ml` }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${site.brandName}: decants de 10 ml` }],
   },
 };
 

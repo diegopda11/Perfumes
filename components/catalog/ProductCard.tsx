@@ -68,8 +68,8 @@ export function ProductCard({ product, sizes }: { product: Product; sizes?: stri
       </div>
 
       <div className="mt-4 px-1">
-        <p className="text-sm text-text-muted">{product.brand}</p>
-        <h3 className="mt-0.5 font-display text-[22px] leading-tight transition-colors group-hover:text-accent-lit md:text-2xl">
+        <p translate="no" className="text-sm text-text-muted">{product.brand}</p>
+        <h3 translate="no" className="mt-0.5 font-display text-[22px] leading-tight transition-colors group-hover:text-accent-lit md:text-2xl">
           {product.name}
         </h3>
         <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-text-muted">
@@ -77,7 +77,7 @@ export function ProductCard({ product, sizes }: { product: Product; sizes?: stri
         </p>
         <p className="mt-2 text-[15px] text-accent-lit">
           {formatPrice(getPrice(product))}
-          <span className="ml-1.5 text-sm text-text-muted">por 10 ml</span>
+          <span className="ml-1.5 text-sm text-text-muted">por 10 ml</span>
         </p>
       </div>
     </Link>

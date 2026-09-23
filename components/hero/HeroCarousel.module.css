@@ -14,9 +14,9 @@
   transform: translateX(calc(-50% + var(--slot) * var(--side))) scale(var(--scale));
   transform-origin: 50% 100%;
   transition:
-    transform 900ms var(--ease-glide),
-    opacity 900ms var(--ease-glide),
-    filter 900ms var(--ease-glide);
+    transform 600ms var(--ease-move),
+    opacity 600ms var(--ease-move),
+    filter 600ms var(--ease-move);
   z-index: 2;
   touch-action: pan-y;
 }
@@ -61,7 +61,7 @@
 
 /* Entrada del contenido de la tarjeta al cambiar de perfume. */
 .reveal {
-  animation: reveal 700ms var(--ease-glide) both;
+  animation: reveal 380ms var(--ease-glide) both;
 }
 
 @keyframes reveal {

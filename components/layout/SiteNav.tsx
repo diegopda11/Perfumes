@@ -16,7 +16,7 @@ export function SiteNav() {
         aria-label="Principal"
         className="mx-auto flex max-w-[1440px] items-center justify-between px-4 py-4 md:px-10 md:py-7"
       >
-        <Link href="/" className="font-display text-[22px] leading-none md:text-[26px]">
+        <Link href="/" translate="no" className="font-display text-[22px] leading-none md:text-[26px]">
           {site.brandName}
         </Link>
 

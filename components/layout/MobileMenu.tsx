@@ -32,7 +32,7 @@ export function MobileMenu({ links }: Props) {
       <dialog
         ref={dialogRef}
         aria-label="Menú"
-        className="m-0 h-dvh max-h-none w-screen max-w-none bg-bg/95 p-0 text-text backdrop-blur-md backdrop:bg-transparent"
+        className="m-0 h-dvh max-h-none w-screen max-w-none overscroll-contain bg-bg/95 p-0 text-text backdrop-blur-md backdrop:bg-transparent"
         onClick={(e) => {
           if (e.target === e.currentTarget) close();
         }}

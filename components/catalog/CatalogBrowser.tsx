@@ -107,7 +107,7 @@ function ChipGroup<T extends string>({ label, allLabel, options, selected, onSel
               type="button"
               aria-pressed={pressed}
               onClick={() => onSelect(chip.value)}
-              className={`shrink-0 rounded-full border px-4 py-2 text-sm transition-colors ${
+              className={`shrink-0 rounded-full border px-4 py-2 text-sm transition-[color,background-color,border-color,scale] active:scale-[0.97] ${
                 pressed
                   ? "border-accent-lit/70 bg-accent-lit/10 text-accent-lit"
                   : "border-glass-edge text-text/80 hover:border-text/40 hover:text-text"

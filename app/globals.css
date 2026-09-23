@@ -26,7 +26,8 @@
   --color-glass-fill: color-mix(in oklab, var(--color-glass) 7%, transparent);
 
   /* Movimiento */
-  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1); /* entradas */
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1); /* movimiento en pantalla */
 }
 
 @theme inline {
@@ -43,6 +44,25 @@ html {
 body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* En celular, la barra fija de WhatsApp no debe tapar el elemento con foco. */
+@media (max-width: 767px) {
+  html {
+    scroll-padding-bottom: 7rem;
+  }
 }
 
 :focus-visible {

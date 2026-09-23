@@ -15,7 +15,7 @@ const page = await browser.newPage({
   reducedMotion: reduced ? "reduce" : "no-preference",
 });
 await page.goto(url, { waitUntil: "networkidle" });
-if (at) await page.locator(at).first().scrollIntoViewIfNeeded();
+if (at) await page.locator(at).first().evaluate((el) => el.scrollIntoView({ block: "start" }));
 await page.waitForTimeout(1200);
 await page.screenshot({ path: out, fullPage: full });
 await browser.close();

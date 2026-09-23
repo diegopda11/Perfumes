@@ -133,21 +133,21 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
           <div className="relative flex shrink-0 flex-col items-center gap-2 border-r border-glass-edge pr-6">
             <Image
               src={current.decant}
-              alt={`Decant de 10 ml de ${current.name}`}
+              alt={`Decant de 10 ml de ${current.name}`}
               width={56}
               height={236}
               className={`${styles.reveal} h-[118px] w-auto`}
             />
-            <span className="text-xs text-accent-lit">10 ml</span>
+            <span className="text-xs text-accent-lit">10 ml</span>
           </div>
         )}
         <div className={styles.reveal}>
-          <p className="text-sm text-text-muted">{current.brand}</p>
-          <h2 className="mt-1 font-display text-[30px] leading-[1.1]">{current.name}</h2>
+          <p translate="no" className="text-sm text-text-muted">{current.brand}</p>
+          <h2 translate="no" className="mt-1 font-display text-[30px] leading-[1.1]">{current.name}</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-text-muted">{current.tagline}</p>
           <p className="mt-4 text-xl text-accent-lit">
             {current.price}
-            <span className="ml-2 text-sm text-text-muted">por decant de 10 ml</span>
+            <span className="ml-2 text-sm text-text-muted">por decant de 10 ml</span>
           </p>
         </div>
       </Link>
@@ -171,12 +171,12 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
           href={`/producto/${current.slug}`}
           className={`${styles.reveal} min-w-0 text-center`}
         >
-          <span className="block font-display text-[clamp(20px,6.4vw,26px)] leading-tight text-balance">
+          <span translate="no" className="block font-display text-[clamp(20px,6.4vw,26px)] leading-tight text-balance">
             {current.name}
           </span>
           <span className="block text-sm text-text-muted">{current.brand}</span>
           <span className="mt-1.5 block text-sm text-accent-lit">
-            Decant de 10 ml, {current.price}
+            Decant de 10 ml, {current.price}
           </span>
         </Link>
         {hasMany ? <ArrowButton direction="next" onClick={next} /> : <span />}
@@ -191,7 +191,7 @@ function ArrowButton({ direction, onClick }: { direction: "prev" | "next"; onCli
       type="button"
       onClick={onClick}
       aria-label={direction === "prev" ? "Perfume anterior" : "Perfume siguiente"}
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-glass-edge bg-glass-fill text-text backdrop-blur-md transition-colors hover:border-accent-lit/50 hover:text-accent-lit"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-glass-edge bg-glass-fill text-text backdrop-blur-md transition-[color,background-color,border-color,scale] active:scale-[0.97] hover:border-accent-lit/50 hover:text-accent-lit"
     >
       <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path

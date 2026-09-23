@@ -10,9 +10,9 @@ export function SiteFooter() {
     <footer id="contacto" className="scroll-mt-6 border-t border-glass-edge">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-4 pt-16 pb-10 md:grid-cols-[1.4fr_1fr_1fr] md:px-10 md:pt-20">
         <div>
-          <p className="font-display text-[40px] leading-none">{site.brandName}</p>
+          <p translate="no" className="font-display text-[40px] leading-none">{site.brandName}</p>
           <p className="mt-4 max-w-[36ch] text-text-muted">
-            Perfumes originales en decants de 10 ml, para conocerlos a fondo antes de comprar el frasco.
+            Perfumes originales en decants de 10 ml, para conocerlos a fondo antes de comprar el frasco.
           </p>
         </div>
 

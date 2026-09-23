@@ -28,7 +28,7 @@ export function WhatsAppButton({ product, size = "large", className = "" }: Prop
       target="_blank"
       rel="noopener noreferrer"
       data-whatsapp
-      className={`inline-flex items-center justify-center gap-2.5 rounded-full font-medium transition-colors ${sizing} ${tone} ${className}`}
+      className={`inline-flex items-center justify-center gap-2.5 rounded-full font-medium transition-[color,background-color,border-color,scale] active:scale-[0.97] ${sizing} ${tone} ${className}`}
     >
       <ChatIcon />
       {label}

@@ -23,8 +23,8 @@ export async function generateMetadata(props: PageProps<"/producto/[slug]">): Pr
   const product = getProductBySlug(slug);
   if (!product) return {};
 
-  const title = `${product.name} de ${product.brand}, decant de 10 ml`;
-  const description = `${product.tagline} Decant de 10 ml de perfume original: ${formatPrice(getPrice(product))}.`;
+  const title = `${product.name} de ${product.brand}, decant de 10 ml`;
+  const description = `${product.tagline} Decant de 10 ml de perfume original: ${formatPrice(getPrice(product))}.`;
   const ogImage = `/products/${product.slug}/og.jpg`;
   return {
     title,
@@ -70,8 +70,8 @@ export default async function ProductPage(props: PageProps<"/producto/[slug]">) 
           </div>
 
           <div className="min-w-0">
-            <p className="text-text-muted">{product.brand}</p>
-            <h1 className="mt-1 font-display text-[44px] leading-[1.02] md:text-[64px]">{product.name}</h1>
+            <p translate="no" className="text-text-muted">{product.brand}</p>
+            <h1 translate="no" className="mt-1 font-display text-[44px] leading-[1.02] md:text-[64px]">{product.name}</h1>
             <p className="mt-3 text-text-muted">
               {concentrationLabels[product.concentration]}, {familyLabels[product.family].toLowerCase()},{" "}
               {genderLabels[product.gender].toLowerCase()}
@@ -81,7 +81,7 @@ export default async function ProductPage(props: PageProps<"/producto/[slug]">) 
             <div className="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <p className="text-3xl text-accent-lit">{formatPrice(getPrice(product))}</p>
               <p className="text-text-muted">
-                {available ? "por un decant de 10 ml" : "Agotado por ahora"}
+                {available ? "por un decant de 10 ml" : "Agotado por ahora"}
               </p>
             </div>
 

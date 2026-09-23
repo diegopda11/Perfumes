@@ -30,11 +30,12 @@ export function Hero() {
         id="hero-title"
         className="absolute inset-x-4 top-[max(76px,10svh)] z-10 text-center text-[15px] text-text/70 md:top-[max(100px,11svh)] md:text-base"
       >
-        Perfumes originales en decants de 10 ml
+        Perfumes originales en decants de 10 ml
       </h1>
 
       <p
         aria-hidden
+        translate="no"
         className="pointer-events-none absolute inset-x-0 top-[20svh] z-0 text-center font-display text-[25vw] leading-[0.8] whitespace-nowrap text-text/[0.13] select-none md:top-[17svh] md:text-[min(17vw,280px)]"
       >
         {site.wordmark}
