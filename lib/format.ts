@@ -11,3 +11,10 @@ const priceFormatter = new Intl.NumberFormat(site.locale, {
 export function formatPrice(amount: number): string {
   return `${priceFormatter.format(amount)} ${site.currency}`;
 }
+
+const listFormatter = new Intl.ListFormat("es", { style: "long", type: "conjunction" });
+
+/** ["Rosa", "Oud", "Ámbar"] → "Rosa, Oud y Ámbar". */
+export function formatList(items: readonly string[]): string {
+  return listFormatter.format(items);
+}
