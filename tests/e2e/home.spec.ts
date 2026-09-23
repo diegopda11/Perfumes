@@ -20,6 +20,18 @@ test.describe("Home", () => {
     await expect(liveText(page)).toContainText("1 de 3");
   });
 
+  test("carga y navega sin errores en la consola ni recursos faltantes", async ({ page }) => {
+    const problems: string[] = [];
+    page.on("console", (msg) => msg.type() === "error" && problems.push(msg.text()));
+    page.on("response", (res) => res.status() >= 400 && problems.push(`${res.status()} ${res.url()}`));
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.locator("#catalogo").getByRole("link", { name: /Sauvage/ }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sauvage");
+    await page.waitForLoadState("networkidle");
+    expect(problems).toEqual([]);
+  });
+
   test("no tiene ningún enlace de WhatsApp (CA-4.4)", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator('a[href*="wa.me"]')).toHaveCount(0);

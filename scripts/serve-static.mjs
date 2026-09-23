@@ -4,6 +4,7 @@
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
+import { createBrotliCompress } from "node:zlib";
 
 const root = join(process.cwd(), "out");
 const port = Number(process.argv[2] ?? 4173);
@@ -32,9 +33,18 @@ function resolve(urlPath) {
   return null;
 }
 
+// Texto comprimido con brotli, como hacen los hostings (Cloudflare Pages).
+const compressible = new Set([".html", ".js", ".css", ".json", ".txt", ".xml", ".svg"]);
+
 createServer((req, res) => {
   const file = resolve(req.url ?? "/");
   const target = file ?? join(root, "404.html");
-  res.writeHead(file ? 200 : 404, { "content-type": types[extname(target)] ?? "application/octet-stream" });
-  createReadStream(target).pipe(res);
+  const ext = extname(target);
+  const headers = { "content-type": types[ext] ?? "application/octet-stream" };
+  const useBrotli = compressible.has(ext) && /\bbr\b/.test(req.headers["accept-encoding"] ?? "");
+  if (useBrotli) headers["content-encoding"] = "br";
+  if (target.includes(`${join(root, "_next", "static")}`)) headers["cache-control"] = "public, max-age=31536000, immutable";
+  res.writeHead(file ? 200 : 404, headers);
+  const stream = createReadStream(target);
+  (useBrotli ? stream.pipe(createBrotliCompress()) : stream).pipe(res);
 }).listen(port, () => console.log(`Sitio estático en http://localhost:${port}`));

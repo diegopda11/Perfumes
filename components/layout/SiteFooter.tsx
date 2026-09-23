@@ -36,7 +36,7 @@ export function SiteFooter() {
           <h2 className="text-sm text-text-muted">Cómo pedir</h2>
           <p className="mt-3 max-w-[34ch] leading-relaxed">
             Elige tu perfume en la{" "}
-            <Link href="/#catalogo" className="text-accent-lit hover:underline">
+            <Link href="/#catalogo" className="text-accent-lit underline decoration-accent-lit/40 underline-offset-4 hover:decoration-accent-lit">
               colección
             </Link>{" "}
             y toca «Consultar por WhatsApp» en su página. Coordinamos el pago y la entrega en persona.
