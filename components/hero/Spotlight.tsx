@@ -23,12 +23,14 @@ export function Spotlight() {
       />
       {/* reflejo en el piso bajo el frasco */}
       <div
-        className="absolute left-1/2 bottom-[16svh] h-10 w-[min(70vw,420px)] -translate-x-1/2 translate-y-1/2 rounded-[50%] md:bottom-[11svh]"
+        className="absolute left-1/2 bottom-[19svh] h-10 w-[min(70vw,420px)] -translate-x-1/2 translate-y-1/2 rounded-[50%] md:bottom-[12svh]"
         style={{
           background:
             "radial-gradient(closest-side, color-mix(in oklab, var(--color-glass) 14%, transparent), transparent)",
         }}
       />
+      {/* fundido al fondo: el hero se continúa en el catálogo sin corte */}
+      <div className="absolute inset-x-0 bottom-0 h-[14svh] bg-gradient-to-b from-transparent to-bg" />
     </div>
   );
 }

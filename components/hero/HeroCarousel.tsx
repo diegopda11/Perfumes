@@ -103,6 +103,17 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
                 draggable={false}
                 className="object-contain object-bottom select-none"
               />
+              {/* Reflejo en la vitrina: el mismo frasco invertido y desvanecido */}
+              <div aria-hidden className={styles.reflection}>
+                <Image
+                  src={slide.bottle}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 320px, 240px"
+                  draggable={false}
+                  className="object-contain object-bottom select-none"
+                />
+              </div>
             </Link>
           );
         })}
@@ -164,6 +175,9 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             {current.name}
           </span>
           <span className="block text-sm text-text-muted">{current.brand}</span>
+          <span className="mt-1.5 block text-sm text-accent-lit">
+            Decant de 10 ml, {current.price}
+          </span>
         </Link>
         {hasMany ? <ArrowButton direction="next" onClick={next} /> : <span />}
       </div>

@@ -8,8 +8,8 @@
   --scale: 1;
   position: absolute;
   left: 50%;
-  bottom: 16svh;
-  height: clamp(250px, 50svh, 520px);
+  bottom: 19svh;
+  height: clamp(240px, 46svh, 500px);
   aspect-ratio: 1 / 2.15;
   transform: translateX(calc(-50% + var(--slot) * var(--side))) scale(var(--scale));
   transform-origin: 50% 100%;
@@ -40,9 +40,23 @@
 @media (min-width: 768px) {
   .bottle {
     --side: min(31vw, 470px);
-    bottom: 11svh;
-    height: clamp(320px, 64svh, 660px);
+    bottom: 12svh;
+    height: clamp(320px, 58svh, 620px);
   }
+}
+
+/*
+ * Reflejo sobre la vitrina. La máscara se aplica antes del volteo: deja
+ * visible solo la base del frasco, que al invertirse queda pegada al piso.
+ */
+.reflection {
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 100%;
+  transform: scaleY(-1);
+  opacity: 0.22;
+  mask-image: linear-gradient(to top, #000 0%, transparent 28%);
+  pointer-events: none;
 }
 
 /* Entrada del contenido de la tarjeta al cambiar de perfume. */
