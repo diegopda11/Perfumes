@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direcciones de identidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Instrument+Sans:wght@400;500;600&family=Italiana&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page-bg: #1b1c1f;
+    --page-surface: #232428;
+    --page-text: #e9e7e3;
+    --page-muted: #9d9a94;
+    --page-line: rgba(255,255,255,.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--page-text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .doc { max-width: 1200px; margin: 0 auto; padding: 48px 16px 96px; }
+  .doc > header h1 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0 0 12px; font-weight: 600; }
+  .doc > header p { color: var(--page-muted); max-width: 68ch; margin: 0 0 8px; }
+
+  .direction { margin-top: 72px; }
+  .direction h2 { font-size: 26px; margin: 0 0 4px; font-weight: 600; }
+  .direction .concept { color: var(--page-muted); max-width: 72ch; margin: 0 0 24px; }
+
+  /* ---------- Hero mockup shell (shared mechanics) ---------- */
+  .hero {
+    container-type: inline-size;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 6px;
+    isolation: isolate;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+  }
+  .hero .light {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  }
+  .hero .wordmark {
+    position: absolute; left: 0; right: 0; z-index: 1;
+    text-align: center; white-space: nowrap;
+    font-family: var(--display);
+    line-height: .8;
+    pointer-events: none;
+  }
+  .hero .stage {
+    position: absolute; z-index: 2; left: 50%;
+    transform: translateX(-50%);
+  }
+  .hero .side {
+    position: absolute; z-index: 1; filter: blur(0.6cqw); opacity: .45;
+  }
+  .hero nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 2.2cqw 3cqw;
+    font-size: max(11px, 1.15cqw);
+  }
+  .hero nav .links { display: flex; gap: 2.6cqw; }
+  .hero nav a { color: inherit; text-decoration: none; opacity: .82; }
+  .hero .card {
+    position: absolute; z-index: 3;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  }
+  .hero .card h3 { margin: 0; font-weight: 400; font-family: var(--display); }
+  .hero .card p { margin: 0; }
+  .hero .arrow {
+    width: max(28px, 3.2cqw); height: max(28px, 3.2cqw);
+    border-radius: 50%; display: grid; place-items: center;
+    background: transparent; color: inherit; cursor: pointer;
+    font: inherit; font-size: max(12px, 1.3cqw);
+  }
+  .hero .cta {
+    font: inherit; cursor: pointer; text-decoration: none; color: inherit;
+  }
+  svg { display: block; }
+
+  /* ---------- Tokens panel ---------- */
+  .tokens {
+    display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; gap: 24px;
+    margin-top: 20px; padding: 24px; background: var(--page-surface); border-radius: 6px;
+  }
+  .tokens h4 { margin: 0 0 12px; font-size: 14px; font-weight: 600; color: var(--page-muted); }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+  .swatch { font-size: 12px; line-height: 1.35; }
+  .swatch span { display: block; height: 44px; border-radius: 4px; border: 1px solid var(--page-line); margin-bottom: 6px; }
+  .swatch code { color: var(--page-muted); }
+  .specimen .big { font-size: 40px; line-height: 1.1; margin: 0 0 6px; }
+  .specimen .small { color: var(--page-muted); margin: 0 0 14px; font-size: 14px; }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { margin-bottom: 6px; }
+  .notes strong { font-weight: 600; }
+
+  @media (max-width: 860px) {
+    .tokens { grid-template-columns: 1fr; }
+  }
+
+  /* ================= A · OBSIDIANA ================= */
+  .dir-a {
+    --bg: #0d1517; --bg2: #172326; --metal: #b06a3b; --metal-hi: #e2a375;
+    --text: #ede6de; --muted: #8c9a98;
+    --display: "Marcellus", serif; --sans: "Hanken Grotesk", sans-serif;
+  }
+  .dir-a .light {
+    background:
+      radial-gradient(38cqw 30cqw at 62% 12%, rgba(226,163,117,.20), transparent 70%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 62%, #0a1012 62.2%, #0f191b 100%);
+  }
+  /* raking beam from upper right */
+  .dir-a .light::after {
+    content: ""; position: absolute; top: -10%; left: 44%; width: 30%; height: 90%;
+    background: linear-gradient(180deg, rgba(237,210,180,.22), rgba(237,210,180,0) 85%);
+    clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%);
+    transform: rotate(-12deg); transform-origin: top center;
+    filter: blur(1.4cqw);
+  }
+  .dir-a .wordmark {
+    bottom: 41%; font-size: 15cqw; letter-spacing: .02em;
+    color: transparent;
+    background: linear-gradient(180deg, rgba(237,230,222,.9), rgba(237,230,222,.35));
+    -webkit-background-clip: text; background-clip: text;
+  }
+  .dir-a .stage { bottom: 37.8%; width: 19cqw; }
+  .dir-a .reflection {
+    position: absolute; z-index: 2; left: 50%; top: 62.2%; width: 19cqw;
+    transform: translateX(-50%) scaleY(-1); opacity: .28;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 45%);
+            mask-image: linear-gradient(to top, #000 0%, transparent 45%);
+  }
+  .dir-a .side { bottom: 37.8%; width: 9cqw; }
+  .dir-a .side.l { left: 14%; } .dir-a .side.r { right: 14%; }
+  .dir-a nav .brand { font-family: var(--display); font-size: max(14px, 1.7cqw); letter-spacing: .04em; }
+  .dir-a nav .cta { border-bottom: 1px solid var(--metal-hi); padding-bottom: 2px; }
+  .dir-a .card {
+    left: 3cqw; bottom: 3cqw; width: 26cqw; padding: 1.8cqw 2cqw;
+    background: rgba(23,35,38,.55); border: 1px solid rgba(226,163,117,.28); border-radius: 3px;
+  }
+  .dir-a .card h3 { font-size: 2.4cqw; }
+  .dir-a .card .notes-line { color: var(--muted); font-size: 1.2cqw; margin: .5cqw 0 1.2cqw; }
+  .dir-a .card .row { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.05cqw; color: var(--muted); }
+  .dir-a .card .price { color: var(--metal-hi); font-size: 1.7cqw; font-family: var(--display); }
+  .dir-a .controls {
+    position: absolute; z-index: 3; right: 3cqw; bottom: 3.4cqw;
+    display: flex; align-items: center; gap: 1.2cqw; font-size: 1.1cqw; color: var(--muted);
+  }
+  .dir-a .arrow { border: 1px solid rgba(226,163,117,.45); }
+
+  /* ================= B · FRACCIÓN ================= */
+  .dir-b {
+    --bg: #0c1426; --bg2: #16223b; --metal: #c4a05a; --metal-hi: #ebd49a;
+    --glass: #dce6ee; --text: #eef1f4; --muted: #8a97ad;
+    --display: "Bodoni Moda", serif; --sans: "Instrument Sans", sans-serif;
+  }
+  .dir-b .light {
+    background:
+      radial-gradient(26cqw 40cqw at 50% 0%, rgba(220,230,238,.22), transparent 72%),
+      radial-gradient(60cqw 18cqw at 50% 100%, rgba(22,34,59,1), transparent 70%),
+      var(--bg);
+  }
+  .dir-b .light::after {
+    content: ""; position: absolute; top: 0; left: 50%; width: 34cqw; height: 88%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(220,230,238,.16), rgba(220,230,238,0) 90%);
+    clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+    filter: blur(1.2cqw);
+  }
+  .dir-b .wordmark {
+    top: 17%; font-size: 17cqw; font-weight: 400; letter-spacing: -.01em;
+    color: rgba(238,241,244,.13);
+  }
+  .dir-b .stage { bottom: 9%; width: 23cqw; }
+  .dir-b .side { bottom: 13%; width: 11cqw; }
+  .dir-b .side.l { left: 11%; } .dir-b .side.r { right: 11%; }
+  .dir-b nav .brand { font-family: var(--display); font-size: max(15px, 1.9cqw); }
+  .dir-b nav .cta {
+    border: 1px solid rgba(235,212,154,.55); color: var(--metal-hi);
+    padding: .6cqw 1.4cqw; border-radius: 999px;
+  }
+  .dir-b .card {
+    left: 3cqw; bottom: 4cqw; width: 25cqw; padding: 1.8cqw 2cqw;
+    background: rgba(220,230,238,.07); border: 1px solid rgba(220,230,238,.18); border-radius: 14px;
+    display: grid; grid-template-columns: auto 1fr; gap: 1.4cqw; align-items: center;
+  }
+  .dir-b .card h3 { font-size: 2.3cqw; }
+  .dir-b .card .notes-line { color: var(--muted); font-size: 1.15cqw; margin: .4cqw 0 1cqw; }
+  .dir-b .card .price { color: var(--metal-hi); font-size: 1.6cqw; }
+  .dir-b .card .price small { color: var(--muted); font-size: 1cqw; margin-left: .5cqw; }
+  .dir-b .card .decant { margin: 0; display: grid; justify-items: center; gap: .5cqw; padding-right: 1.4cqw; border-right: 1px solid rgba(220,230,238,.15); }
+  .dir-b .card .vial { width: 3.2cqw; filter: drop-shadow(0 0 .8cqw rgba(235,212,154,.35)); }
+  .dir-b .card figcaption { font-size: .95cqw; color: var(--metal-hi); }
+  .dir-b .controls {
+    position: absolute; z-index: 3; right: 3cqw; bottom: 4.6cqw; display: flex; gap: .8cqw;
+  }
+  .dir-b .arrow { border: 1px solid rgba(220,230,238,.3); background: rgba(220,230,238,.06); }
+
+  /* ================= C · TOCADOR ================= */
+  .dir-c {
+    --bg: #170d14; --bg2: #2a1624; --metal: #cdb27c; --metal-hi: #f3dfae;
+    --blush: #a07a86; --text: #f4eae6; --muted: #a8929a;
+    --display: "Italiana", serif; --sans: "Figtree", sans-serif;
+  }
+  .dir-c .light {
+    background:
+      radial-gradient(30cqw 34cqw at 50% 30%, rgba(243,223,174,.18), transparent 70%),
+      radial-gradient(70cqw 30cqw at 50% 110%, rgba(160,122,134,.22), transparent 70%),
+      linear-gradient(180deg, var(--bg), var(--bg2));
+  }
+  .dir-c .arch {
+    position: absolute; z-index: 1; left: 50%; bottom: 9%; transform: translateX(-50%);
+    width: 27cqw; height: 72%;
+    border: 1px solid rgba(205,178,124,.6); border-bottom: 0;
+    border-radius: 13.5cqw 13.5cqw 0 0;
+    background: radial-gradient(18cqw 26cqw at 50% 18%, rgba(243,223,174,.16), transparent 75%);
+  }
+  .dir-c .arch::before {
+    content: ""; position: absolute; inset: .9cqw .9cqw 0; border: 1px solid rgba(205,178,124,.25); border-bottom: 0;
+    border-radius: 12.6cqw 12.6cqw 0 0;
+  }
+  .dir-c .wordmark {
+    top: 30%; font-size: 19cqw; letter-spacing: .08em;
+    color: rgba(244,234,230,.9);
+  }
+  .dir-c .shelf {
+    position: absolute; z-index: 2; left: 8%; right: 8%; bottom: 9%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(205,178,124,.7), transparent);
+  }
+  .dir-c .stage { bottom: 9%; width: 17cqw; }
+  .dir-c .side { bottom: 9%; width: 8cqw; }
+  .dir-c .side.l { left: 17%; } .dir-c .side.r { right: 17%; }
+  .dir-c nav { justify-content: center; }
+  .dir-c nav .brand { position: absolute; left: 3cqw; font-family: var(--display); font-size: max(16px, 2cqw); letter-spacing: .06em; }
+  .dir-c nav .cta { position: absolute; right: 3cqw; color: var(--metal-hi); }
+  .dir-c .card {
+    right: 3cqw; bottom: 6%; width: 22cqw; padding: 1.8cqw 2cqw;
+    background: rgba(42,22,36,.5); border: 1px solid rgba(243,223,174,.2); border-radius: 2px 2px 40px 2px;
+  }
+  .dir-c .card h3 { font-size: 2.6cqw; letter-spacing: .03em; }
+  .dir-c .card .notes-line { color: var(--muted); font-size: 1.15cqw; margin: .5cqw 0 1.2cqw; }
+  .dir-c .card .price { color: var(--metal-hi); font-size: 1.5cqw; }
+  .dir-c .card .size { color: var(--muted); font-size: 1cqw; }
+  .dir-c .arrow { position: absolute; z-index: 3; bottom: 22%; border: 1px solid rgba(205,178,124,.45); }
+  .dir-c .arrow.l { left: calc(50% - 17.5cqw); } .dir-c .arrow.r { left: calc(50% + 14.3cqw); }
+
+  /* ---------- Mobile reading of each hero ---------- */
+  @container (max-width: 620px) {
+    .hero nav .links { display: none; }
+  }
+  @media (max-width: 620px) {
+    .hero { aspect-ratio: 4 / 5; }
+    .dir-a .wordmark { font-size: 21cqw; bottom: 52%; }
+    .dir-a .stage, .dir-a .reflection { width: 27cqw; }
+    .dir-a .stage { bottom: 37.8%; }
+    .dir-a .side { display: none; }
+    .dir-a .card { left: 4cqw; right: 4cqw; width: auto; bottom: 4cqw; }
+    .dir-a .card h3 { font-size: 6cqw; } .dir-a .card .notes-line { font-size: 3.4cqw; }
+    .dir-a .card .row { font-size: 3cqw; } .dir-a .card .price { font-size: 4.6cqw; }
+    .dir-a .controls { display: none; }
+
+    .dir-b .wordmark { font-size: 24cqw; top: 13%; }
+    .dir-b .stage { width: 36cqw; bottom: 30%; }
+    .dir-b .side { display: none; }
+    .dir-b .card { left: 4cqw; right: 4cqw; width: auto; bottom: 4cqw; border-radius: 12px; }
+    .dir-b .card h3 { font-size: 6cqw; } .dir-b .card .notes-line { font-size: 3.3cqw; }
+    .dir-b .card .price { font-size: 4.4cqw; } .dir-b .card .price small { font-size: 3cqw; }
+    .dir-b .card .vial { width: 8cqw; } .dir-b .card figcaption { font-size: 2.8cqw; }
+    .dir-b .controls { display: none; }
+
+    .dir-c .arch { width: 56cqw; height: 58%; bottom: 30%; border-radius: 28cqw 28cqw 0 0; }
+    .dir-c .arch::before { border-radius: 26cqw 26cqw 0 0; }
+    .dir-c .wordmark { font-size: 25cqw; top: 26%; }
+    .dir-c .shelf { bottom: 30%; }
+    .dir-c .stage { width: 26cqw; bottom: 30%; }
+    .dir-c .side { display: none; }
+    .dir-c .arrow { display: none; }
+    .dir-c .card { left: 4cqw; right: 4cqw; width: auto; bottom: 4cqw; }
+    .dir-c .card h3 { font-size: 6.4cqw; } .dir-c .card .notes-line { font-size: 3.4cqw; }
+    .dir-c .card .price { font-size: 4.4cqw; } .dir-c .card .size { font-size: 3cqw; }
+    .dir-c nav .cta { display: none; }
+  }
+</style>
+</head>
+<body>
+<main class="doc">
+  <header>
+    <h1>Tres direcciones de identidad propia</h1>
+    <p>Bocetos del hero para elegir un rumbo antes de escribir el <code>plan.md</code>. Los frascos son ilustraciones genéricas y los perfumes son ficticios. Los nombres de marca son solo propuestas, para sentir cada dirección; habría que verificar que estén disponibles antes de usarlos.</p>
+    <p>Las tres respetan lo que ya fijamos: fondo oscuro, haz de luz, wordmark serif enorme detrás del frasco, acento metálico, tarjeta de vidrio y frasco al centro. Cambian el concepto, el material, la tipografía y el elemento que se recuerda. Achica la ventana para ver la versión de celular.</p>
+  </header>
+
+  <!-- ===================== A ===================== -->
+  <section class="direction">
+    <h2>A. Obsidiana</h2>
+    <p class="concept">Lujo hecho con materiales mexicanos, sin folclor: obsidiana (vidrio volcánico negro con reflejo verdoso) y cobre martillado, como el de Santa Clara del Cobre. El frasco descansa sobre una losa pulida que lo refleja. Lo memorable es ese reflejo: se siente como una piedra preciosa, no como una tienda.</p>
+
+    <div class="hero dir-a" role="img" aria-label="Boceto del hero, dirección Obsidiana">
+      <div class="light"></div>
+      <nav>
+        <span class="brand">Obsidiana</span>
+        <span class="links"><a href="#">Catálogo</a><a href="#">Nosotros</a><a href="#">Contacto</a></span>
+        <a class="cta" href="#">Explorar colección</a>
+      </nav>
+      <div class="wordmark">Obsidiana</div>
+
+      <svg class="side l" viewBox="0 0 200 360" aria-hidden="true"><use href="#bottle-a"/></svg>
+      <svg class="side r" viewBox="0 0 200 360" aria-hidden="true"><use href="#bottle-a"/></svg>
+      <svg class="stage" viewBox="0 0 200 360" aria-hidden="true"><use href="#bottle-a"/></svg>
+      <svg class="reflection" viewBox="0 0 200 360" aria-hidden="true"><use href="#bottle-a"/></svg>
+
+      <div class="card">
+        <h3>Noche de Copal</h3>
+        <p class="notes-line">Copal ahumado, cuero tibio y un fondo de vetiver que no se va.</p>
+        <div class="row"><span>Decant de 10 ml, eau de parfum</span><span class="price">$390</span></div>
+      </div>
+      <div class="controls">
+        <button class="arrow" aria-label="Anterior">‹</button>
+        <span>3 de 12</span>
+        <button class="arrow" aria-label="Siguiente">›</button>
+      </div>
+    </div>
+
+    <div class="tokens">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="swatch"><span style="background:#0d1517"></span>Obsidiana<br><code>#0D1517</code></div>
+          <div class="swatch"><span style="background:#172326"></span>Veta<br><code>#172326</code></div>
+          <div class="swatch"><span style="background:#b06a3b"></span>Cobre<br><code>#B06A3B</code></div>
+          <div class="swatch"><span style="background:#e2a375"></span>Cobre pulido<br><code>#E2A375</code></div>
+          <div class="swatch"><span style="background:#ede6de"></span>Hueso<br><code>#EDE6DE</code></div>
+          <div class="swatch"><span style="background:#8c9a98"></span>Ceniza<br><code>#8C9A98</code></div>
+        </div>
+      </div>
+      <div class="specimen">
+        <h4>Tipografía</h4>
+        <p class="big" style="font-family:Marcellus,serif">Noche de Copal</p>
+        <p class="small">Marcellus: letras con remate abierto, como las inscripciones talladas en piedra</p>
+        <p style="font-family:'Hanken Grotesk',sans-serif;margin:0">Hanken Grotesk para los textos: sobria y cálida.</p>
+      </div>
+      <div class="notes">
+        <h4>Por qué es propia</h4>
+        <ul>
+          <li>El cobre y la obsidiana son lujo mexicano de verdad; no hay pose francesa.</li>
+          <li><strong>El frasco se refleja en la superficie</strong>, en lugar de estar sobre un pedestal.</li>
+          <li>La luz entra en diagonal, como en una joyería, no desde arriba.</li>
+          <li>Riesgo: el tono verdoso del fondo tiene que notarse, o se pierde contra un negro cualquiera.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== B ===================== -->
+  <section class="direction">
+    <h2>B. Fracción</h2>
+    <p class="concept">La identidad gira en torno a lo que realmente se vende: una fracción. El frasco oficial se luce solo y limpio, como en una vitrina. La fracción aparece en la tarjeta de vidrio: el vial de 10 ml que te llevas, junto al nombre y el precio. Precisión de laboratorio de perfumista, tinta azul noche y vidrio.</p>
+
+    <div class="hero dir-b" role="img" aria-label="Boceto del hero, dirección Fracción">
+      <div class="light"></div>
+      <nav>
+        <span class="brand">Fracción</span>
+        <span class="links"><a href="#">Catálogo</a><a href="#">Nosotros</a><a href="#">Contacto</a></span>
+        <a class="cta" href="#">Explorar colección</a>
+      </nav>
+      <div class="wordmark">Fracción</div>
+
+      <svg class="side l" viewBox="0 0 220 300" aria-hidden="true"><use href="#bottle-b"/></svg>
+      <svg class="side r" viewBox="0 0 220 300" aria-hidden="true"><use href="#bottle-b"/></svg>
+      <svg class="stage" viewBox="0 0 220 300" aria-hidden="true"><use href="#bottle-b"/></svg>
+
+      <div class="card">
+        <figure class="decant">
+          <svg class="vial" viewBox="0 0 30 90" aria-hidden="true"><use href="#vial"/></svg>
+          <figcaption>10 ml</figcaption>
+        </figure>
+        <div>
+          <h3>Iris Nocturno</h3>
+          <p class="notes-line">Iris empolvado sobre almizcle limpio y madera clara.</p>
+          <p class="price">$420<small>por 10 ml</small></p>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="arrow" aria-label="Anterior">‹</button>
+        <button class="arrow" aria-label="Siguiente">›</button>
+      </div>
+    </div>
+
+    <div class="tokens">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="swatch"><span style="background:#0c1426"></span>Tinta<br><code>#0C1426</code></div>
+          <div class="swatch"><span style="background:#16223b"></span>Noche<br><code>#16223B</code></div>
+          <div class="swatch"><span style="background:#c4a05a"></span>Latón<br><code>#C4A05A</code></div>
+          <div class="swatch"><span style="background:#ebd49a"></span>Latón encendido<br><code>#EBD49A</code></div>
+          <div class="swatch"><span style="background:#dce6ee"></span>Vidrio<br><code>#DCE6EE</code></div>
+          <div class="swatch"><span style="background:#8a97ad"></span>Bruma<br><code>#8A97AD</code></div>
+        </div>
+      </div>
+      <div class="specimen">
+        <h4>Tipografía</h4>
+        <p class="big" style="font-family:'Bodoni Moda',serif">Iris Nocturno</p>
+        <p class="small">Bodoni Moda: contraste alto y precisión de instrumento</p>
+        <p style="font-family:'Instrument Sans',sans-serif;margin:0">Instrument Sans para textos y medidas: limpia y técnica.</p>
+      </div>
+      <div class="notes">
+        <h4>Por qué es propia</h4>
+        <ul>
+          <li><strong>El vial de 10 ml</strong> es la firma: acompaña al nombre y al precio en la tarjeta del hero, en las del catálogo y en el detalle.</li>
+          <li>El frasco oficial queda limpio, sin nada encima que lo distraiga.</li>
+          <li>Es la más fiel al punto de partida del CLAUDE.md (azul marino y dorado), pero con una idea propia.</li>
+          <li>Riesgo: en celular el vial es pequeño y tiene que seguir leyéndose como un objeto de vidrio real.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== C ===================== -->
+  <section class="direction">
+    <h2>C. Tocador</h2>
+    <p class="concept">La intimidad del tocador: el mueble donde cada quien guarda sus perfumes. El frasco aparece enmarcado por un arco de espejo con doble filete champaña, sobre una repisa. Fondo ciruela, luz cálida como de vela y un rubor rosado abajo. Es la dirección más cálida y personal, y la que más se aleja del azul marino.</p>
+
+    <div class="hero dir-c" role="img" aria-label="Boceto del hero, dirección Tocador">
+      <div class="light"></div>
+      <nav>
+        <span class="brand">Tocador</span>
+        <span class="links"><a href="#">Catálogo</a><a href="#">Nosotros</a><a href="#">Contacto</a></span>
+        <a class="cta" href="#">Explorar colección</a>
+      </nav>
+      <div class="wordmark">Tocador</div>
+      <div class="arch" aria-hidden="true"></div>
+      <div class="shelf" aria-hidden="true"></div>
+
+      <svg class="side l" viewBox="0 0 180 320" aria-hidden="true"><use href="#bottle-c"/></svg>
+      <svg class="side r" viewBox="0 0 180 320" aria-hidden="true"><use href="#bottle-c"/></svg>
+      <svg class="stage" viewBox="0 0 180 320" aria-hidden="true"><use href="#bottle-c"/></svg>
+
+      <button class="arrow l" aria-label="Anterior">‹</button>
+      <button class="arrow r" aria-label="Siguiente">›</button>
+
+      <div class="card">
+        <h3>Rosa Velada</h3>
+        <p class="notes-line">Rosa oscura, oud suave y un ámbar que se queda en la piel.</p>
+        <p class="price">$450</p>
+        <p class="size">Decant de 10 ml, extrait</p>
+      </div>
+    </div>
+
+    <div class="tokens">
+      <div>
+        <h4>Paleta</h4>
+        <div class="swatches">
+          <div class="swatch"><span style="background:#170d14"></span>Ciruela<br><code>#170D14</code></div>
+          <div class="swatch"><span style="background:#2a1624"></span>Terciopelo<br><code>#2A1624</code></div>
+          <div class="swatch"><span style="background:#cdb27c"></span>Champaña<br><code>#CDB27C</code></div>
+          <div class="swatch"><span style="background:#f3dfae"></span>Vela<br><code>#F3DFAE</code></div>
+          <div class="swatch"><span style="background:#a07a86"></span>Rubor<br><code>#A07A86</code></div>
+          <div class="swatch"><span style="background:#f4eae6"></span>Perla<br><code>#F4EAE6</code></div>
+        </div>
+      </div>
+      <div class="specimen">
+        <h4>Tipografía</h4>
+        <p class="big" style="font-family:Italiana,serif">Rosa Velada</p>
+        <p class="small">Italiana: trazo fino y alto; detrás del frasco se lee sin competir con él</p>
+        <p style="font-family:Figtree,sans-serif;margin:0">Figtree para textos: redonda y amable.</p>
+      </div>
+      <div class="notes">
+        <h4>Por qué es propia</h4>
+        <ul>
+          <li><strong>El arco de espejo</strong> es el marco dorado que pide el CLAUDE.md, convertido en un objeto con significado.</li>
+          <li>Es la más cercana y cálida, acorde a un negocio de pueblo.</li>
+          <li>El ciruela la distingue de cualquier perfumería azul con dorado.</li>
+          <li>Riesgo: si no se cuida el contraste, puede verse romántica o de bodas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Shared illustrative bottle symbols (generic, not any real brand) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="a-glass" x1="0" x2="1"><stop offset="0" stop-color="#1c2a2c"/><stop offset=".35" stop-color="#3a4b4b"/><stop offset="1" stop-color="#0e1618"/></linearGradient>
+    <linearGradient id="a-liquid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a331a"/><stop offset="1" stop-color="#a8653a"/></linearGradient>
+    <linearGradient id="a-cap" x1="0" x2="1"><stop offset="0" stop-color="#7a4424"/><stop offset=".45" stop-color="#e2a375"/><stop offset="1" stop-color="#8a4f2b"/></linearGradient>
+
+    <linearGradient id="b-glass" x1="0" x2="1"><stop offset="0" stop-color="#b9c7d4" stop-opacity=".35"/><stop offset=".3" stop-color="#eef3f7" stop-opacity=".55"/><stop offset="1" stop-color="#8fa0b3" stop-opacity=".25"/></linearGradient>
+    <linearGradient id="b-liquid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8d9fbd" stop-opacity=".55"/><stop offset="1" stop-color="#3b4d70" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="b-cap" x1="0" x2="1"><stop offset="0" stop-color="#8c6f35"/><stop offset=".5" stop-color="#ebd49a"/><stop offset="1" stop-color="#9c7c3e"/></linearGradient>
+
+    <linearGradient id="c-glass" x1="0" x2="1"><stop offset="0" stop-color="#6d3f55" stop-opacity=".7"/><stop offset=".4" stop-color="#c79aa6" stop-opacity=".6"/><stop offset="1" stop-color="#4a2436" stop-opacity=".8"/></linearGradient>
+    <linearGradient id="c-cap" x1="0" x2="1"><stop offset="0" stop-color="#9c8250"/><stop offset=".5" stop-color="#f3dfae"/><stop offset="1" stop-color="#a88c58"/></linearGradient>
+
+    <!-- A: tall faceted block, copper cap -->
+    <symbol id="bottle-a" viewBox="0 0 200 360">
+      <rect x="70" y="8" width="60" height="72" rx="3" fill="url(#a-cap)"/>
+      <rect x="84" y="78" width="32" height="14" fill="#2b3a3c"/>
+      <rect x="18" y="90" width="164" height="266" rx="10" fill="url(#a-glass)" stroke="rgba(255,255,255,.14)"/>
+      <rect x="28" y="150" width="144" height="196" rx="6" fill="url(#a-liquid)" opacity=".85"/>
+      <rect x="32" y="100" width="9" height="240" rx="4.5" fill="#fff" opacity=".16"/>
+      <rect x="62" y="206" width="76" height="42" fill="none" stroke="#e2a375" stroke-opacity=".8"/>
+    </symbol>
+
+    <!-- B: rounded flacon, brass cap -->
+    <symbol id="bottle-b" viewBox="0 0 220 300">
+      <rect x="82" y="6" width="56" height="58" rx="28" fill="url(#b-cap)"/>
+      <rect x="96" y="62" width="28" height="14" fill="#c4a05a" opacity=".7"/>
+      <rect x="14" y="76" width="192" height="218" rx="70" fill="url(#b-glass)" stroke="rgba(255,255,255,.35)"/>
+      <rect x="24" y="118" width="172" height="166" rx="60" fill="url(#b-liquid)"/>
+      <rect x="36" y="100" width="10" height="160" rx="5" fill="#fff" opacity=".35"/>
+    </symbol>
+
+    <!-- C: arched-top bottle, faceted champagne cap -->
+    <symbol id="bottle-c" viewBox="0 0 180 320">
+      <path d="M62 10 h56 l8 22 v44 h-72 v-44 z" fill="url(#c-cap)"/>
+      <rect x="74" y="76" width="32" height="16" fill="#cdb27c" opacity=".6"/>
+      <path d="M14 316 V160 A76 76 0 0 1 166 160 V316 Z" fill="url(#c-glass)" stroke="rgba(255,240,230,.3)"/>
+      <path d="M24 310 V190 A66 66 0 0 1 156 190 V310 Z" fill="#6b2c45" opacity=".55"/>
+      <rect x="30" y="150" width="9" height="150" rx="4.5" fill="#fff" opacity=".22"/>
+    </symbol>
+
+    <!-- The 10 ml decant vial -->
+    <symbol id="vial" viewBox="0 0 30 90">
+      <rect x="9" y="2" width="12" height="16" rx="2" fill="#c4a05a"/>
+      <rect x="5" y="18" width="20" height="70" rx="5" fill="rgba(220,230,238,.18)" stroke="rgba(220,230,238,.6)"/>
+      <rect x="8" y="40" width="14" height="45" rx="3" fill="#ebd49a" opacity=".75"/>
+    </symbol>
+  </defs>
+</svg>
+</body>
+</html>
