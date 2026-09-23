@@ -1,6 +1,6 @@
 # Spec 001 — Catálogo MVP
 
-- **Estado:** Clarificada — lista para `plan.md` (2026-09-23)
+- **Estado:** Implementada (2026-09-23); ver `tasks.md` para pendientes del dueño
 - **Fecha:** 2026-09-23
 - **Alcance:** Qué debe hacer el sitio y por qué. Sin decisiones técnicas
   (esas van en `plan.md`).

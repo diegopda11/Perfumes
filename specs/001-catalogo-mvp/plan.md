@@ -1,6 +1,6 @@
 # Plan 001 — Catálogo MVP
 
-- **Estado:** Borrador para revisión
+- **Estado:** Implementado (2026-09-23)
 - **Fecha:** 2026-09-23
 - **Entrada:** `spec.md` (clarificada), `identidad.md` (dirección Fracción),
   `../constitution.md`
@@ -283,7 +283,7 @@ alta resolución (idealmente ≥ 2000 px de alto).
 | Datos del catálogo | Unit: validación de `products.ts` e imágenes existentes |
 | RNF-1 a RNF-4 | Revisión manual a 375 / 768 / 1440 px + Lighthouse + skills `accessibility` y `web-design-guidelines` |
 
-## 9. Hosting — decisión pendiente
+## 9. Hosting — Cloudflare Pages (decidido 2026-09-23, pendiente de publicar)
 
 El sitio es estático, así que cualquier hosting estático sirve.
 **Recomendación: Cloudflare Pages** (gratis, permite uso comercial, CDN
@@ -309,3 +309,16 @@ Dominio: pendiente (p. ej., `.mx` o `.com`); no bloquea el desarrollo.
 Carrito, pagos, cuentas, CMS, backend, analítica y selector de tamaño
 (Constitución I y VII). Si más adelante se quiere medir los clics en
 WhatsApp, se puede agregar una analítica ligera y sin cookies.
+
+## 12. Desviaciones durante la implementación
+
+- `output: 'export'` en Next 16 escribe mal (en Windows) los archivos de
+  prefetch de rutas anidadas; `scripts/postbuild-flatten.mjs` los corrige
+  después de cada build.
+- Imágenes Open Graph generadas por el pipeline (Python), sin precio, en vez
+  de `next/og`, para no depender de red en el build.
+- Frascos ficticios en SVG (`scripts/mock-bottles.mjs`) para el catálogo de
+  prueba.
+- Campo opcional `idealFor` ("Ideal para") en el detalle.
+- Pruebas e2e con el Edge del sistema (`channel: "msedge"`), sin descargar
+  navegadores.

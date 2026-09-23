@@ -5,12 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/serve-static.mjs 3000",
     "lint": "eslint",
     "test": "vitest run",
-    "test:e2e": "next build && playwright test",
-    "serve": "node scripts/serve-static.mjs",
-    "postbuild": "node scripts/postbuild-flatten.mjs"
+    "test:e2e": "npm run build && playwright test",
+    "postbuild": "node scripts/postbuild-flatten.mjs",
+    "images": "scripts\\photos\\.venv\\Scripts\\python scripts/photos/cutout.py"
   },
   "dependencies": {
     "next": "16.3.6",

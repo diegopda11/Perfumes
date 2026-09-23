@@ -99,11 +99,10 @@ design tokens, no colores hardcodeados).
   más grande, aunque el negocio real arranque con 1-2 productos.
 - Usar nombre de marca genérico/placeholder por ahora (fácil de cambiar
   después vía config o variable de entorno / archivo de constantes).
-- Fotos de producto en catálogo/hero = fotos oficiales de marca (asumir
-  que se usarán imágenes provistas por el dueño del negocio o de uso
-  autorizado — no generar ni scrapear imágenes con derechos de marca).
-- Foto del decant = foto propia (tomada por el negocio), distinta del
-  frasco oficial.
+- Imágenes de producto = las provee el dueño (escena frasco + decant) y se
+  recortan con `npm run images` (scripts/photos). Nunca generar ni
+  descargar/scrapear imágenes con derechos de marca.
+- El decant mostrado debe ser el que realmente se entrega.
 
 ## Stack técnico sugerido
 
@@ -114,7 +113,7 @@ design tokens, no colores hardcodeados).
   WhatsAppButton
 - Mock data en JSON/TS (ej. `data/products.ts`) fácil de editar a mano
   mientras no hay backend/CMS
-- Imágenes optimizadas con `next/image`
+- Imágenes optimizadas por el pipeline propio (export estático: `next/image` con `unoptimized`)
 - Responsive-first: el negocio es local, muchos clientes probablemente
   entrarán desde el celular
 
