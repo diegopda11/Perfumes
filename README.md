@@ -18,7 +18,7 @@ cambiarlos antes de compartirlo:
 | Qué | Dónde | Hoy |
 |---|---|---|
 | **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | ✅ +52 667 856 2243 |
-| **Precios** | `data/products.ts` → `presentations` | $450 / $480 / $450 / $450, de ejemplo |
+| **Precios** | `data/products.ts` → `price` de cada perfume | $450 / $480 / $450 / $450, de ejemplo |
 | **Dominio del sitio** | `config/site.ts` → `url` | ✅ stellar-arithmetic-94d21b.netlify.app (provisional) |
 | **Nombre del negocio** | `config/site.ts` → `brandName` y `wordmark`; `BRAND` en `scripts/photos/cutout.py` | "Fracción", provisional |
 | **Imágenes en alta resolución** | `photos-raw/` → `npm run images` | ~430×1024 px |
@@ -70,9 +70,21 @@ marca. Si algo no se puede respaldar, no se publica.
 4. Revisa los recortes en `photos-out/<slug>/review.png`.
 5. `npm test` confirma que no falten datos ni imágenes.
 
-Marcar un perfume como destacado (`featured: true`) lo pone en el carrusel
-de la portada. `available: false` lo marca como agotado: sigue visible y su
-botón cambia a "Avisarme cuando vuelva".
+### Cambiar precio, disponibilidad o portada (también desde GitHub)
+
+Al inicio de cada perfume en `data/products.ts` hay un bloque marcado
+"Lo que puedes cambiar":
+
+```ts
+    // ─── Lo que puedes cambiar ───
+    price: 450,        // pesos, decant de 10 ml (solo el número)
+    available: true,   // false = agotado, con botón "Avisarme cuando vuelva"
+    featured: true,    // true = en el carrusel de la portada
+```
+
+Desde el celular: abre el archivo en github.com/diegopda11/Perfumes, toca el
+lápiz ✏️, cambia el valor y toca **Commit changes**. Netlify lo publica solo
+en 1-2 minutos.
 
 ### Entorno de imágenes (solo la primera vez)
 

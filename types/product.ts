@@ -74,3 +74,15 @@ export interface Product {
   available?: boolean;
   isMock?: boolean;
 }
+
+/**
+ * Cómo se escribe un perfume en data/products.ts: el precio del decant de
+ * 10 ml va directo en `price` para que sea fácil de editar. Si algún día hay
+ * más tamaños, se usa `presentations` y `price` queda como el de 10 ml.
+ */
+export type CatalogEntry = Omit<Product, "presentations" | "available" | "featured"> & {
+  price: number;
+  available: boolean;
+  featured: boolean;
+  presentations?: Product["presentations"];
+};

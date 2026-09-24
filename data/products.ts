@@ -1,19 +1,32 @@
-import type { Product } from "@/types/product";
+import type { CatalogEntry, Product } from "@/types/product";
 
 /**
- * Catálogo real. Para agregar un perfume: copia una entrada, cambia los
- * datos y coloca sus imágenes en public/products/<slug>/.
+ * CATÁLOGO DE PERFUMES
  *
- * Notas verificadas el 2026-09-23 con la información oficial de cada marca
- * y minoristas (Dior, Chanel, YSL, Sephora, Macy's, Ulta, Fragrantica).
- * Concentraciones confirmadas con las etiquetas de los decants del dueño.
- * PENDIENTE (spec §8): los precios son provisionales.
+ * Lo que puedes cambiar tú fácilmente está al inicio de cada perfume:
+ *
+ *   price:     precio del decant de 10 ml, en pesos (solo el número, sin $ ni comas)
+ *   available: true = disponible · false = agotado (se sigue viendo, con el
+ *              botón "Avisarme cuando vuelva")
+ *   featured:  true = aparece en el carrusel de la portada · false = solo en el catálogo
+ *
+ * Al editar, conserva las comillas y las comas. Si algo queda mal escrito,
+ * Netlify no publica y la web sigue mostrando la versión anterior.
+ *
+ * El resto de los datos (notas, descripción, fuentes) está verificado con
+ * fuentes confiables (ver "sources"); para agregar perfumes usa el comando
+ * /nuevo-perfume en Claude Code.
  */
-export const products: Product[] = [
+const entries: CatalogEntry[] = [
   {
     slug: "dior-sauvage-edp",
     name: "Sauvage",
     brand: "Dior",
+    // ─── Lo que puedes cambiar ───
+    price: 450,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
     concentration: "EDP",
     family: "aromatico",
     gender: "masculino",
@@ -33,7 +46,6 @@ export const products: Product[] = [
       heart: ["Pimienta de Sichuan", "Lavanda", "Anís estrellado", "Nuez moscada"],
       base: ["Ambroxan", "Vainilla de Papúa Nueva Guinea"],
     },
-    presentations: [{ ml: 10, price: 450 }],
     images: {
       bottle: "/products/dior-sauvage-edp/bottle.webp",
       decant: "/products/dior-sauvage-edp/decant.webp",
@@ -41,12 +53,16 @@ export const products: Product[] = [
     },
     atmosphere: { base: "#0b1a33", glow: "#5a8fd6" },
     profile: { moment: "siempre", character: ["fresco", "especiado"] },
-    featured: true,
   },
   {
     slug: "chanel-coco-mademoiselle-edp",
     name: "Coco Mademoiselle",
     brand: "Chanel",
+    // ─── Lo que puedes cambiar ───
+    price: 480,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
     concentration: "EDP",
     family: "oriental",
     gender: "femenino",
@@ -66,7 +82,6 @@ export const products: Product[] = [
       heart: ["Jazmín", "Rosa de mayo"],
       base: ["Pachulí", "Vetiver"],
     },
-    presentations: [{ ml: 10, price: 480 }],
     images: {
       bottle: "/products/chanel-coco-mademoiselle-edp/bottle.webp",
       decant: "/products/chanel-coco-mademoiselle-edp/decant.webp",
@@ -74,12 +89,16 @@ export const products: Product[] = [
     },
     atmosphere: { base: "#2a1611", glow: "#eba986" },
     profile: { moment: "siempre", character: ["floral", "fresco"] },
-    featured: true,
   },
   {
     slug: "ysl-libre-edp",
     name: "Libre",
     brand: "Yves Saint Laurent",
+    // ─── Lo que puedes cambiar ───
+    price: 450,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
     concentration: "EDP",
     family: "floral",
     gender: "femenino",
@@ -99,7 +118,6 @@ export const products: Product[] = [
       heart: ["Lavanda de Francia", "Azahar de Marruecos", "Jazmín"],
       base: ["Vainilla de Madagascar", "Almizcle", "Cedro", "Ámbar gris"],
     },
-    presentations: [{ ml: 10, price: 450 }],
     images: {
       bottle: "/products/ysl-libre-edp/bottle.webp",
       decant: "/products/ysl-libre-edp/decant.webp",
@@ -107,12 +125,16 @@ export const products: Product[] = [
     },
     atmosphere: { base: "#241a08", glow: "#e6bf66" },
     profile: { moment: "noche", character: ["floral", "calido"] },
-    featured: true,
   },
   {
     slug: "azzaro-the-most-wanted-edp-intense",
     name: "The Most Wanted Intense",
     brand: "Azzaro",
+    // ─── Lo que puedes cambiar ───
+    price: 450,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
     concentration: "EDP",
     family: "oriental",
     gender: "masculino",
@@ -132,7 +154,6 @@ export const products: Product[] = [
       heart: ["Caramelo tostado", "Lavanda", "Salvia esclarea"],
       base: ["Madera ambarada", "Vainilla bourbon", "Vetiver"],
     },
-    presentations: [{ ml: 10, price: 450 }],
     images: {
       bottle: "/products/azzaro-the-most-wanted-edp-intense/bottle.webp",
       decant: "/products/azzaro-the-most-wanted-edp-intense/decant.webp",
@@ -140,6 +161,10 @@ export const products: Product[] = [
     },
     atmosphere: { base: "#1c0f0b", glow: "#e0874a" },
     profile: { moment: "noche", character: ["calido", "especiado"] },
-    featured: true,
   },
 ];
+
+export const products: Product[] = entries.map(({ price, presentations, ...rest }) => ({
+  ...rest,
+  presentations: presentations ?? [{ ml: 10, price }],
+}));

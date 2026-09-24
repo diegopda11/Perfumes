@@ -131,6 +131,11 @@ forma (orden de campos igual a los demás):
   slug: "...",
   name: "...",
   brand: "...",
+  // ─── Lo que puedes cambiar ───
+  price: 0, // pesos, decant de 10 ml
+  available: true,
+  featured: true, // en el carrusel de la portada
+  // ─────────────────────────────
   concentration: "EDP", // EDT | EDP | Extrait | Parfum
   family: "...",
   gender: "...", // femenino | masculino | unisex
@@ -141,7 +146,6 @@ forma (orden de campos igual a los demás):
   year: 0,
   sources: [{ label: "...", url: "..." }],
   notes: { top: [], heart: [], base: [] },
-  presentations: [{ ml: 10, price: 0 }],
   images: {
     bottle: "/products/<slug>/bottle.webp",
     decant: "/products/<slug>/decant.webp",
@@ -149,7 +153,6 @@ forma (orden de campos igual a los demás):
   },
   atmosphere: { base: "#......", glow: "#......" },
   profile: { moment: "...", character: ["..."] },
-  featured: true,
 },
 ```
 
