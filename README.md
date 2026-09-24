@@ -19,7 +19,7 @@ cambiarlos antes de compartirlo:
 |---|---|---|
 | **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | ✅ +52 667 856 2243 |
 | **Precios** | `data/products.ts` → `presentations` | $450 / $480 / $450 / $450, de ejemplo |
-| **Dominio del sitio** | variable `NEXT_PUBLIC_SITE_URL` al desplegar | — |
+| **Dominio del sitio** | `config/site.ts` → `url` | ✅ stellar-arithmetic-94d21b.netlify.app (provisional) |
 | **Nombre del negocio** | `config/site.ts` → `brandName` y `wordmark`; `BRAND` en `scripts/photos/cutout.py` | "Fracción", provisional |
 | **Imágenes en alta resolución** | `photos-raw/` → `npm run images` | ~430×1024 px |
 
@@ -100,9 +100,10 @@ El sitio está publicado en **Netlify**, subiendo la carpeta a mano:
 2. En Netlify → tu sitio → *Deploys*, arrastra la carpeta `out` a la zona
    de subida.
 
-Como el sitio se construye en esta computadora, la dirección pública va en
-`.env.production.local` (`NEXT_PUBLIC_SITE_URL=https://…`); sin ella, las
-vistas previas al compartir en WhatsApp no muestran imagen. Netlify también
+La dirección pública del sitio está en `config/site.ts` → `url` (hoy
+`https://stellar-arithmetic-94d21b.netlify.app`). Si cambias de dominio,
+cámbiala ahí: la usan las vistas previas al compartir en WhatsApp, el mapa
+del sitio y los enlaces canónicos. Netlify también
 lee `public/_headers`.
 
 Si más adelante conectas Netlify a GitHub, cada cambio se publica solo:

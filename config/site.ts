@@ -6,10 +6,11 @@ export const site = {
   /** Nombre provisional (spec §8): se reemplaza cuando haya nombre definitivo. */
   brandName: "Fracción",
   /**
-   * Dirección pública del sitio, para las vistas previas al compartir.
-   * Se define en NEXT_PUBLIC_SITE_URL al desplegar (README).
+   * Dirección pública del sitio: la usan las vistas previas al compartir por
+   * WhatsApp, el mapa del sitio y los enlaces canónicos. Si cambias de
+   * dominio, cámbiala aquí (o define NEXT_PUBLIC_SITE_URL).
    */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://stellar-arithmetic-94d21b.netlify.app",
   /** Texto gigante detrás del frasco en el hero. */
   wordmark: "Fracción",
   /** Formato internacional sin "+" ni espacios. */
