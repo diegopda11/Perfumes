@@ -171,11 +171,12 @@ forma (orden de campos igual a los demás):
 
 ## 7. Guardar y avisar
 
-1. Haz commit con un mensaje como `Nuevo perfume: <Nombre> de <Marca>`.
+1. Haz commit con un mensaje como `Nuevo perfume: <Nombre> de <Marca>` y
+   súbelo con `git push` (repositorio `diegopda11/Perfumes`).
 2. Responde al dueño en español sencillo:
    - qué se agregó y dónde aparece;
    - los datos clave (notas, perfumista, año) y la lista de fuentes con enlaces;
    - lo que quedó provisional (precio) o cualquier problema de la foto;
-   - cómo publicarlo: el dueño sube el sitio a mano, así que debe correr
-     `npm run publicar` (construye y abre la carpeta `out`) y arrastrar esa
-     carpeta a Netlify (Deploys → zona de arrastre).
+   - cómo se publica: si Netlify está conectado al repositorio, el `git push`
+     lo publica solo en 1-2 minutos. Si todavía no lo está, el dueño corre
+     `npm run publicar` y arrastra la carpeta `out` a Netlify (Deploys).

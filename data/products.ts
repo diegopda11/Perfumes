@@ -162,6 +162,41 @@ const entries: CatalogEntry[] = [
     atmosphere: { base: "#1c0f0b", glow: "#e0874a" },
     profile: { moment: "noche", character: ["calido", "especiado"] },
   },
+  {
+    slug: "dumont-nitro-red-edp",
+    name: "Nitro Red",
+    brand: "Dumont",
+    // ─── Lo que puedes cambiar ───
+    price: 100,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
+    concentration: "EDP",
+    family: "aromatico",
+    gender: "masculino",
+    tagline: "Manzana, lavanda y bergamota sobre un fondo de sándalo y ámbar.",
+    description:
+      "Dumont lo presenta como una mezcla de sándalo, bergamota y ámbar tan intensa como el rojo de su frasco. Abre fresco con manzana, lavanda y bergamota, pasa a un corazón de sandía, cedro y cálamo, y termina en un fondo cálido de ámbar, sándalo y pachulí. Se clasifica como aromático afrutado.",
+    highlightNotes: ["Bergamota", "Sándalo", "Ámbar"],
+    year: 2020,
+    sources: [
+      { label: "Dumont Paris: Nitro Red", url: "https://www.dumontparis.com/product/nitro-red/" },
+      { label: "Fragrantica: Nitro Red", url: "https://www.fragrantica.com/perfume/Dumont/Nitro-Red-73023.html" },
+      { label: "Cosmetics Now: Nitro Red Eau de Parfum", url: "https://www.cosmeticsnow.com/iteminfo/dumont-paris-dumont-nitro-red-eau-de-parfum-spray-100ml" },
+    ],
+    notes: {
+      top: ["Manzana", "Lavanda", "Bergamota"],
+      heart: ["Sandía", "Cedro", "Cálamo"],
+      base: ["Ámbar", "Sándalo", "Pachulí"],
+    },
+    images: {
+      bottle: "/products/dumont-nitro-red-edp/bottle.webp",
+      decant: "/products/dumont-nitro-red-edp/decant.webp",
+      scene: "/products/dumont-nitro-red-edp/scene.webp",
+    },
+    atmosphere: { base: "#2a0c10", glow: "#e2474f" },
+    profile: { moment: "siempre", character: ["fresco", "calido"] },
+  },
 ];
 
 export const products: Product[] = entries.map(({ price, presentations, ...rest }) => ({

@@ -93,11 +93,13 @@ export default async function ProductPage(props: PageProps<"/producto/[slug]">) 
               {concentrationLabels[product.concentration]}, {familyLabels[product.family].toLowerCase()},{" "}
               {genderLabels[product.gender].toLowerCase()}
             </p>
-            {product.perfumer && (
+            {product.perfumer ? (
               <p className="mt-1 text-sm text-text-muted">
                 Creado por <span translate="no">{product.perfumer}</span>
                 {product.year ? ` en ${product.year}` : ""}.
               </p>
+            ) : (
+              product.year && <p className="mt-1 text-sm text-text-muted">Lanzado en {product.year}.</p>
             )}
             <p className="mt-6 max-w-[40ch] font-display text-2xl leading-snug text-text/90">{product.tagline}</p>
 
