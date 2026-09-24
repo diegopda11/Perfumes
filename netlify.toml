@@ -1,0 +1,10 @@
+# Configuración de Netlify: con el repositorio conectado, cada cambio que se
+# guarde en GitHub (rama main) construye y publica el sitio solo.
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "24"
+  # Las pruebas e2e no corren en Netlify: no hace falta descargar navegadores.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
