@@ -75,11 +75,12 @@ describe("getFeatured", () => {
 
 describe("getRelated (CA-3.6)", () => {
   it("prioriza la misma familia y nunca incluye el propio perfume", () => {
-    const libre = products.find((p) => p.slug === "ysl-libre-edp")!;
-    const related = getRelated(libre, all);
+    // un perfume cuya familia tenga al menos otro perfume (reales + ficticios)
+    const product = all.find((p) => all.filter((q) => q.family === p.family).length > 1)!;
+    const related = getRelated(product, all);
     expect(related.length).toBeLessThanOrEqual(4);
-    expect(related.some((p) => p.slug === libre.slug)).toBe(false);
-    expect(related[0].family).toBe("floral");
+    expect(related.some((p) => p.slug === product.slug)).toBe(false);
+    expect(related[0].family).toBe(product.family);
   });
 
   it("con pocos perfumes devuelve los que haya", () => {

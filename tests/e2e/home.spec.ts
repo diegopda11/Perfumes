@@ -2,7 +2,10 @@ import { expect, test } from "@playwright/test";
 import {
   emptyFilterQuery,
   escapeRegExp,
-  femeninoCount,
+  genderToFilter,
+  genderToFilterCount,
+  genderToFilterLabel,
+  hasGenderFilter,
   firstFeatured,
   other,
   position,
@@ -51,9 +54,10 @@ test.describe("Home", () => {
     await page.goto("/");
     const catalog = page.locator("#catalogo");
     await expect(catalog.getByRole("listitem")).toHaveCount(total);
-    await catalog.getByRole("button", { name: "Femenino" }).click();
-    await expect(page).toHaveURL(/genero=femenino/);
-    await expect(catalog.getByRole("listitem")).toHaveCount(femeninoCount);
+    test.skip(!hasGenderFilter, "el catálogo tiene un solo género: no hay filtro");
+    await catalog.getByRole("group", { name: "Para" }).getByRole("button", { name: genderToFilterLabel }).click();
+    await expect(page).toHaveURL(new RegExp(`genero=${genderToFilter}`));
+    await expect(catalog.getByRole("listitem")).toHaveCount(genderToFilterCount);
   });
 
   test("filtros sin resultados ofrecen quitarlos (CA-2.9)", async ({ page }) => {

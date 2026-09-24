@@ -1,4 +1,4 @@
-import { filterProducts, getFeatured, getProducts, getRelated } from "@/lib/catalog";
+import { availableGenders, filterProducts, getFeatured, getProducts, getRelated } from "@/lib/catalog";
 import { familyLabels, genderLabels } from "@/lib/labels";
 import type { Gender, OlfactoryFamily } from "@/types/product";
 
@@ -19,7 +19,12 @@ export const firstFeatured = getFeatured(products)[0];
 export const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export const featuredCount = getFeatured(products).length;
 export const position = (n: number) => `${n} de ${featuredCount}`;
-export const femeninoCount = products.filter((p) => p.gender === "femenino").length;
+/** Un filtro de género que existe en el catálogo, para probar los filtros. */
+const genders = availableGenders(products);
+export const hasGenderFilter = genders.length > 1;
+export const genderToFilter = genders[0];
+export const genderToFilterLabel = genderLabels[genderToFilter];
+export const genderToFilterCount = products.filter((p) => p.gender === genderToFilter).length;
 
 export function relatedCount(slug: string): number {
   const product = products.find((p) => p.slug === slug)!;
