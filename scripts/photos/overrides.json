@@ -1,0 +1,9 @@
+{
+  "_ayuda": "Cajas [x0, y0, x1, y1] en píxeles de la foto original: solo se recorta lo que queda dentro. Sirve cuando hay adornos pegados al frasco o un piso que refleja.",
+  "azzaro-the-most-wanted-edp-intense": {
+    "keep": [
+      [196, 120, 605, 869],
+      [704, 250, 832, 887]
+    ]
+  }
+}

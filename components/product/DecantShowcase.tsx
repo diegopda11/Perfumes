@@ -11,26 +11,30 @@ export function DecantShowcase({ product }: { product: Product }) {
   const isScene = Boolean(product.images.scene);
 
   return (
-    <div className="grid items-center gap-8 rounded-3xl border border-glass-edge bg-surface/40 p-5 sm:grid-cols-[minmax(0,220px)_1fr] sm:p-8">
-      {image && (
-        <div
-          className={`relative mx-auto w-full max-w-[220px] overflow-hidden rounded-2xl ${
-            isScene ? "aspect-[423/1024] max-h-[420px]" : "aspect-[1/2] bg-bg/40"
-          }`}
-        >
+    <div className="grid items-center gap-8 rounded-3xl border border-glass-edge bg-surface/40 p-5 sm:grid-cols-[minmax(0,260px)_1fr] sm:p-8">
+      {image &&
+        (isScene ? (
+          // La escena conserva su proporción (vertical o cuadrada): nunca se
+          // recorta, para que el decant siempre se vea completo junto al frasco.
           <Image
             src={image}
-            alt={
-              isScene
-                ? `Frasco original de ${product.name} junto al decant de 10 ml`
-                : `Decant de 10 ml de ${product.name}`
-            }
-            fill
-            sizes="220px"
-            className={isScene ? "object-cover" : "object-contain p-6"}
+            alt={`Frasco original de ${product.name} junto al decant de 10 ml`}
+            width={600}
+            height={1200}
+            sizes="260px"
+            className="mx-auto h-auto max-h-[420px] w-auto max-w-full rounded-2xl"
           />
-        </div>
-      )}
+        ) : (
+          <div className="relative mx-auto aspect-[1/2] w-full max-w-[220px] overflow-hidden rounded-2xl bg-bg/40">
+            <Image
+              src={image}
+              alt={`Decant de 10 ml de ${product.name}`}
+              fill
+              sizes="220px"
+              className="object-contain p-6"
+            />
+          </div>
+        ))}
       <div>
         <h2 className="font-display text-[30px] leading-tight md:text-4xl">Lo que recibes</h2>
         <p className="mt-3 max-w-[48ch] leading-relaxed text-text-muted">

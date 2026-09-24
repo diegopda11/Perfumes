@@ -22,7 +22,6 @@ cambiarlos antes de compartirlo:
 | **Dominio del sitio** | variable `NEXT_PUBLIC_SITE_URL` al desplegar | — |
 | **Nombre del negocio** | `config/site.ts` → `brandName` y `wordmark`; `BRAND` en `scripts/photos/cutout.py` | "Fracción", provisional |
 | **Imágenes en alta resolución** | `photos-raw/` → `npm run images` | ~430×1024 px |
-| **Foto con decant de The Most Wanted Intense** | `photos-raw/azzaro-the-most-wanted-edp-intense.png` | Solo hay foto del frasco |
 
 Opcionales: `schedule` (horario) e `instagram` en `config/site.ts`. Si están
 vacíos, no se muestran.
@@ -53,7 +52,10 @@ marca. Si algo no se puede respaldar, no se publica.
 2. Guarda la imagen de la escena (frasco + decant, como las actuales) en
    `photos-raw/<slug>.png`. Si solo tienes foto del frasco, nómbrala
    `photos-raw/<slug>.frasco.png` (la página funciona igual, sin foto del
-   decant, hasta que tengas la escena).
+   decant, hasta que tengas la escena). Si tienes ambas, el frasco sale de la
+   foto limpia y el decant de la escena: útil cuando la escena tiene adornos
+   delante del frasco. Para adornos pegados o pisos que reflejan, define
+   cajas de recorte en `scripts/photos/overrides.json`.
 3. Corre `npm run images`: recorta el frasco y el decant, y genera las
    imágenes del sitio y la vista previa para WhatsApp en
    `public/products/<slug>/`.

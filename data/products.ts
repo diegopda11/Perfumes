@@ -135,6 +135,8 @@ export const products: Product[] = [
     presentations: [{ ml: 10, price: 450 }],
     images: {
       bottle: "/products/azzaro-the-most-wanted-edp-intense/bottle.webp",
+      decant: "/products/azzaro-the-most-wanted-edp-intense/decant.webp",
+      scene: "/products/azzaro-the-most-wanted-edp-intense/scene.webp",
     },
     atmosphere: { base: "#1c0f0b", glow: "#e0874a" },
     profile: { moment: "noche", character: ["calido", "especiado"] },

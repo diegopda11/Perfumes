@@ -6,6 +6,7 @@ Uso:
 Por cada photos-raw/<slug>.png (escena con frasco y decant) genera en
 <salida>/<slug>/ lo de abajo. Si el archivo se llama <slug>.frasco.png, es una
 foto solo del frasco: se recorta el frasco y no se generan decant ni escena.
+Si existen ambos, el frasco sale de la foto limpia y el decant de la escena.
 
     mask.png     máscara completa del modelo (para depurar)
     bottle.png   frasco recortado, sin fondo
@@ -15,6 +16,7 @@ foto solo del frasco: se recorta el frasco y no se generan decant ni escena.
 y publica bottle.webp, decant.webp, scene.webp y og.jpg en
 public/products/<slug>/, más public/og.jpg para la portada.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -34,6 +36,20 @@ GRAY = (128, 128, 128)
 PAD = 12  # px de aire alrededor de cada recorte
 BRAND = "Fracción"
 SOLO_SUFFIX = ".frasco"  # igual que site.brandName en config/site.ts
+
+
+OVERRIDES = json.loads((Path(__file__).parent / "overrides.json").read_text(encoding="utf-8"))
+
+
+def apply_overrides(slug: str, alpha: np.ndarray) -> np.ndarray:
+    """Conserva solo lo que está dentro de las cajas de overrides.json (si hay)."""
+    boxes = OVERRIDES.get(slug, {}).get("keep")
+    if not boxes:
+        return alpha
+    keep = np.zeros(alpha.shape, dtype=bool)
+    for x0, y0, x1, y1 in boxes:
+        keep[y0:y1, x0:x1] = True
+    return np.where(keep, alpha, 0).astype(alpha.dtype)
 
 
 def split_touching(solid: np.ndarray) -> np.ndarray:
@@ -151,6 +167,9 @@ def main():
         # <slug>.frasco.png = foto solo del frasco (sin decant ni escena)
         solo = src.stem.endswith(SOLO_SUFFIX)
         slug = src.stem.removesuffix(SOLO_SUFFIX)
+        # si también hay escena, la foto solo-frasco se usa dentro de ella
+        if solo and (RAW / f"{slug}.png").exists():
+            continue
         dest = OUT / slug
         dest.mkdir(parents=True, exist_ok=True)
 
@@ -159,7 +178,7 @@ def main():
         mask.save(dest / "mask.png")
 
         rgb = np.asarray(scene)
-        alpha = np.asarray(mask)
+        alpha = apply_overrides(slug, np.asarray(mask))
         if solo:
             found = objects_from_mask(alpha, count=1, split=False)
             if not found:
@@ -180,6 +199,16 @@ def main():
         boxes, labels = found
         bottle = flatten_base(crop_object(rgb, alpha, labels, boxes[0][0], boxes[0]))
         decant = crop_object(rgb, alpha, labels, boxes[1][0], boxes[1])
+        # Si la escena tapa el frasco (adornos delante), y hay una foto limpia
+        # solo del frasco (<slug>.frasco.png), el frasco sale de esa foto.
+        clean = RAW / f"{slug}{SOLO_SUFFIX}.png"
+        if clean.exists():
+            solo_img = Image.open(clean).convert("RGB")
+            solo_alpha = np.asarray(remove(solo_img, session=session, only_mask=True))
+            solo_found = objects_from_mask(solo_alpha, count=1, split=False)
+            if solo_found:
+                b, lab = solo_found
+                bottle = flatten_base(crop_object(np.asarray(solo_img), solo_alpha, lab, b[0][0], b[0]))
         bottle.save(dest / "bottle.png")
         decant.save(dest / "decant.png")
         review_sheet([bottle, decant]).save(dest / "review.png")
