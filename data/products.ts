@@ -197,6 +197,41 @@ const entries: CatalogEntry[] = [
     atmosphere: { base: "#2a0c10", glow: "#e2474f" },
     profile: { moment: "siempre", character: ["fresco", "calido"] },
   },
+  {
+    slug: "armaf-club-de-nuit-urban-man-elixir-edp",
+    name: "Club de Nuit Urban Man Elixir",
+    brand: "Armaf",
+    // ─── Lo que puedes cambiar ───
+    price: 100,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
+    concentration: "EDP",
+    family: "oriental",
+    gender: "masculino",
+    tagline: "Bergamota y pimienta rosa, azafrán y un fondo de ambroxan y ámbar.",
+    description:
+      "Armaf lo presenta como un ámbar profundo y de sofisticación atemporal. Abre con un golpe cítrico y especiado de bergamota y pimienta rosa, suavizado por jazmín y azahar; el corazón reúne lavanda, geranio, elemí y tagetes con la calidez del azafrán, y el fondo se asienta en ambroxan, ámbar, cedro, pachulí y ládano.",
+    highlightNotes: ["Pimienta rosa", "Azafrán", "Ambroxan"],
+    year: 2022,
+    sources: [
+      { label: "Armaf: Club de Nuit Urban Man Elixir", url: "https://armaf.com/products/club-de-nuit-urban-elixir-100ml" },
+      { label: "Fragrantica: Club de Nuit Urban Elixir", url: "https://www.fragrantica.com/perfume/Armaf/Club-De-Nuit-Urban-Elixir-77860.html" },
+      { label: "Parfumo: Club de Nuit Urban Man Elixir", url: "https://www.parfumo.com/Perfumes/Armaf/club-de-nuit-urban-man-elixir" },
+    ],
+    notes: {
+      top: ["Bergamota", "Pimienta rosa", "Azahar", "Jazmín"],
+      heart: ["Lavanda", "Tagetes", "Geranio", "Vetiver", "Elemí", "Azafrán"],
+      base: ["Ambroxan", "Ámbar", "Pachulí", "Cedro", "Ládano"],
+    },
+    images: {
+      bottle: "/products/armaf-club-de-nuit-urban-man-elixir-edp/bottle.webp",
+      decant: "/products/armaf-club-de-nuit-urban-man-elixir-edp/decant.webp",
+      scene: "/products/armaf-club-de-nuit-urban-man-elixir-edp/scene.webp",
+    },
+    atmosphere: { base: "#16161b", glow: "#cfa75e" },
+    profile: { moment: "noche", character: ["calido", "especiado"] },
+  },
 ];
 
 export const products: Product[] = entries.map(({ price, presentations, ...rest }) => ({
