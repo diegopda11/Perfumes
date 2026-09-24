@@ -173,4 +173,6 @@ forma (orden de campos igual a los demás):
    - qué se agregó y dónde aparece;
    - los datos clave (notas, perfumista, año) y la lista de fuentes con enlaces;
    - lo que quedó provisional (precio) o cualquier problema de la foto;
-   - que debe volver a publicar en Netlify para verlo en línea.
+   - cómo publicarlo: el dueño sube el sitio a mano, así que debe correr
+     `npm run publicar` (construye y abre la carpeta `out`) y arrastrar esa
+     carpeta a Netlify (Deploys → zona de arrastre).

@@ -94,10 +94,20 @@ npm run lint
 
 ## Publicar
 
-El sitio está publicado en **Netlify**. Configuración: build command
-`npm run build`, publish directory `out`, variable de entorno
-`NEXT_PUBLIC_SITE_URL` con la dirección del sitio (para las vistas previas al
-compartir). Netlify también lee `public/_headers`.
+El sitio está publicado en **Netlify**, subiendo la carpeta a mano:
+
+1. `npm run publicar`: construye el sitio y abre la carpeta `out`.
+2. En Netlify → tu sitio → *Deploys*, arrastra la carpeta `out` a la zona
+   de subida.
+
+Como el sitio se construye en esta computadora, la dirección pública va en
+`.env.production.local` (`NEXT_PUBLIC_SITE_URL=https://…`); sin ella, las
+vistas previas al compartir en WhatsApp no muestran imagen. Netlify también
+lee `public/_headers`.
+
+Si más adelante conectas Netlify a GitHub, cada cambio se publica solo:
+build command `npm run build`, publish directory `out` y la misma variable
+`NEXT_PUBLIC_SITE_URL` en la configuración del sitio.
 
 ### Alternativa: Cloudflare Pages
 

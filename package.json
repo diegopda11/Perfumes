@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:e2e": "npm run build && playwright test",
     "postbuild": "node scripts/postbuild-flatten.mjs",
-    "images": "scripts\\photos\\.venv\\Scripts\\python scripts/photos/cutout.py"
+    "images": "scripts\\photos\\.venv\\Scripts\\python scripts/photos/cutout.py",
+    "publicar": "npm run build && start \"\" out"
   },
   "dependencies": {
     "next": "16.3.6",
