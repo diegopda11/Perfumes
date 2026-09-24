@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { sample } from "./catalog-facts";
+import { escapeRegExp, other, sample } from "./catalog-facts";
 
 /** Spec 002 — experiencia premium. */
 
@@ -67,9 +67,9 @@ test.describe("Encuentra tu perfume (P7)", () => {
 
 test.describe("Atmósfera y transición (P1, P2)", () => {
   test("el detalle usa la atmósfera de su perfume (CA-P1.1)", async ({ page }) => {
-    await page.goto("/producto/chanel-coco-mademoiselle-edp");
+    await page.goto(`/producto/${sample.slug}`);
     const base = await page.locator("main").evaluate((el) => el.style.getPropertyValue("--atm-base"));
-    expect(base).toBe("#2a1611");
+    expect(base).toBe(sample.atmosphere?.base ?? "var(--color-surface)");
   });
 
   test("el frasco del catálogo se transforma en el del detalle (CA-P2.1)", async ({ page, browserName }) => {
@@ -93,10 +93,10 @@ test.describe("Atmósfera y transición (P1, P2)", () => {
         return transition;
       }) as typeof document.startViewTransition;
     });
-    await page.locator("#catalogo").getByRole("link", { name: /Libre/ }).click();
-    await expect(page).toHaveURL(/\/producto\/ysl-libre-edp/);
+    await page.locator("#catalogo").getByRole("link", { name: new RegExp(escapeRegExp(other.name)) }).first().click();
+    await expect(page).toHaveURL(new RegExp(`/producto/${other.slug}$`));
     await expect
       .poll(() => page.evaluate(() => (window as unknown as { __vt: string[] }).__vt))
-      .toContainEqual("::view-transition-group(bottle-ysl-libre-edp)");
+      .toContainEqual(`::view-transition-group(bottle-${other.slug})`);
   });
 });

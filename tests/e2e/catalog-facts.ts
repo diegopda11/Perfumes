@@ -12,6 +12,8 @@ export const total = products.length;
 
 /** Un perfume real para pruebas de detalle: el primero del catálogo. */
 export const sample = products[0];
+/** Otro perfume real (el último del catálogo), para pruebas que navegan desde el catálogo. */
+export const other = products[products.length - 1];
 /** El primer perfume del carrusel (el que se ve al abrir la portada). */
 export const firstFeatured = getFeatured(products)[0];
 export const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

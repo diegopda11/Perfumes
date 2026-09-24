@@ -1,5 +1,14 @@
 import { expect, test } from "@playwright/test";
-import { emptyFilterQuery, escapeRegExp, femeninoCount, firstFeatured, position, sample, total } from "./catalog-facts";
+import {
+  emptyFilterQuery,
+  escapeRegExp,
+  femeninoCount,
+  firstFeatured,
+  other,
+  position,
+  sample,
+  total,
+} from "./catalog-facts";
 
 const liveText = (page: import("@playwright/test").Page) =>
   page.locator('[aria-roledescription="carrusel"] [aria-live="polite"]');
@@ -57,9 +66,9 @@ test.describe("Home", () => {
 
   test("tocar un perfume del catálogo abre su detalle (CA-2.3)", async ({ page }) => {
     await page.goto("/");
-    await page.locator("#catalogo").getByRole("link", { name: /Libre/ }).click();
-    await expect(page).toHaveURL(/\/producto\/ysl-libre-edp/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Libre");
+    await page.locator("#catalogo").getByRole("link", { name: new RegExp(escapeRegExp(other.name)) }).first().click();
+    await expect(page).toHaveURL(new RegExp(`/producto/${other.slug}$`));
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(other.name);
   });
 
   test("el footer muestra la localidad y el aviso de marcas (CA-5.3, RNF-7)", async ({ page }) => {

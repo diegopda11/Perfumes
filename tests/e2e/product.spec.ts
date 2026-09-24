@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { relatedCount, sample } from "./catalog-facts";
+import { escapeRegExp, relatedCount, sample } from "./catalog-facts";
 
 test.describe("Detalle de producto", () => {
   test("muestra la información completa (CA-3.1 a CA-3.3)", async ({ page }) => {
@@ -15,22 +15,25 @@ test.describe("Detalle de producto", () => {
   });
 
   test("el botón de WhatsApp lleva el mensaje del spec (CA-4.1, CA-4.2)", async ({ page }) => {
-    await page.goto("/producto/chanel-coco-mademoiselle-edp");
+    await page.goto(`/producto/${sample.slug}`);
     const button = page.getByRole("link", { name: /Consultar por WhatsApp/ }).locator("visible=true").first();
     await expect(button).toBeVisible();
     const href = await button.getAttribute("href");
     expect(href).toMatch(/^https:\/\/wa\.me\/\d+\?text=/);
     const text = new URL(href!).searchParams.get("text");
-    expect(text).toBe("Hola, me interesa el decant de 10ml de Coco Mademoiselle de Chanel");
+    expect(text).toBe(`Hola, me interesa el decant de 10ml de ${sample.name} de ${sample.brand}`);
   });
 
   test("tiene vista previa para compartir (CA-7.1)", async ({ page }) => {
-    await page.goto("/producto/ysl-libre-edp");
+    await page.goto(`/producto/${sample.slug}`);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       "content",
-      /\/products\/ysl-libre-edp\/og\.jpg$/,
+      new RegExp(`/products/${sample.slug}/og\\.jpg$`),
     );
-    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", /Libre/);
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+      "content",
+      new RegExp(escapeRegExp(sample.name)),
+    );
     await expect(page.locator('meta[property="og:description"]')).toHaveAttribute("content", /MXN/);
   });
 

@@ -19,42 +19,6 @@ import type { CatalogEntry, Product } from "@/types/product";
  */
 const entries: CatalogEntry[] = [
   {
-    slug: "chanel-coco-mademoiselle-edp",
-    name: "Coco Mademoiselle",
-    brand: "Chanel",
-    // ─── Lo que puedes cambiar ───
-    price: 480,
-    available: true,
-    featured: true,
-    // ─────────────────────────────
-    concentration: "EDP",
-    family: "oriental",
-    gender: "femenino",
-    tagline: "Naranja vibrante, jazmín y rosa de mayo sobre pachulí y vetiver.",
-    description:
-      "Chanel lo describe como un ámbar amaderado atrevido y sorprendentemente fresco, que evoca a una Coco Chanel joven y audaz. Abre con una naranja vibrante, revela en el corazón un acorde transparente de jazmín y rosa de mayo, y termina con acentos refinados de pachulí y vetiver.",
-    highlightNotes: ["Naranja", "Rosa de mayo", "Pachulí"],
-    perfumer: "Jacques Polge",
-    year: 2001,
-    sources: [
-      { label: "Chanel: Coco Mademoiselle Eau de Parfum", url: "https://www.chanel.com/us/fragrance/p/116520/coco-mademoiselle-eau-de-parfum-spray/" },
-      { label: "Wikipedia: Coco Mademoiselle", url: "https://en.wikipedia.org/wiki/Coco_Mademoiselle" },
-      { label: "Sephora: Coco Mademoiselle Eau de Parfum", url: "https://www.sephora.com/product/coco-mademoiselle-P12495" },
-    ],
-    notes: {
-      top: ["Naranja"],
-      heart: ["Jazmín", "Rosa de mayo"],
-      base: ["Pachulí", "Vetiver"],
-    },
-    images: {
-      bottle: "/products/chanel-coco-mademoiselle-edp/bottle.webp",
-      decant: "/products/chanel-coco-mademoiselle-edp/decant.webp",
-      scene: "/products/chanel-coco-mademoiselle-edp/scene.webp",
-    },
-    atmosphere: { base: "#2a1611", glow: "#eba986" },
-    profile: { moment: "siempre", character: ["floral", "fresco"] },
-  },
-  {
     slug: "ysl-libre-edp",
     name: "Libre",
     brand: "Yves Saint Laurent",
