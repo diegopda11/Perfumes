@@ -232,6 +232,41 @@ const entries: CatalogEntry[] = [
     atmosphere: { base: "#16161b", glow: "#cfa75e" },
     profile: { moment: "noche", character: ["calido", "especiado"] },
   },
+  {
+    slug: "lattafa-qaed-al-fursan-edp",
+    name: "Qaed Al Fursan",
+    brand: "Lattafa",
+    // ─── Lo que puedes cambiar ───
+    price: 100,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
+    concentration: "EDP",
+    family: "aromatico",
+    gender: "unisex",
+    tagline: "Piña y azafrán sobre un fondo de oud, cedro y ámbar.",
+    description:
+      "Lattafa lo presenta como un aromático para hombre y mujer, construido sobre el contraste entre lo tropical y lo amaderado. Abre con azafrán y una piña jugosa; el corazón combina jazmín y bálsamo de abeto, y el fondo se asienta en madera de oud, cedro y ámbar.",
+    highlightNotes: ["Piña", "Azafrán", "Oud"],
+    year: 2016,
+    sources: [
+      { label: "Lattafa: Qaed Al Fursan", url: "https://lattafa.com/product/qaed-al-fursan/" },
+      { label: "Lattafa USA: Qaed Al Fursan", url: "https://www.lattafa-usa.com/products/qaed-al-fursan" },
+      { label: "Fragrantica: Qaed Al Fursan", url: "https://www.fragrantica.com/perfume/Lattafa-Perfumes/Qaed-Al-Fursan-67996.html" },
+    ],
+    notes: {
+      top: ["Azafrán", "Piña"],
+      heart: ["Jazmín", "Bálsamo de abeto"],
+      base: ["Madera de oud", "Cedro", "Ámbar"],
+    },
+    images: {
+      bottle: "/products/lattafa-qaed-al-fursan-edp/bottle.webp",
+      decant: "/products/lattafa-qaed-al-fursan-edp/decant.webp",
+      scene: "/products/lattafa-qaed-al-fursan-edp/scene.webp",
+    },
+    atmosphere: { base: "#15130a", glow: "#c89b3c" },
+    profile: { moment: "siempre", character: ["especiado", "calido"] },
+  },
 ];
 
 export const products: Product[] = entries.map(({ price, presentations, ...rest }) => ({
