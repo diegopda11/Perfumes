@@ -41,6 +41,14 @@ reinicia `npm run dev`. En producción nunca aparecen.
 
 ## Agregar o editar un perfume
 
+**La forma fácil:** en Claude Code, escribe `/nuevo-perfume` seguido del
+nombre (por ejemplo `/nuevo-perfume Dior Homme Intense, $480`) y adjunta la
+foto del frasco con su decant. El comando investiga las notas con fuentes,
+recorta las imágenes, lo agrega al catálogo y al hero, corre las pruebas y
+guarda los cambios. Después solo vuelves a publicar en Netlify.
+
+El proceso manual, por si lo necesitas:
+
 **Regla de contenido:** todo lo que se dice de un perfume (notas, descripción,
 perfumista, año, familia) debe salir de la marca o de fuentes especializadas,
 y esas fuentes se listan en `sources` (se muestran en la página). Las

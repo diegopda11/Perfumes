@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { relatedCount } from "./catalog-facts";
 
 test.describe("Detalle de producto", () => {
   test("muestra la información completa (CA-3.1 a CA-3.3)", async ({ page }) => {
@@ -36,7 +37,7 @@ test.describe("Detalle de producto", () => {
   test("sugiere otros perfumes (CA-3.6)", async ({ page }) => {
     await page.goto("/producto/dior-sauvage-edp");
     const related = page.locator('section[aria-labelledby="relacionados-title"]');
-    await expect(related.getByRole("listitem")).toHaveCount(3);
+    await expect(related.getByRole("listitem")).toHaveCount(relatedCount("dior-sauvage-edp"));
   });
 
   test("un perfume que no existe da la 404 de la marca (CA-3.5)", async ({ page }) => {

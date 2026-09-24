@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { mockProducts } from "@/data/mock-products";
-import { products } from "@/data/products";
+import { products as catalog } from "@/data/products";
 import { profileOf, recommend } from "@/lib/finder";
 
 const slugs = (list: { slug: string }[]) => list.map((p) => p.slug);
+
+// Grupo fijo: agregar perfumes al catálogo no cambia lo que se espera aquí.
+const fixture = [
+  "dior-sauvage-edp",
+  "chanel-coco-mademoiselle-edp",
+  "ysl-libre-edp",
+  "azzaro-the-most-wanted-edp-intense",
+];
+const products = catalog.filter((p) => fixture.includes(p.slug));
 
 describe("recommend (CA-P7.1)", () => {
   it("para él, especiado: Sauvage primero", () => {

@@ -10,6 +10,7 @@ import {
   parseFilters,
   sortForCatalog,
 } from "@/lib/catalog";
+import { familyLabels } from "@/lib/labels";
 import type { Product } from "@/types/product";
 
 const all: Product[] = [...products, ...mockProducts];
@@ -51,8 +52,11 @@ describe("filtros (CA-2.7 a CA-2.10)", () => {
   });
 
   it("solo ofrece familias y géneros que existen", () => {
-    expect(availableFamilies(products)).toEqual(["floral", "oriental", "aromatico"]);
-    expect(availableGenders(products)).toEqual(["femenino", "masculino"]);
+    const families = availableFamilies(products);
+    expect(new Set(families)).toEqual(new Set(products.map((p) => p.family)));
+    expect(families).toEqual(Object.keys(familyLabels).filter((f) => families.includes(f as never)));
+    const genders = availableGenders(products);
+    expect(new Set(genders)).toEqual(new Set(products.map((p) => p.gender)));
   });
 });
 
@@ -79,8 +83,7 @@ describe("getRelated (CA-3.6)", () => {
   });
 
   it("con pocos perfumes devuelve los que haya", () => {
-    const sauvage = products[0];
-    const related = getRelated(sauvage, products);
-    expect(related).toHaveLength(products.length - 1);
+    const few = products.slice(0, 3);
+    expect(getRelated(few[0], few)).toHaveLength(2);
   });
 });

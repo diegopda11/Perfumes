@@ -45,8 +45,9 @@ test.describe("Encuentra tu perfume (P7)", () => {
     await finder.getByText("Especiado y magnético").click();
     await expect(finder.getByText("Te recomendamos empezar por")).toBeVisible();
     await expect(finder.locator('a[href*="wa.me"]')).toHaveCount(0);
-    await finder.getByRole("link", { name: /Sauvage/ }).click();
-    await expect(page).toHaveURL(/\/producto\/dior-sauvage-edp/);
+    // el perfume exacto depende del catálogo (la lógica se prueba en unit)
+    await finder.getByText("Ver perfume").click();
+    await expect(page).toHaveURL(/\/producto\/[a-z0-9-]+$/);
   });
 
   test("se puede volver atrás y empezar de nuevo", async ({ page }) => {
