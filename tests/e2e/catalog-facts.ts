@@ -9,6 +9,12 @@ import type { Gender, OlfactoryFamily } from "@/types/product";
 const products = getProducts();
 
 export const total = products.length;
+
+/** Un perfume real para pruebas de detalle: el primero del catálogo. */
+export const sample = products[0];
+/** El primer perfume del carrusel (el que se ve al abrir la portada). */
+export const firstFeatured = getFeatured(products)[0];
+export const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export const featuredCount = getFeatured(products).length;
 export const position = (n: number) => `${n} de ${featuredCount}`;
 export const femeninoCount = products.filter((p) => p.gender === "femenino").length;

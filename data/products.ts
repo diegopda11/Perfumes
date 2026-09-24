@@ -19,42 +19,6 @@ import type { CatalogEntry, Product } from "@/types/product";
  */
 const entries: CatalogEntry[] = [
   {
-    slug: "dior-sauvage-edp",
-    name: "Sauvage",
-    brand: "Dior",
-    // ─── Lo que puedes cambiar ───
-    price: 450,
-    available: true,
-    featured: true,
-    // ─────────────────────────────
-    concentration: "EDP",
-    family: "aromatico",
-    gender: "masculino",
-    tagline: "Bergamota de Calabria, especias y una vainilla envolvente con estela de ambroxan.",
-    description:
-      "Dior se inspiró en el desierto a la hora del crepúsculo, cuando el aire ardiente se mezcla con el frescor de la noche. Una bergamota de Calabria jugosa y especiada abre paso a la pimienta de Sichuan, la lavanda, el anís estrellado y la nuez moscada, y el fondo se asienta en un extracto de vainilla de Papúa Nueva Guinea y ambroxan. Frente al Eau de Toilette, esta versión es más envolvente y sensual.",
-    highlightNotes: ["Bergamota", "Pimienta de Sichuan", "Vainilla"],
-    perfumer: "François Demachy",
-    year: 2018,
-    sources: [
-      { label: "Dior: Sauvage Eau de Parfum", url: "https://www.dior.com/en_us/beauty/products/sauvage-eau-de-parfum-Y0785220.html" },
-      { label: "Fragrantica: Sauvage Eau de Parfum", url: "https://www.fragrantica.com/perfume/Dior/Sauvage-Eau-de-Parfum-48100.html" },
-      { label: "Fragrantica: lanzamiento de Sauvage Eau de Parfum", url: "https://www.fragrantica.com/news/Dior-Sauvage-Eau-de-Parfum-10382.html" },
-    ],
-    notes: {
-      top: ["Bergamota de Calabria"],
-      heart: ["Pimienta de Sichuan", "Lavanda", "Anís estrellado", "Nuez moscada"],
-      base: ["Ambroxan", "Vainilla de Papúa Nueva Guinea"],
-    },
-    images: {
-      bottle: "/products/dior-sauvage-edp/bottle.webp",
-      decant: "/products/dior-sauvage-edp/decant.webp",
-      scene: "/products/dior-sauvage-edp/scene.webp",
-    },
-    atmosphere: { base: "#0b1a33", glow: "#5a8fd6" },
-    profile: { moment: "siempre", character: ["fresco", "especiado"] },
-  },
-  {
     slug: "chanel-coco-mademoiselle-edp",
     name: "Coco Mademoiselle",
     brand: "Chanel",

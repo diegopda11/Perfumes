@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { sample } from "./catalog-facts";
 
 /** Spec 002 — experiencia premium. */
 
@@ -22,7 +23,7 @@ test.describe("Entrada 'la fracción se llena' (P3)", () => {
   });
 
   test("no se puede ver en otras páginas", async ({ page }) => {
-    await page.goto("/producto/dior-sauvage-edp");
+    await page.goto(`/producto/${sample.slug}`);
     await expect(page.locator("html")).not.toHaveClass(/\bintro\b/);
   });
 });

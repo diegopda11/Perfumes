@@ -162,7 +162,7 @@ def review_sheet(pieces: list[Image.Image]) -> Image.Image:
 
 def main():
     session = new_session("birefnet-general")
-    bottles: list[Image.Image] = []
+    bottles: dict[str, Image.Image] = {}
     for src in sorted(RAW.glob("*.png")):
         # <slug>.frasco.png = foto solo del frasco (sin decant ni escena)
         solo = src.stem.endswith(SOLO_SUFFIX)
@@ -189,7 +189,7 @@ def main():
             bottle.save(dest / "bottle.png")
             review_sheet([bottle]).save(dest / "review.png")
             publish(slug, bottle)
-            bottles.append(bottle)
+            bottles[slug] = bottle
             print(f"{slug}: frasco {bottle.size} (solo frasco)")
             continue
         found = objects_from_mask(alpha)
@@ -213,11 +213,13 @@ def main():
         decant.save(dest / "decant.png")
         review_sheet([bottle, decant]).save(dest / "review.png")
         publish(slug, bottle, decant, scene)
-        bottles.append(bottle)
+        bottles[slug] = bottle
         print(f"{slug}: frasco {bottle.size}, decant {decant.size}")
 
-    if bottles:
-        og_home(bottles).save(ROOT / "public" / "og.jpg", quality=88)
+    # La imagen de la portada muestra 3 frascos: los primeros del catálogo.
+    ordered = [bottles[slug] for slug in PRODUCT_INFO if slug in bottles][:3]
+    if ordered:
+        og_home(ordered).save(ROOT / "public" / "og.jpg", quality=88)
 
 
 def publish(slug: str, bottle: Image.Image, decant: Image.Image | None = None, scene: Image.Image | None = None):

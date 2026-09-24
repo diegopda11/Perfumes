@@ -1,57 +1,81 @@
 import { describe, expect, it } from "vitest";
 import { mockProducts } from "@/data/mock-products";
-import { products as catalog } from "@/data/products";
+import { products } from "@/data/products";
 import { profileOf, recommend } from "@/lib/finder";
+import type { Product, ScentProfile } from "@/types/product";
+
+/**
+ * Perfumes de prueba propios: la lógica se prueba con datos fijos, así que
+ * agregar o quitar perfumes del catálogo no cambia estos resultados.
+ */
+function perfume(slug: string, gender: Product["gender"], profile: ScentProfile, available = true): Product {
+  return {
+    slug,
+    name: slug,
+    brand: "Prueba",
+    concentration: "EDP",
+    family: "floral",
+    gender,
+    tagline: "",
+    description: "",
+    highlightNotes: ["a", "b"],
+    notes: { top: ["a"], heart: ["b"], base: ["c"] },
+    presentations: [{ ml: 10, price: 100 }],
+    images: { bottle: "" },
+    profile,
+    available,
+  };
+}
+
+const fixture: Product[] = [
+  perfume("fresco-especiado-el", "masculino", { moment: "siempre", character: ["fresco", "especiado"] }),
+  perfume("floral-fresco-ella", "femenino", { moment: "siempre", character: ["floral", "fresco"] }),
+  perfume("floral-calido-ella-noche", "femenino", { moment: "noche", character: ["floral", "calido"] }),
+  perfume("calido-especiado-el-noche", "masculino", { moment: "noche", character: ["calido", "especiado"] }),
+  perfume("agotado-el", "masculino", { moment: "noche", character: ["calido"] }, false),
+];
 
 const slugs = (list: { slug: string }[]) => list.map((p) => p.slug);
 
-// Grupo fijo: agregar perfumes al catálogo no cambia lo que se espera aquí.
-const fixture = [
-  "dior-sauvage-edp",
-  "chanel-coco-mademoiselle-edp",
-  "ysl-libre-edp",
-  "azzaro-the-most-wanted-edp-intense",
-];
-const products = catalog.filter((p) => fixture.includes(p.slug));
-
 describe("recommend (CA-P7.1)", () => {
-  it("para él, especiado: Sauvage primero", () => {
-    expect(recommend(products, { para: "el", momento: "siempre", caracter: "especiado" })[0].slug).toBe(
-      "dior-sauvage-edp",
+  it("para él, a toda hora, especiado: el especiado de todo momento primero", () => {
+    expect(recommend(fixture, { para: "el", momento: "siempre", caracter: "especiado" })[0].slug).toBe(
+      "fresco-especiado-el",
     );
   });
 
-  it("para ella, de noche, cálido: Libre primero", () => {
-    expect(recommend(products, { para: "ella", momento: "noche", caracter: "calido" })[0].slug).toBe(
-      "ysl-libre-edp",
+  it("para ella, de noche, cálido: el floral cálido de noche primero", () => {
+    expect(recommend(fixture, { para: "ella", momento: "noche", caracter: "calido" })[0].slug).toBe(
+      "floral-calido-ella-noche",
     );
   });
 
-  it("para ella, de día, fresco: Coco Mademoiselle primero", () => {
-    expect(recommend(products, { para: "ella", momento: "dia", caracter: "fresco" })[0].slug).toBe(
-      "chanel-coco-mademoiselle-edp",
+  it("para ella, de día, fresco: el floral fresco primero", () => {
+    expect(recommend(fixture, { para: "ella", momento: "dia", caracter: "fresco" })[0].slug).toBe(
+      "floral-fresco-ella",
+    );
+  });
+
+  it("para él, de noche, cálido: el cálido de noche primero", () => {
+    expect(recommend(fixture, { para: "el", momento: "noche", caracter: "calido" })[0].slug).toBe(
+      "calido-especiado-el-noche",
     );
   });
 
   it("nunca recomienda un perfume de otro género si se pidió uno", () => {
-    const result = recommend(products, { para: "el", momento: "noche", caracter: "floral" });
+    const result = recommend(fixture, { para: "el", momento: "noche", caracter: "floral" });
     expect(result.length).toBeGreaterThan(0);
     expect(result.every((p) => p.gender === "masculino")).toBe(true);
   });
 
-  it("para él, de noche, cálido: The Most Wanted Intense primero", () => {
-    expect(recommend(products, { para: "el", momento: "noche", caracter: "calido" })[0].slug).toBe(
-      "azzaro-the-most-wanted-edp-intense",
-    );
-  });
-
   it("'me da igual' considera todo el catálogo y devuelve como máximo 2", () => {
-    const result = recommend(products, { para: "cualquiera", momento: "siempre", caracter: "floral" });
+    const result = recommend(fixture, { para: "cualquiera", momento: "siempre", caracter: "floral" });
     expect(result).toHaveLength(2);
     expect(result.every((p) => p.gender === "femenino")).toBe(true);
   });
 
   it("no recomienda perfumes agotados", () => {
+    expect(slugs(recommend(fixture, { para: "el" }, 20))).not.toContain("agotado-el");
     const result = recommend(mockProducts, { para: "el", momento: "siempre", caracter: "calido" }, 20);
     expect(result.some((p) => p.available === false)).toBe(false);
   });
@@ -65,11 +89,18 @@ describe("recommend (CA-P7.1)", () => {
       expect(slugs(forHer)).toContain(slug);
     }
   });
+
+  it("siempre recomienda algo del catálogo real para cualquier respuesta de género", () => {
+    for (const para of ["ella", "el", "cualquiera"] as const) {
+      expect(recommend(products, { para }).length).toBeGreaterThan(0);
+    }
+  });
 });
 
 describe("profileOf", () => {
   it("usa el perfil declarado", () => {
-    expect(profileOf(products[0]).character).toEqual(["fresco", "especiado"]);
+    const declared = products.find((p) => p.profile)!;
+    expect(profileOf(declared)).toEqual(declared.profile);
   });
 
   it("deduce uno por familia cuando falta", () => {

@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { emptyFilterQuery, femeninoCount, position, total } from "./catalog-facts";
+import { emptyFilterQuery, escapeRegExp, femeninoCount, firstFeatured, position, sample, total } from "./catalog-facts";
 
 const liveText = (page: import("@playwright/test").Page) =>
   page.locator('[aria-roledescription="carrusel"] [aria-live="polite"]');
@@ -27,8 +27,8 @@ test.describe("Home", () => {
     page.on("response", (res) => res.status() >= 400 && problems.push(`${res.status()} ${res.url()}`));
     await page.goto("/");
     await page.waitForLoadState("networkidle");
-    await page.locator("#catalogo").getByRole("link", { name: /Sauvage/ }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Sauvage");
+    await page.locator("#catalogo").getByRole("link", { name: new RegExp(escapeRegExp(sample.name)) }).first().click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(sample.name);
     await page.waitForLoadState("networkidle");
     expect(problems).toEqual([]);
   });
@@ -82,8 +82,9 @@ test.describe("Home en escritorio", () => {
 
   test("la tarjeta de vidrio lleva al detalle (CA-1.5)", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: /Dior\s*Sauvage/ }).first().click();
-    await expect(page).toHaveURL(/\/producto\/dior-sauvage-edp/);
+    const card = new RegExp(`${escapeRegExp(firstFeatured.brand)}\\s*${escapeRegExp(firstFeatured.name)}`);
+    await page.getByRole("link", { name: card }).first().click();
+    await expect(page).toHaveURL(new RegExp(`/producto/${firstFeatured.slug}$`));
   });
 });
 
