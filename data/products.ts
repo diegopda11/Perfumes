@@ -25,7 +25,7 @@ const entries: CatalogEntry[] = [
     // ─── Lo que puedes cambiar ───
     price: 450,
     available: true,
-    featured: false,
+    featured: true,
     // ─────────────────────────────
     concentration: "EDP",
     family: "aromatico",
