@@ -267,6 +267,42 @@ const entries: CatalogEntry[] = [
     atmosphere: { base: "#15130a", glow: "#c89b3c" },
     profile: { moment: "siempre", character: ["especiado", "calido"] },
   },
+  {
+    slug: "lattafa-pride-art-of-universe-edp",
+    name: "Art of Universe",
+    brand: "Lattafa Pride",
+    // ─── Lo que puedes cambiar ───
+    price: 100,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
+    concentration: "EDP",
+    family: "citrico",
+    gender: "masculino",
+    tagline: "Bergamota, jengibre y menta con una pera jugosa sobre cedro y ámbar.",
+    description:
+      "Lattafa lo presenta como un cítrico aromático lleno de energía y elegancia. Abre con un estallido fresco de bergamota y mandarina, avivado por el jengibre y la menta; el corazón suma azahar y una pera jugosa, y el fondo se asienta en cedro, ámbar y almizcle.",
+    highlightNotes: ["Bergamota", "Jengibre", "Pera"],
+    year: 2025,
+    sources: [
+      { label: "Lattafa: Art of Universe", url: "https://lattafa.com/product/art-of-universe/" },
+      { label: "Lattafa USA: Art of Universe", url: "https://www.lattafa-usa.com/products/art-of-universe" },
+      { label: "Fragrantica: Art of Universe", url: "https://www.fragrantica.com/perfume/Lattafa-Perfumes/Art-Of-Universe-101314.html" },
+      { label: "Parfumo: Art of Universe", url: "https://www.parfumo.com/Perfumes/lattafa-pride/art-of-universe" },
+    ],
+    notes: {
+      top: ["Bergamota", "Mandarina", "Jengibre", "Menta"],
+      heart: ["Azahar", "Pera"],
+      base: ["Cedro", "Ámbar", "Almizcle"],
+    },
+    images: {
+      bottle: "/products/lattafa-pride-art-of-universe-edp/bottle.webp",
+      decant: "/products/lattafa-pride-art-of-universe-edp/decant.webp",
+      scene: "/products/lattafa-pride-art-of-universe-edp/scene.webp",
+    },
+    atmosphere: { base: "#0c1233", glow: "#7fa6f5" },
+    profile: { moment: "dia", character: ["fresco"] },
+  },
 ];
 
 export const products: Product[] = entries.map(({ price, presentations, ...rest }) => ({
