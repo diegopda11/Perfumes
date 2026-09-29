@@ -19,6 +19,42 @@ import type { CatalogEntry, Product } from "@/types/product";
  */
 const entries: CatalogEntry[] = [
   {
+    slug: "azzaro-the-most-wanted-edp-intense",
+    name: "The Most Wanted Intense",
+    brand: "Azzaro",
+    // ─── Lo que puedes cambiar ───
+    price: 450,
+    available: true,
+    featured: true,
+    // ─────────────────────────────
+    concentration: "EDP",
+    family: "oriental",
+    gender: "masculino",
+    tagline: "Cardamomo, un acorde de caramelo y madera ambarada.",
+    description:
+      "Azzaro lo define como un fougère amaderado ambarado, intenso y magnético. El cardamomo abre con energía junto a la mandarina, el corazón es un acorde adictivo de caramelo con lavanda y salvia esclarea, y el fondo combina madera ambarada, vainilla bourbon y vetiver.",
+    highlightNotes: ["Cardamomo", "Caramelo", "Madera ambarada"],
+    perfumer: "Michel Girard, Nadège Le Garlantezec y Shyamala Maisondieu",
+    year: 2021,
+    sources: [
+      { label: "Azzaro: The Most Wanted Eau de Parfum Intense", url: "https://www.azzaro.com/en/fragrances/azzaro-the-most-wanted/eau-de-parfum-intense" },
+      { label: "Ulta Beauty: The Most Wanted Eau de Parfum Intense", url: "https://www.ulta.com/p/most-wanted-eau-de-parfum-intense-pimprod2023922?sku=2579633" },
+      { label: "Parfumo: The Most Wanted Eau de Parfum Intense", url: "https://www.parfumo.com/Perfumes/Azzaro/the-most-wanted-eau-de-parfum-intense" },
+    ],
+    notes: {
+      top: ["Cardamomo", "Mandarina"],
+      heart: ["Caramelo tostado", "Lavanda", "Salvia esclarea"],
+      base: ["Madera ambarada", "Vainilla bourbon", "Vetiver"],
+    },
+    images: {
+      bottle: "/products/azzaro-the-most-wanted-edp-intense/bottle.webp",
+      decant: "/products/azzaro-the-most-wanted-edp-intense/decant.webp",
+      scene: "/products/azzaro-the-most-wanted-edp-intense/scene.webp",
+    },
+    atmosphere: { base: "#1c0f0b", glow: "#e0874a" },
+    profile: { moment: "noche", character: ["calido", "especiado"] },
+  },
+  {
     slug: "dumont-nitro-red-edp",
     name: "Nitro Red",
     brand: "Dumont",
