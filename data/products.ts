@@ -26,7 +26,7 @@ const entries: CatalogEntry[] = [
     name: "The Most Wanted Intense",
     brand: "Azzaro",
     // ─── Lo que puedes cambiar ───
-    price: 220,
+    price: 200,
     price5ml: 130,
     available: true,
     featured: true,

@@ -72,7 +72,7 @@ describe("precios del dueño (spec 003, CA-1.2)", () => {
     products.find((p) => p.slug === slug)?.presentations.map((p) => [p.ml, p.price]);
 
   it.each([
-    ["azzaro-the-most-wanted-edp-intense", 220, 130],
+    ["azzaro-the-most-wanted-edp-intense", 200, 130],
     ["armaf-club-de-nuit-urban-man-elixir-edp", 180, 100],
     ["dumont-nitro-red-edp", 150, 90],
     ["lattafa-qaed-al-fursan-edp", 130, 80],
