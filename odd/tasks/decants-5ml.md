@@ -27,7 +27,7 @@ Strategy: single-pr (one feature branch `feat/decants-5ml`, merged to main and p
 - [x] T2 Data model `price5ml`, catalog prices, README, nuevo-perfume skill (delegated writer) — commit 8103a4a
 - [x] T3 UI: product-page size choice + WhatsApp size, cards, hero, copy (delegated writer) — commit 7842ec6
 - [x] T4 Tests: unit + e2e for both sizes; full check suite (delegated writer; tests committed with T2/T3; parent spot check pending)
-- [ ] T5 Merge to main, push, verify live (parent)
+- [x] T5 Merge to main, push, verify live (parent) — native review medium/granted, approved and acknowledged (lineage review-fc6c2edcc10da719); advisory fix 7b69c13 (About missing space, under_budget); main fast-forwarded to 7b69c13 and pushed; live product page shows "Tamaño del decant" and the new prices after ~40 s
 
 ## Acceptance criteria
 - Each product page offers 10 ml and 5 ml with the right prices; WhatsApp text names the chosen size.
