@@ -9,9 +9,12 @@ import {
   firstFeatured,
   other,
   position,
+  multiSize,
   sample,
+  sizesLabel,
   total,
 } from "./catalog-facts";
+import { formatAmount } from "@/lib/format";
 
 const liveText = (page: import("@playwright/test").Page) =>
   page.locator('[aria-roledescription="carrusel"] [aria-live="polite"]');
@@ -19,7 +22,7 @@ const liveText = (page: import("@playwright/test").Page) =>
 test.describe("Home", () => {
   test("dice qué se vende y muestra el primer destacado (CA-1.1)", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Perfumes originales en decants de 10 ml");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(`Perfumes originales en decants de ${sizesLabel}`);
     await expect(liveText(page)).toContainText(position(1));
   });
 
@@ -68,6 +71,15 @@ test.describe("Home", () => {
     await expect(catalog.getByRole("listitem")).toHaveCount(total);
   });
 
+  test("las tarjetas muestran el precio de cada tamaño (spec 003, CA-3.1)", async ({ page }) => {
+    test.skip(!multiSize, "ningún perfume tiene más de un tamaño");
+    await page.goto("/");
+    const card = page.locator("#catalogo").getByRole("link", { name: new RegExp(escapeRegExp(multiSize!.name)) }).first();
+    for (const { ml, price } of multiSize!.presentations) {
+      await expect(card).toContainText(new RegExp(`${ml}\\s*ml\\s*${escapeRegExp(formatAmount(price))}`));
+    }
+  });
+
   test("tocar un perfume del catálogo abre su detalle (CA-2.3)", async ({ page }) => {
     await page.goto("/");
     await page.locator("#catalogo").getByRole("link", { name: new RegExp(escapeRegExp(other.name)) }).first().click();
@@ -98,6 +110,15 @@ test.describe("Home en escritorio", () => {
     const card = new RegExp(`${escapeRegExp(firstFeatured.brand)}\\s*${escapeRegExp(firstFeatured.name)}`);
     await page.getByRole("link", { name: card }).first().click();
     await expect(page).toHaveURL(new RegExp(`/producto/${firstFeatured.slug}$`));
+  });
+
+  test("la tarjeta de vidrio muestra el precio de cada tamaño (spec 003, CA-3.2)", async ({ page }) => {
+    await page.goto("/");
+    const card = new RegExp(`${escapeRegExp(firstFeatured.brand)}\\s*${escapeRegExp(firstFeatured.name)}`);
+    const link = page.getByRole("link", { name: card }).first();
+    for (const { price } of firstFeatured.presentations) {
+      await expect(link).toContainText(formatAmount(price));
+    }
   });
 });
 

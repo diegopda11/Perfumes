@@ -21,6 +21,9 @@ export const site = {
   instagram: undefined as string | undefined,
   currency: "MXN",
   locale: "es-MX",
-  /** Tamaño de decant que se muestra por defecto (hoy el único). */
+  /**
+   * Tamaño de decant de referencia (10 ml). Los tamaños y precios de cada
+   * perfume se editan en data/products.ts (`price` y `price5ml`).
+   */
   defaultSize: 10,
 } as const;

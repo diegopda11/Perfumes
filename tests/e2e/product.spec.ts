@@ -1,5 +1,20 @@
-import { expect, test } from "@playwright/test";
-import { escapeRegExp, relatedCount, sample } from "./catalog-facts";
+import { expect, test, type Page } from "@playwright/test";
+import { escapeRegExp, multiSize, relatedCount, sample } from "./catalog-facts";
+import { formatPrice } from "@/lib/format";
+
+/** Toca la píldora del tamaño, como lo haría el visitante (el radio está oculto a la vista). */
+const chooseSize = (page: Page, ml: number) =>
+  page
+    .getByRole("group", { name: "Tamaño del decant" })
+    .locator("label")
+    .filter({ hasText: new RegExp(`^${ml}\\s*ml`) })
+    .click();
+
+const whatsAppText = async (page: Page) => {
+  const button = page.getByRole("link", { name: /Consultar por WhatsApp/ }).locator("visible=true").first();
+  await expect(button).toBeVisible();
+  return new URL((await button.getAttribute("href"))!).searchParams.get("text");
+};
 
 test.describe("Detalle de producto", () => {
   test("muestra la información completa (CA-3.1 a CA-3.3)", async ({ page }) => {
@@ -21,7 +36,26 @@ test.describe("Detalle de producto", () => {
     const href = await button.getAttribute("href");
     expect(href).toMatch(/^https:\/\/wa\.me\/\d+\?text=/);
     const text = new URL(href!).searchParams.get("text");
-    expect(text).toBe(`Hola, me interesa el decant de 10ml de ${sample.name} de ${sample.brand}`);
+    expect(text).toBe(`Hola, me interesa el decant de ${sample.presentations[0].ml}ml de ${sample.name} de ${sample.brand}`);
+  });
+
+  test("elegir otro tamaño cambia el precio y el mensaje de WhatsApp (spec 003, CA-2)", async ({ page }) => {
+    test.skip(!multiSize, "ningún perfume tiene más de un tamaño");
+    const [first, second] = multiSize!.presentations;
+    const message = (ml: number) => `Hola, me interesa el decant de ${ml}ml de ${multiSize!.name} de ${multiSize!.brand}`;
+    await page.goto(`/producto/${multiSize!.slug}`);
+
+    const sizes = page.getByRole("group", { name: "Tamaño del decant" });
+    const radio = (ml: number) => sizes.getByRole("radio", { name: new RegExp(`^${ml}\\s*ml`) });
+    await expect(radio(first.ml)).toBeChecked();
+    await expect(page.getByTestId("precio")).toHaveText(formatPrice(first.price));
+    expect(await whatsAppText(page)).toBe(message(first.ml));
+
+    await chooseSize(page, second.ml);
+    await expect(radio(second.ml)).toBeChecked();
+    await expect(page.getByTestId("precio")).toHaveText(formatPrice(second.price));
+    await expect(page.getByText(new RegExp(`por un decant de ${second.ml}\\s*ml`))).toBeVisible();
+    await expect.poll(() => whatsAppText(page)).toBe(message(second.ml));
   });
 
   test("tiene vista previa para compartir (CA-7.1)", async ({ page }) => {
@@ -60,5 +94,20 @@ test.describe("Detalle en celular", () => {
     await page.mouse.wheel(0, 1500);
     const bar = page.getByRole("link", { name: /Consultar por WhatsApp/ }).locator("visible=true");
     await expect(bar).toBeInViewport();
+  });
+
+  test("la barra fija usa el tamaño elegido (spec 003, CA-2.4)", async ({ page }) => {
+    test.skip(!multiSize, "ningún perfume tiene más de un tamaño");
+    const second = multiSize!.presentations[1];
+    await page.goto(`/producto/${multiSize!.slug}`);
+    const sizes = page.getByRole("group", { name: "Tamaño del decant" });
+    const radio = sizes.getByRole("radio", { name: new RegExp(`^${second.ml}\\s*ml`) });
+    await chooseSize(page, second.ml);
+    await expect(radio).toBeChecked();
+    await page.mouse.wheel(0, 1500);
+    const bar = page.getByRole("link", { name: /Consultar por WhatsApp/ }).locator("visible=true");
+    await expect(bar).toBeInViewport();
+    const text = new URL((await bar.getAttribute("href"))!).searchParams.get("text");
+    expect(text).toContain(`decant de ${second.ml}ml`);
   });
 });

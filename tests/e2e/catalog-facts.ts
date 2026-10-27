@@ -1,4 +1,4 @@
-import { availableGenders, filterProducts, getFeatured, getProducts, getRelated } from "@/lib/catalog";
+import { availableGenders, filterProducts, getFeatured, getProducts, getRelated, offeredSizes } from "@/lib/catalog";
 import { familyLabels, genderLabels } from "@/lib/labels";
 import type { Gender, OlfactoryFamily } from "@/types/product";
 
@@ -18,6 +18,10 @@ export const other = products[products.length - 1];
 export const firstFeatured = getFeatured(products)[0];
 export const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export const featuredCount = getFeatured(products).length;
+/** Cómo nombra el sitio los tamaños que vende ("5 y 10 ml"), desde los datos (spec 003). */
+export const sizesLabel = offeredSizes("y", products);
+/** Un perfume con más de un tamaño (10 y 5 ml), si hay alguno. */
+export const multiSize = products.find((p) => p.presentations.length > 1);
 export const position = (n: number) => `${n} de ${featuredCount}`;
 /** Un filtro de género que existe en el catálogo, para probar los filtros. */
 const genders = availableGenders(products);

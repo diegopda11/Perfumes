@@ -1,6 +1,5 @@
 import { site } from "@/config/site";
-import { getFeatured, getPrice } from "@/lib/catalog";
-import { formatPrice } from "@/lib/format";
+import { getFeatured, offeredSizes } from "@/lib/catalog";
 import { HeroCarousel, type HeroSlide } from "./HeroCarousel";
 import { IntroVial } from "./IntroVial";
 import { LivingLight } from "./LivingLight";
@@ -13,7 +12,7 @@ export function Hero() {
     name: p.name,
     brand: p.brand,
     tagline: p.tagline,
-    price: formatPrice(getPrice(p)),
+    presentations: p.presentations,
     bottle: p.images.bottle,
     decant: p.images.decant,
   }));
@@ -35,7 +34,7 @@ export function Hero() {
         data-intro="ui"
         className="absolute inset-x-4 top-[max(76px,10svh)] z-10 text-center text-[15px] text-text/70 md:top-[max(100px,11svh)] md:text-base"
       >
-        Perfumes originales en decants de 10 ml
+        Perfumes originales en decants de {offeredSizes()}
       </h1>
 
       <p

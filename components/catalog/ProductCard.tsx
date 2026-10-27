@@ -1,16 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SharedBottle } from "@/components/transitions/SharedBottle";
-import { getPrice, isAvailable } from "@/lib/catalog";
-import { formatList, formatPrice } from "@/lib/format";
+import { isAvailable } from "@/lib/catalog";
+import { formatList } from "@/lib/format";
 import type { Product } from "@/types/product";
+import { PriceParts } from "./PriceParts";
 
 /**
  * Tarjeta del catálogo (CA-2.1 a CA-2.5). Toda la tarjeta lleva al detalle;
- * no tiene botón de WhatsApp (CA-2.3).
+ * no tiene botón de WhatsApp (CA-2.3). Si se vende en varios tamaños,
+ * muestra todos los precios (spec 003, CA-3.1).
  */
 export function ProductCard({ product, sizes }: { product: Product; sizes?: string }) {
   const available = isAvailable(product);
+  const [first, ...more] = product.presentations;
 
   return (
     <Link
@@ -81,8 +84,8 @@ export function ProductCard({ product, sizes }: { product: Product; sizes?: stri
           {formatList(product.highlightNotes)}
         </p>
         <p className="mt-2 text-[15px] text-accent-lit">
-          {formatPrice(getPrice(product))}
-          <span className="ml-1.5 text-sm text-text-muted">por 10 ml</span>
+          <PriceParts presentations={product.presentations} />
+          {more.length === 0 && <span className="ml-1.5 text-sm text-text-muted">por {first.ml}&nbsp;ml</span>}
         </p>
       </div>
     </Link>

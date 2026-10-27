@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/config/site";
+import { offeredSizes } from "@/lib/catalog";
 
 /**
  * Footer y contacto (CA-5.3, CA-5.4, CA-6.3, RNF-7). Sin botón de WhatsApp:
@@ -12,7 +13,7 @@ export function SiteFooter() {
         <div>
           <p translate="no" className="font-display text-[40px] leading-none">{site.brandName}</p>
           <p className="mt-4 max-w-[36ch] text-text-muted">
-            Perfumes originales en decants de 10 ml, para conocerlos a fondo antes de comprar el frasco.
+            Perfumes originales en decants de {offeredSizes()}, para conocerlos a fondo antes de comprar el frasco.
           </p>
         </div>
 

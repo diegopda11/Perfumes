@@ -1,6 +1,7 @@
 import { mockProducts } from "@/data/mock-products";
 import { products } from "@/data/products";
 import { familyLabels, genderLabels } from "@/lib/labels";
+import { catalogSizes, formatSizes } from "@/lib/presentations";
 import type { Gender, OlfactoryFamily, Product } from "@/types/product";
 
 /** Catálogo completo. Los ficticios solo entran si se piden explícitamente (plan §3). */
@@ -17,8 +18,17 @@ export function isAvailable(product: Product): boolean {
   return product.available !== false;
 }
 
+/** Precio de la primera presentación (la de 10 ml). */
 export function getPrice(product: Product): number {
   return product.presentations[0].price;
+}
+
+/**
+ * Tamaños que se venden en el catálogo, para los textos: "5 y 10 ml" o, con
+ * "o", "5 o 10 ml" (spec 003, CA-4). Si solo hay 10 ml, dice "10 ml".
+ */
+export function offeredSizes(joiner: "y" | "o" = "y", list: Product[] = getProducts()): string {
+  return formatSizes(catalogSizes(list), joiner);
 }
 
 /** "Sauvage de Dior": cómo se nombra un perfume en mensajes y textos. */

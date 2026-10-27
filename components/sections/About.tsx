@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { site } from "@/config/site";
-import { getFeatured } from "@/lib/catalog";
+import { getFeatured, offeredSizes } from "@/lib/catalog";
 
 const reasons = [
   {
@@ -9,7 +9,7 @@ const reasons = [
   },
   {
     title: "Tamaño para llevar",
-    text: "10 ml en un atomizador de vidrio que cabe en cualquier bolsillo.",
+    text: `${offeredSizes("o")} en un atomizador de vidrio que cabe en cualquier bolsillo.`,
   },
   {
     title: "Siempre original",
@@ -47,7 +47,7 @@ export function About() {
           </h2>
           <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-ink-soft">
             Un decant es una porción de un perfume original, pasada de su frasco a un atomizador de
-            10 ml. Somos un negocio local de {site.locality.split(",")[0]}: nos conoces en persona y
+            {offeredSizes("o")}. Somos un negocio local de {site.locality.split(",")[0]}: nos conoces en persona y
             te ayudamos a encontrar tu perfume.
           </p>
           <dl className="mt-10 grid gap-8">

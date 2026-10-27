@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, type CSSProperties } from "react";
+import { PriceParts } from "@/components/catalog/PriceParts";
 import { setBottleSource, SharedBottle } from "@/components/transitions/SharedBottle";
+import type { Presentation } from "@/types/product";
 import styles from "./HeroCarousel.module.css";
 
 export interface HeroSlide {
@@ -11,7 +13,8 @@ export interface HeroSlide {
   name: string;
   brand: string;
   tagline: string;
-  price: string;
+  /** Tamaños y precios; con varios, se muestran todos (spec 003, CA-3.2). */
+  presentations: readonly Presentation[];
   bottle: string;
   decant?: string;
 }
@@ -157,8 +160,10 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
           <h2 translate="no" className="mt-1 font-display text-[30px] leading-[1.1]">{current.name}</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-text-muted">{current.tagline}</p>
           <p className="mt-4 text-xl text-accent-lit">
-            {current.price}
-            <span className="ml-2 text-sm text-text-muted">por decant de 10 ml</span>
+            <PriceParts presentations={current.presentations} />
+            {current.presentations.length === 1 && (
+              <span className="ml-2 text-sm text-text-muted">por decant de {current.presentations[0].ml}&nbsp;ml</span>
+            )}
           </p>
         </div>
       </Link>
@@ -188,7 +193,8 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
           </span>
           <span className="block text-sm text-text-muted">{current.brand}</span>
           <span className="mt-1.5 block text-sm text-accent-lit">
-            Decant de 10 ml, {current.price}
+            {current.presentations.length === 1 && <>Decant de {current.presentations[0].ml}&nbsp;ml, </>}
+            <PriceParts presentations={current.presentations} />
           </span>
         </Link>
         {hasMany ? <ArrowButton direction="next" onClick={next} /> : <span />}

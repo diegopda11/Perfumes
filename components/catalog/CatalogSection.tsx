@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getProducts, sortForCatalog } from "@/lib/catalog";
+import { getProducts, offeredSizes, sortForCatalog } from "@/lib/catalog";
 import { CatalogBrowser } from "./CatalogBrowser";
 import { ProductGrid } from "./ProductGrid";
 
@@ -14,7 +14,7 @@ export function CatalogSection() {
           La colección
         </h2>
         <p className="mt-4 mb-10 max-w-[54ch] text-base leading-relaxed text-text-muted md:mb-14 md:text-lg">
-          Cada decant se envasa del frasco original: 10 ml para llevar contigo y conocer el
+          Cada decant se envasa del frasco original: {offeredSizes("o")} para llevar contigo y conocer el
           perfume a fondo antes de comprometerte con el frasco completo.
         </p>
 

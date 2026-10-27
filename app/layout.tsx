@@ -3,6 +3,7 @@ import { Bodoni_Moda, Instrument_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteNav } from "@/components/layout/SiteNav";
 import { site } from "@/config/site";
+import { offeredSizes } from "@/lib/catalog";
 import "./globals.css";
 
 const bodoni = Bodoni_Moda({
@@ -21,7 +22,7 @@ const instrument = Instrument_Sans({
 // página del sitio), salvo que el visitante prefiera menos movimiento.
 const introScript = `try{if(["/","/index","/index.html"].includes(location.pathname)&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("intro")}}catch(e){}`;
 
-const description = `Decants de 10 ml de perfumes originales en ${site.locality}. Prueba el lujo sin comprar el frasco completo.`;
+const description = `Decants de ${offeredSizes()} de perfumes originales en ${site.locality}. Prueba el lujo sin comprar el frasco completo.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     siteName: site.brandName,
     title: `${site.brandName} · Decants de perfumes originales`,
     description,
-    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${site.brandName}: decants de 10 ml` }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: `${site.brandName}: decants de ${offeredSizes()}` }],
   },
 };
 

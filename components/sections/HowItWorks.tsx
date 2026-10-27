@@ -3,7 +3,7 @@ import { site } from "@/config/site";
 const steps = [
   {
     title: "Elige tu perfume",
-    text: "Explora la colección y abre el que te llame. Ahí ves sus notas, el decant y el precio.",
+    text: "Explora la colección y abre el que te llame. Ahí ves sus notas, el decant, sus tamaños y precios.",
   },
   {
     title: "Escríbenos por WhatsApp",

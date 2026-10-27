@@ -1,3 +1,6 @@
+"use client";
+
+import { useSelectedPresentation } from "@/components/product/SizeContext";
 import { displayName, isAvailable } from "@/lib/catalog";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import type { Product } from "@/types/product";
@@ -10,11 +13,13 @@ interface Props {
 
 /**
  * El único punto de conversión del sitio (CA-4.1 a CA-4.5). Si el perfume
- * está agotado, pasa a "Avisarme cuando vuelva" con estilo secundario.
+ * está agotado, pasa a "Avisarme cuando vuelva" con estilo secundario. El
+ * mensaje nombra el tamaño elegido en el detalle (spec 003, CA-2.3).
  */
 export function WhatsAppButton({ product, size = "large", className = "" }: Props) {
   const available = isAvailable(product);
-  const href = buildWhatsAppUrl(displayName(product), available ? "consulta" : "aviso");
+  const { ml } = useSelectedPresentation(product);
+  const href = buildWhatsAppUrl(displayName(product), available ? "consulta" : "aviso", { ml });
   const label = available ? "Consultar por WhatsApp" : "Avisarme cuando vuelva";
 
   const sizing = size === "large" ? "h-14 px-7 text-base" : "h-12 px-5 text-[15px]";
