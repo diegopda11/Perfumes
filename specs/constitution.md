@@ -24,12 +24,14 @@ Las referencias visuales (p. ej. el hero de Élavier) aportan *principios*,
 no elementos para copiar. Ningún layout, composición, objeto escenográfico
 ni frase de una referencia se reproduce literalmente. La identidad debe ser
 propia y nacer del negocio real: un negocio local en México que vende el
-lujo en formato de 10 ml.
+lujo en formato de decant (10 ml y 5 ml).
 
 ## IV. Honestidad sobre el producto
-Siempre debe quedar claro que se vende un decant de 10 ml, no el frasco
-completo. La autenticidad se comunica de forma sutil, nunca como
+Siempre debe quedar claro que se vende un decant (de 10 ml o de 5 ml), no el
+frasco completo. La autenticidad se comunica de forma sutil, nunca como
 protagonista. No se sugiere afiliación con las marcas originales.
+*(Enmendado el 2026-10-26, spec 003: el dueño ahora vende también decants de
+5 ml.)*
 
 ## IV-bis. Información respaldada
 Todo dato sobre un perfume (notas, descripción, familia, perfumista, año)
@@ -49,7 +51,10 @@ hardcodeados en componentes.
 ## VII. Preparado para crecer, construido para hoy
 El modelo de datos admite más tamaños y más productos sin reescritura,
 pero no se construye UI ni infraestructura para necesidades que aún no
-existen (sin CMS, sin backend, sin selector de tamaño por ahora).
+existen (sin CMS, sin backend). *(Enmendado el 2026-10-26, spec 003: antes
+decía "sin selector de tamaño por ahora"; el dueño vende 10 ml y 5 ml, así
+que el detalle tiene una elección de tamaño cuando un perfume tiene más de
+uno.)*
 
 ## VIII. Rendimiento y accesibilidad como criterio de aceptación
 Imágenes optimizadas, páginas estáticas cuando sea posible, carrusel
