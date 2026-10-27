@@ -1,3 +1,4 @@
+import { toPresentations } from "@/lib/presentations";
 import type { CatalogEntry, Product } from "@/types/product";
 
 /**
@@ -6,6 +7,8 @@ import type { CatalogEntry, Product } from "@/types/product";
  * Lo que puedes cambiar tú fácilmente está al inicio de cada perfume:
  *
  *   price:     precio del decant de 10 ml, en pesos (solo el número, sin $ ni comas)
+ *   price5ml:  precio del decant de 5 ml, en pesos. Si un perfume no se vende
+ *              en 5 ml, borra esa línea completa y solo se ofrecerá el de 10 ml.
  *   available: true = disponible · false = agotado (se sigue viendo, con el
  *              botón "Avisarme cuando vuelva")
  *   featured:  true = aparece en el carrusel de la portada · false = solo en el catálogo
@@ -23,7 +26,8 @@ const entries: CatalogEntry[] = [
     name: "The Most Wanted Intense",
     brand: "Azzaro",
     // ─── Lo que puedes cambiar ───
-    price: 450,
+    price: 220,
+    price5ml: 130,
     available: true,
     featured: true,
     // ─────────────────────────────
@@ -59,7 +63,8 @@ const entries: CatalogEntry[] = [
     name: "Nitro Red",
     brand: "Dumont",
     // ─── Lo que puedes cambiar ───
-    price: 100,
+    price: 150,
+    price5ml: 90,
     available: true,
     featured: true,
     // ─────────────────────────────
@@ -94,7 +99,8 @@ const entries: CatalogEntry[] = [
     name: "Club de Nuit Urban Man Elixir",
     brand: "Armaf",
     // ─── Lo que puedes cambiar ───
-    price: 100,
+    price: 180,
+    price5ml: 100,
     available: true,
     featured: true,
     // ─────────────────────────────
@@ -129,7 +135,8 @@ const entries: CatalogEntry[] = [
     name: "Qaed Al Fursan",
     brand: "Lattafa",
     // ─── Lo que puedes cambiar ───
-    price: 100,
+    price: 130,
+    price5ml: 80,
     available: true,
     featured: true,
     // ─────────────────────────────
@@ -161,7 +168,7 @@ const entries: CatalogEntry[] = [
   },
 ];
 
-export const products: Product[] = entries.map(({ price, presentations, ...rest }) => ({
+export const products: Product[] = entries.map(({ price, price5ml, presentations, ...rest }) => ({
   ...rest,
-  presentations: presentations ?? [{ ml: 10, price }],
+  presentations: toPresentations({ price, price5ml, presentations }),
 }));

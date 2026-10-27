@@ -1,7 +1,7 @@
 ---
 name: nuevo-perfume
 description: Agrega un perfume nuevo al catálogo de Fracción de principio a fin, a partir de la foto del dueño y el nombre del perfume. Investiga notas y descripción con fuentes confiables, recorta frasco y decant, lo agrega al catálogo y al hero, corre las pruebas y guarda los cambios. Úsalo cuando el dueño pida agregar, subir o dar de alta un perfume nuevo.
-argument-hint: <marca y nombre del perfume> [precio] [ruta de la foto]
+argument-hint: <marca y nombre del perfume> [precio 10 ml] [precio 5 ml] [ruta de la foto]
 ---
 
 # Agregar un perfume nuevo
@@ -20,8 +20,10 @@ sección "Agregar o editar un perfume" de `README.md`.
   de `photos-raw/`. Opcional: una segunda foto solo del frasco, limpia.
   Las imágenes que el dueño adjunta en el chat quedan en la carpeta temporal
   de imágenes de la sesión; búscalas ahí.
-- **Precio** del decant de 10 ml. Si no lo da, usa uno provisional y dilo
-  claramente al final (no lo inventes como si fuera real).
+- **Precios** del decant de 10 ml y del de 5 ml (spec 003). Pregunta por los
+  dos. Si no da alguno, usa uno provisional y dilo claramente al final (no lo
+  inventes como si fuera real). Si el dueño dice que ese perfume no se vende
+  en 5 ml, no pongas `price5ml`.
 - **¿Va en el hero?** Por defecto sí (`featured: true`).
 
 Si falta el nombre o la foto, pídelo antes de seguir. Lo demás tiene valor
@@ -133,6 +135,7 @@ forma (orden de campos igual a los demás):
   brand: "...",
   // ─── Lo que puedes cambiar ───
   price: 0, // pesos, decant de 10 ml
+  price5ml: 0, // pesos, decant de 5 ml (borra la línea si no hay 5 ml)
   available: true,
   featured: true, // en el carrusel de la portada
   // ─────────────────────────────
@@ -176,7 +179,8 @@ forma (orden de campos igual a los demás):
 2. Responde al dueño en español sencillo:
    - qué se agregó y dónde aparece;
    - los datos clave (notas, perfumista, año) y la lista de fuentes con enlaces;
-   - lo que quedó provisional (precio) o cualquier problema de la foto;
+   - los precios de 10 ml y 5 ml, y lo que quedó provisional o cualquier
+     problema de la foto;
    - cómo se publica: si Netlify está conectado al repositorio, el `git push`
      lo publica solo en 1-2 minutos. Si todavía no lo está, el dueño corre
      `npm run publicar` y arrastra la carpeta `out` a Netlify (Deploys).

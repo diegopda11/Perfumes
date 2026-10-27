@@ -1,6 +1,6 @@
 # Fracción — catálogo de decants de perfume
 
-Sitio de catálogo para un negocio local de decants de 10 ml en Higuera de
+Sitio de catálogo para un negocio local de decants de 10 y 5 ml en Higuera de
 Zaragoza, Sinaloa. Sin carrito ni pagos: cada perfume tiene su página y la
 venta se cierra por WhatsApp.
 
@@ -18,7 +18,7 @@ cambiarlos antes de compartirlo:
 | Qué | Dónde | Hoy |
 |---|---|---|
 | **Número de WhatsApp** | `config/site.ts` → `whatsappNumber` | ✅ +52 667 856 2243 |
-| **Precios** | `data/products.ts` → `price` de cada perfume | $450 / $480 / $450 / $450, de ejemplo |
+| **Precios** | `data/products.ts` → `price` (10 ml) y `price5ml` (5 ml) de cada perfume | ✅ precios del dueño (spec 003) |
 | **Dominio del sitio** | `config/site.ts` → `url` | ✅ stellar-arithmetic-94d21b.netlify.app (provisional) |
 | **Nombre del negocio** | `config/site.ts` → `brandName` y `wordmark`; `BRAND` en `scripts/photos/cutout.py` | "Fracción", provisional |
 | **Imágenes en alta resolución** | `photos-raw/` → `npm run images` | ~430×1024 px |
@@ -42,7 +42,7 @@ reinicia `npm run dev`. En producción nunca aparecen.
 ## Agregar o editar un perfume
 
 **La forma fácil:** en Claude Code, escribe `/nuevo-perfume` seguido del
-nombre (por ejemplo `/nuevo-perfume Dior Homme Intense, $480`) y adjunta la
+nombre y los precios (por ejemplo `/nuevo-perfume Dior Homme Intense, 10 ml $480, 5 ml $260`) y adjunta la
 foto del frasco con su decant. El comando investiga las notas con fuentes,
 recorta las imágenes, lo agrega al catálogo y al hero, corre las pruebas y
 guarda los cambios. Después solo vuelves a publicar en Netlify.
@@ -70,17 +70,22 @@ marca. Si algo no se puede respaldar, no se publica.
 4. Revisa los recortes en `photos-out/<slug>/review.png`.
 5. `npm test` confirma que no falten datos ni imágenes.
 
-### Cambiar precio, disponibilidad o portada (también desde GitHub)
+### Cambiar precios, disponibilidad o portada (también desde GitHub)
 
 Al inicio de cada perfume en `data/products.ts` hay un bloque marcado
 "Lo que puedes cambiar":
 
 ```ts
     // ─── Lo que puedes cambiar ───
-    price: 450,        // pesos, decant de 10 ml (solo el número)
+    price: 220,        // pesos, decant de 10 ml (solo el número)
+    price5ml: 130,     // pesos, decant de 5 ml
     available: true,   // false = agotado, con botón "Avisarme cuando vuelva"
     featured: true,    // true = en el carrusel de la portada
 ```
+
+Si un perfume no se vende en 5 ml, borra la línea `price5ml` completa:
+su página solo ofrecerá el de 10 ml. Si la tiene, la página deja elegir el
+tamaño y el mensaje de WhatsApp dice cuál quiere el cliente.
 
 Desde el celular: abre el archivo en github.com/diegopda11/Perfumes, toca el
 lápiz ✏️, cambia el valor y toca **Commit changes**. Netlify lo publica solo

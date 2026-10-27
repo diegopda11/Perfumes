@@ -28,7 +28,7 @@ export interface ScentProfile {
 }
 
 export interface Presentation {
-  /** Mililitros. Hoy siempre 10. */
+  /** Mililitros: 10 o 5 (spec 003). */
   ml: number;
   /** Pesos mexicanos, entero, sin centavos. */
   price: number;
@@ -54,7 +54,7 @@ export interface Product {
   sources?: { label: string; url: string }[];
   highlightNotes: [string, string] | [string, string, string];
   notes: { top: string[]; heart: string[]; base: string[] };
-  /** Al menos una; la interfaz de hoy usa la primera. */
+  /** Al menos una; la primera es la que se muestra de entrada (10 ml). */
   presentations: [Presentation, ...Presentation[]];
   images: {
     /** Frasco recortado, sin fondo. */
@@ -77,11 +77,13 @@ export interface Product {
 
 /**
  * Cómo se escribe un perfume en data/products.ts: el precio del decant de
- * 10 ml va directo en `price` para que sea fácil de editar. Si algún día hay
- * más tamaños, se usa `presentations` y `price` queda como el de 10 ml.
+ * 10 ml va directo en `price` y el de 5 ml en `price5ml` (opcional; sin él
+ * solo se vende 10 ml), para que sea fácil de editar (spec 003). Para otros
+ * tamaños se usa `presentations`, que manda sobre los dos anteriores.
  */
 export type CatalogEntry = Omit<Product, "presentations" | "available" | "featured"> & {
   price: number;
+  price5ml?: number;
   available: boolean;
   featured: boolean;
   presentations?: Product["presentations"];

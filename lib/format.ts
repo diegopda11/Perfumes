@@ -7,9 +7,14 @@ const priceFormatter = new Intl.NumberFormat(site.locale, {
   maximumFractionDigits: 0,
 });
 
-/** 390 → "$390 MXN" (RNF-8). */
+/** 390 → "$390": solo la cantidad, para listas que llevan la moneda una vez. */
+export function formatAmount(amount: number): string {
+  return priceFormatter.format(amount);
+}
+
+/** 390 → "$390 MXN" (RNF-8). El espacio no se corta al cambiar de línea. */
 export function formatPrice(amount: number): string {
-  return `${priceFormatter.format(amount)} ${site.currency}`;
+  return `${formatAmount(amount)}\u00a0${site.currency}`;
 }
 
 const listFormatter = new Intl.ListFormat("es", { style: "long", type: "conjunction" });
